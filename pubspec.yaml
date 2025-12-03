@@ -77,15 +77,11 @@ dependencies:
   # SUPABASE
   supabase_flutter: ^2.10.3
   
-
-  # GOOGLE SIGN IN
   
 
 
 
 
-
-  
 dev_dependencies:
   flutter_test:
     sdk: flutter
