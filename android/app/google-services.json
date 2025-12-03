@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1000132971352",
+    "project_id": "ai-photo-cleaner-b945e",
+    "storage_bucket": "ai-photo-cleaner-b945e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1000132971352:android:a0d987c76c3c016b90f32d",
+        "android_client_info": {
+          "package_name": "com.felix.aiPhotoCleaner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKSF0MUI95y4-uX4NwHgqMsTdEDYbtX_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
