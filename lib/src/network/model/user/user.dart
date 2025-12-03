@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'user.freezed.dart';
 part 'user.g.dart';
@@ -10,6 +11,9 @@ abstract class MUser with _$MUser {
     String? name,
     String? avatar,
     String? email,
+    String? bio,
+    @JsonKey(name: 'avatarUrl') String? avatarUrl,
+    @JsonKey(name: 'createdAt') DateTime? createdAt,
   }) = _MUser;
 
   const MUser._();
@@ -19,4 +23,26 @@ abstract class MUser with _$MUser {
   }
 
   factory MUser.fromJson(Map<String, Object?> json) => _$MUserFromJson(json);
+  factory MUser.fromSupabaseUser(User user) {
+    return MUser(
+      id: user.id,
+      email: user.email,
+      name: user.userMetadata?['name'] as String?,
+      avatar: user.userMetadata?['avatar'] as String?,
+      avatarUrl: user.userMetadata?['avatarUrl'] as String?,
+      bio: user.userMetadata?['bio'] as String?,
+      createdAt: DateTime.parse(user.createdAt),
+    );
+  }
+
+  Map<String, dynamic> toSupabaseTable() {
+    return {
+      'id': id,
+      'name': name,
+      'email': email,
+      'bio': bio,
+      'avatarUrl': avatarUrl ?? avatar,
+      'createdAt': (createdAt ?? DateTime.now()).toIso8601String(),
+    };
+  }
 }

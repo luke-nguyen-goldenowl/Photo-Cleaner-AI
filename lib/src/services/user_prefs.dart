@@ -10,6 +10,9 @@ class _keys {
   static const String theme = 'app-theme';
   static const String user = 'user';
   static const String token = 'token';
+  static const String loginProvider = 'login_provider';
+  static const String hasSeenOnboarding = 'has_seen_onboarding';
+  static const String isLoggedIn = 'is_logged_in';
 }
 
 class UserPrefs {
@@ -77,5 +80,56 @@ class UserPrefs {
       xLog.e(e);
       return null;
     }
+  }
+
+  void setLoginProvider(String? value) {
+    if (value == null) {
+      _prefs.remove(_keys.loginProvider);
+    } else {
+      _prefs.setString(_keys.loginProvider, value);
+    }
+  }
+
+  String? getLoginProvider() {
+    try {
+      return _prefs.getString(_keys.loginProvider);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  void clearLoginProvider() {
+    _prefs.remove(_keys.loginProvider);
+  }
+
+  bool hasSeenOnboarding() {
+    try {
+      return _prefs.getBool(_keys.hasSeenOnboarding) ?? false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  void setHasSeenOnboarding(bool value) {
+    _prefs.setBool(_keys.hasSeenOnboarding, value);
+  }
+
+  bool isLoggedIn() {
+    try {
+      return _prefs.getBool(_keys.isLoggedIn) ?? false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  void setIsLoggedIn(bool value) {
+    _prefs.setBool(_keys.isLoggedIn, value);
+  }
+
+  Future<void> clearAll() async {
+    await _prefs.remove(_keys.user);
+    await _prefs.remove(_keys.token);
+    await _prefs.remove(_keys.loginProvider);
+    await _prefs.remove(_keys.isLoggedIn);
   }
 }

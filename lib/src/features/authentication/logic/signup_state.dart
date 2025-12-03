@@ -7,6 +7,8 @@ class SignupState extends Equatable {
     this.name = const NameFormzInput.pure(''),
     this.status = FormzSubmissionStatus.initial,
     this.message = '',
+    this.isDirty = false,
+    this.confirmPassword = '',
   });
 
   final EmailFormzInput email;
@@ -14,10 +16,14 @@ class SignupState extends Equatable {
   final NameFormzInput name;
   final FormzSubmissionStatus status;
   final String message;
-
+  final bool isDirty;
+  final String confirmPassword;
   bool get isValidated {
-    return Formz.validate([email, password]);
+    return Formz.validate([email, password, name]) && isConfirmPasswordValid;
   }
+
+  bool get isConfirmPasswordValid =>
+      confirmPassword == password.value && confirmPassword.isNotEmpty;
 
   @override
   List<Object> get props => [
@@ -25,6 +31,7 @@ class SignupState extends Equatable {
         password,
         status,
         name,
+        confirmPassword,
       ];
 
   SignupState copyWith({
@@ -33,6 +40,8 @@ class SignupState extends Equatable {
     FormzSubmissionStatus? status,
     NameFormzInput? name,
     String? message,
+    bool? isDirty,
+    String? confirmPassword,
   }) {
     return SignupState(
       email: email ?? this.email,
@@ -40,6 +49,8 @@ class SignupState extends Equatable {
       status: status ?? this.status,
       name: name ?? this.name,
       message: message ?? this.message,
+      isDirty: isDirty ?? this.isDirty,
+      confirmPassword: confirmPassword ?? this.confirmPassword,
     );
   }
 }

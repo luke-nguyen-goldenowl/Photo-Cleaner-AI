@@ -12,6 +12,9 @@ class PasswordFormzInput extends FormzInput<String, FormError> {
     if ((value ?? '').isEmpty) {
       return FormError.empty;
     }
+    if ((value ?? '').length < 6) {
+      return FormError.invalid;
+    }
     return null;
   }
 

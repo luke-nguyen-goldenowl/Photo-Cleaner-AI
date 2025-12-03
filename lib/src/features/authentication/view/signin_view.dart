@@ -1,17 +1,11 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:myapp/src/features/authentication/logic/signin_bloc.dart';
-import 'package:myapp/src/features/authentication/widget/sign_title.dart';
-import 'package:myapp/src/features/authentication/widget/social_list_button.dart';
-import 'package:myapp/src/localization/localization_utils.dart';
-import 'package:myapp/src/network/model/social_type.dart';
 import 'package:myapp/src/router/coordinator.dart';
-import 'package:myapp/src/theme/colors.dart';
-import 'package:myapp/widgets/button/button.dart';
-import 'package:myapp/widgets/button/text_button.dart';
-import 'package:myapp/widgets/forms/input.dart';
+import 'package:myapp/widgets/button/primary_button.dart';
+import 'package:myapp/widgets/header/screen_header.dart';
+import 'package:myapp/widgets/logo/app_logo.dart';
+import 'package:myapp/widgets/text_field/custom_text_field.dart';
 
 class SigninView extends StatelessWidget {
   const SigninView({super.key});
@@ -39,87 +33,136 @@ class SigninView extends StatelessWidget {
   }
 
   Widget _builder(BuildContext context, SigninState state) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        const SignTitle('Login'),
-        const SizedBox(height: 24.0),
-        XInput(
-          key: const Key('loginForm_emailAndPhoneInput_textField'),
-          value: state.email.value,
-          onChanged: context.read<SigninBloc>().onEmailChanged,
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-              labelText: "Email", errorText: state.email.errorOf(context)),
-        ),
-        const SizedBox(height: 16.0),
-        XInput(
-          key: const Key('loginForm_passwordInput_textField'),
-          value: state.password.value,
-          onChanged: context.read<SigninBloc>().onPasswordChanged,
-          obscureText: true,
-          decoration: InputDecoration(
-              labelText: 'Password',
-              errorText: state.password.errorOf(context)),
-        ),
-        const SizedBox(height: 8.0),
-        _buildForgotPassword(context),
-        const SizedBox(height: 8.0),
-        XButton(
-          key: const Key('loginForm_continue_raisedButton'),
-          busy:
-              state.status.isInProgress && state.loginType == MSocialType.email,
-          enabled: state.isValidated,
-          title: S.of(context).common_next,
-          onPressed: () async {
-            context.read<SigninBloc>().loginWithEmail();
-          },
-        ),
-        const SizedBox(height: 32.0),
-        const SocialListButton(),
-        const SizedBox(height: 32.0),
-        _buildNoAccount(context),
-      ],
-    );
-  }
-
-  Widget _buildNoAccount(BuildContext context) {
-    return RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 50),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const TextSpan(
-            text: "Not have account?" '  ',
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 16,
-              color: AppColors.textSecondary,
-              letterSpacing: 0.24,
+          const XAppLogo(),
+          const XScreenHeader(
+            title: 'Pixel Perfect',
+            subtitle:
+                'Smartest AI Gallery & Cleaner\nĐăng nhập để quản lý kho ảnh của bạn',
+          ),
+          const SizedBox(height: 40),
+          XCustomTextField(
+            hintText: 'Email',
+            prefixIcon: Icons.email_outlined,
+            onChanged: (value) {
+              context.read<SigninBloc>().onEmailChanged(value);
+            },
+          ),
+          const SizedBox(height: 20),
+          XCustomTextField(
+            hintText: 'Mật khẩu',
+            prefixIcon: Icons.lock_outline,
+            isPassword: true,
+            onChanged: (value) {
+              context.read<SigninBloc>().onPasswordChanged(value);
+            },
+          ),
+          const SizedBox(height: 10),
+          XPrimaryButton(
+            text: 'Đăng Nhập',
+            onPressed: state.isValidated
+                ? () {
+                    context.read<SigninBloc>().loginWithEmail();
+                  }
+                : null,
+          ),
+          const SizedBox(height: 15),
+          TextButton(
+            onPressed: () {
+              AppCoordinator.showForgotPasswordScreen();
+            },
+            child: Text(
+              'Quên mật khẩu?',
+              style: TextStyle(color: Colors.grey[600], fontSize: 16),
             ),
           ),
-          TextSpan(
-            text: "Signup now",
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 16,
-              color: AppColors.link,
-              letterSpacing: 0.24,
-            ),
-            recognizer: TapGestureRecognizer()
-              ..onTap = AppCoordinator.showSignUpScreen,
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(child: Divider(color: Colors.grey[300])),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  "Hoặc",
+                  style: TextStyle(color: Colors.grey[500], fontSize: 14),
+                ),
+              ),
+              Expanded(child: Divider(color: Colors.grey[300])),
+            ],
           ),
+          const SizedBox(height: 20),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                context.read<SigninBloc>().loginWithGoogle();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
+                elevation: 1,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  side: const BorderSide(color: Color(0xFFE0E0E0)),
+                ),
+                shadowColor: Colors.black.withOpacity(0.08),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/google.png',
+                    width: 24,
+                    height: 24,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Icon(Icons.image,
+                          size: 24, color: Colors.grey);
+                    },
+                  ),
+                  const SizedBox(width: 12),
+                  const Text(
+                    'Đăng nhập với Google',
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 30),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Chưa có tài khoản? ',
+                style: TextStyle(color: Colors.grey[600], fontSize: 16),
+              ),
+              GestureDetector(
+                onTap: () {
+                  AppCoordinator.showSignUpScreen();
+                },
+                child: const Text(
+                  'Đăng ký ngay',
+                  style: TextStyle(
+                    color: Color(0xFF6C63FF),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
         ],
-      ),
-    );
-  }
-
-  Widget _buildForgotPassword(BuildContext context) {
-    return const Align(
-      alignment: Alignment.centerLeft,
-      child: XTextButton(
-        title: 'Forgot password?',
-        onPressed: AppCoordinator.showForgotPasswordScreen,
       ),
     );
   }
