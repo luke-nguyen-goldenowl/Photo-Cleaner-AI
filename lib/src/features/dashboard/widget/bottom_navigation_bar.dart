@@ -11,15 +11,23 @@ class XBottomNavigationBar extends StatelessWidget {
     return BlocBuilder<DashboardBloc, XNavigationBarItems>(
       builder: (context, state) {
         return NavigationBar(
+          height: 70,
+          backgroundColor: Colors.white,
+          indicatorColor: Colors.transparent,
           selectedIndex: state.index,
           onDestinationSelected:
               context.read<DashboardBloc>().onDestinationSelected,
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
           destinations: XNavigationBarItems.values
-              .map((e) => NavigationDestination(
-                    label: e.label,
-                    icon: Icon(e.icon),
-                    selectedIcon: Icon(e.selectedIcon),
-                  ))
+              .map(
+                (e) => NavigationDestination(
+                  label: e.label,
+                  icon: Icon(e.icon,
+                      color: state == e
+                          ? const Color(0xFF6C63FF)
+                          : Colors.grey[400]),
+                ),
+              )
               .toList(),
         );
       },

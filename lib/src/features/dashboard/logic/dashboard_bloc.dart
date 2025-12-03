@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'navigation_bar_item.dart';
@@ -24,7 +25,17 @@ class DashboardBloc extends Cubit<XNavigationBarItems> {
   }
 
   void goHome() {
-    emit(XNavigationBarItems.home);
+    emit(XNavigationBarItems.photos);
     AppCoordinator.goNamed(state.route.name);
+  }
+
+  void setTab(XNavigationBarItems tab) {
+    emit(tab);
+  }
+
+  @override
+  Future<void> close() {
+    debugPrint('Close DashboardBloc');
+    return super.close();
   }
 }

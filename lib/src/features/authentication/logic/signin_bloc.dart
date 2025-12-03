@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:myapp/src/dialogs/alert_wrapper.dart';
+import 'package:myapp/src/dialogs/toast_wrapper.dart';
 import 'package:myapp/src/features/account/logic/account_bloc.dart';
 import 'package:myapp/src/features/authentication/model/email_fromz.dart';
 import 'package:myapp/src/features/authentication/model/model_input.dart';
@@ -12,6 +13,8 @@ import 'package:formz/formz.dart';
 import 'package:myapp/src/network/model/social_user/social_user.dart';
 import 'package:myapp/src/network/model/user/user.dart';
 import 'package:myapp/src/router/coordinator.dart';
+import 'package:myapp/src/services/user_prefs.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'signin_state.dart';
 
@@ -22,18 +25,52 @@ class SigninBloc extends Cubit<SigninState> {
 
   Future loginWithEmail() async {
     if (state.status.isInProgress) return;
-    if (state.isValidated == false) {
-      return;
-    }
+    if (state.isValidated == false) return;
     emit(state.copyWith(
       status: FormzSubmissionStatus.inProgress,
       loginType: MSocialType.email,
     ));
+    XToast.showLoading();
     final email = state.email.value;
     final password = state.password.value;
-    final result =
-        await domain.sign.loginWithEmail(email: email, password: password);
-    return loginDecision(result);
+
+    try {
+      final response = await Supabase.instance.client.auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
+
+      final user = response.user;
+      if (user == null) {
+        emit(state.copyWith(status: FormzSubmissionStatus.failure));
+        XToast.hideLoading();
+        XAlert.show(title: 'Đăng nhập thất bại', body: 'Lỗi không xác định');
+        return;
+      }
+      if (user.emailConfirmedAt == null) {
+        emit(state.copyWith(status: FormzSubmissionStatus.failure));
+        XToast.hideLoading();
+        XAlert.show(
+          title: 'Chưa xác thực email',
+          body: 'Vui lòng xác thực email trước khi đăng nhập.',
+        );
+        return;
+      }
+      XToast.hideLoading();
+      final mUser = MUser.fromSupabaseUser(user);
+      UserPrefs.I.setLoginProvider('supabase');
+      UserPrefs.I.setIsLoggedIn(true);
+      await loginDecision(MResult.success(mUser));
+      XToast.success('Đăng nhập thành công');
+    } catch (e) {
+      XToast.hideLoading();
+      emit(state.copyWith(status: FormzSubmissionStatus.failure));
+      final errorResult = MResult<void>.exception(e);
+      XAlert.show(
+        title: 'Đăng nhập thất bại',
+        body: errorResult.error ?? 'Đã xảy ra lỗi không xác định',
+      );
+    }
   }
 
   Future loginWithGoogle() async {
@@ -101,8 +138,15 @@ class SigninBloc extends Cubit<SigninState> {
   Future loginDecision(MResult<MUser> result, {MSocialType? socialType}) async {
     if (result.isSuccess) {
       emit(state.copyWith(status: FormzSubmissionStatus.success));
+
+      if (socialType != null) {
+        UserPrefs.I.setLoginProvider(socialType.name);
+      }
+      UserPrefs.I.setIsLoggedIn(true);
       GetIt.I<AccountBloc>().onLoginSuccess(result.data!);
-      AppCoordinator.pop(true);
+
+      AppCoordinator.showHomeScreen();
+      XToast.success('Đăng nhập thành công');
     } else {
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
       XAlert.show(title: 'Login Error', body: result.error);

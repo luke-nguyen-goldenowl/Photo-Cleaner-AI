@@ -1,10 +1,17 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
+import 'package:myapp/src/features/account/profile/view/profile_view.dart';
 import 'package:myapp/src/features/common/view/not_found_view.dart';
 import 'package:myapp/src/features/authentication/view/forgot_view.dart';
 import 'package:myapp/src/features/authentication/view/signin_view.dart';
 import 'package:myapp/src/features/authentication/view/signup_view.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/cleaner_view.dart';
+import 'package:myapp/src/features/dashboard/friend/view/friend_view.dart';
+import 'package:myapp/src/features/dashboard/logic/navigation_bar_item.dart';
+import 'package:myapp/src/features/dashboard/photo/view/photo_view.dart';
+import 'package:myapp/src/features/dashboard/place/view/place_view.dart';
+import 'package:myapp/src/features/dashboard/view/dashboard_view.dart';
 import 'package:myapp/src/features/onboarding/view/on_boarding_view.dart';
 import 'package:myapp/src/features/getting_started/view/getting_started_view.dart';
 import 'package:myapp/src/features/splash/view/splash_view.dart';
@@ -53,6 +60,50 @@ class AppRouter {
         path: AppRouteNames.forgotPassword.path,
         name: AppRouteNames.forgotPassword.name,
         builder: (_, __) => const ForgotPasswordView(),
+      ),
+      ShellRoute(
+        navigatorKey: AppCoordinator.shellKey,
+        builder: (context, state, child) => DashBoardScreen(
+          currentItem: XNavigationBarItems.fromLocation(state.uri.toString()),
+          body: child,
+        ),
+        routes: <RouteBase>[
+          GoRoute(
+            path: AppRouteNames.photo.path,
+            name: AppRouteNames.photo.name,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: PhotoView(),
+            ),
+          ),
+          GoRoute(
+            path: AppRouteNames.cleaner.path,
+            name: AppRouteNames.cleaner.name,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: CleanerView(),
+            ),
+          ),
+          GoRoute(
+            path: AppRouteNames.friend.path,
+            name: AppRouteNames.friend.name,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: FriendView(),
+            ),
+          ),
+          GoRoute(
+            path: AppRouteNames.places.path,
+            name: AppRouteNames.places.name,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: PlacesView(),
+            ),
+          ),
+          GoRoute(
+            path: AppRouteNames.profile.path,
+            name: AppRouteNames.profile.name,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: ProfileView(),
+            ),
+          ),
+        ],
       ),
     ],
     errorBuilder: (_, __) => const NotFoundView(),

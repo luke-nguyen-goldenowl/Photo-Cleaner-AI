@@ -6,6 +6,8 @@ import 'package:myapp/src/network/domain_manager.dart';
 import 'package:myapp/src/network/model/common/result.dart';
 import 'package:myapp/src/network/model/user/user.dart';
 import 'package:myapp/src/network/model/social_user/social_user.dart';
+import 'package:myapp/src/services/user_prefs.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SignRepositoryImpl extends SignRepository {
   // https://isaacadariku.medium.com/google-sign-in-flutter-migration-guide-pre-7-0-versions-to-v7-version-cdc9efd7f182
@@ -14,7 +16,9 @@ class SignRepositoryImpl extends SignRepository {
   bool _isGoogleSignInInitialized = false;
   Future<void> _initializeGoogleSignIn() async {
     try {
-      await _googleSignIn.initialize();
+      await _googleSignIn.initialize(
+          serverClientId:
+              '1000132971352-hj0bh3e8cbca8agm53tfacttc73eld7c.apps.googleusercontent.com');
       _isGoogleSignInInitialized = true;
     } catch (e) {
       debugPrint('Failed to initialize Google Sign-In: $e');
@@ -69,7 +73,25 @@ class SignRepositoryImpl extends SignRepository {
         id: firebaseUser?.uid ?? '',
         email: user.email,
         name: user.fullName,
+        avatarUrl: user.avatar,
+        createdAt: DateTime.now(),
       );
+
+      // Check if user exists in Supabase 'users' table by email
+      final supabase = Supabase.instance.client;
+      final existingUserResponse = await supabase
+          .from('users')
+          .select()
+          .eq('email', user.email ?? '')
+          .maybeSingle();
+
+      if (existingUserResponse == null) {
+        await supabase.from('users').insert(newUser.toSupabaseTable());
+        debugPrint('New Google user created in Supabase: ${user.email}');
+      } else {
+        debugPrint('Google user already exists in Supabase: ${user.email}');
+      }
+
       final userResult = await DomainManager().user.getOrAddUser(newUser);
 
       return MResult.success(userResult.data ?? newUser);
@@ -87,7 +109,15 @@ class SignRepositoryImpl extends SignRepository {
   @override
   Future<MResult> logOut(MUser user) async {
     try {
-      await FirebaseAuth.instance.signOut();
+      final loginProvider = UserPrefs.I.getLoginProvider();
+      if (loginProvider == 'google') {
+        await FirebaseAuth.instance.signOut();
+        await _googleSignIn.signOut();
+      } else {
+        await Supabase.instance.client.auth.signOut();
+      }
+
+      UserPrefs.I.clearLoginProvider();
       return MResult.success(user);
     } catch (e) {
       return MResult.exception(e);

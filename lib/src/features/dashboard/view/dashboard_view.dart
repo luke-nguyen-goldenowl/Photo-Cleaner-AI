@@ -1,8 +1,8 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:myapp/src/features/dashboard/logic/navigation_bar_item.dart';
 import 'package:myapp/src/features/common/logic/lifecycle_mixin.dart';
 import 'package:myapp/src/features/dashboard/widget/bottom_navigation_bar.dart';
@@ -23,10 +23,35 @@ class DashBoardScreen extends StatefulWidget {
 }
 
 class _DashBoardScreenState extends State<DashBoardScreen> with LifecycleMixin {
+  late DashboardBloc _dashboardBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _dashboardBloc = DashboardBloc(widget.currentItem);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final location = GoRouterState.of(context).uri.toString();
+    final currentTab = XNavigationBarItems.fromLocation(location);
+    if (_dashboardBloc.state != currentTab) {
+      _dashboardBloc.setTab(currentTab);
+    }
+  }
+
+  @override
+  void dispose() {
+    _dashboardBloc.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => DashboardBloc(widget.currentItem),
+    return BlocProvider.value(
+      value: _dashboardBloc,
       child: BlocBuilder<DashboardBloc, XNavigationBarItems>(
         builder: (context, state) {
           return PopScope(

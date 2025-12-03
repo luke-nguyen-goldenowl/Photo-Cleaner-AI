@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart' as fb;
 import 'package:myapp/src/network/model/user/user.dart';
 import 'package:myapp/src/services/user_prefs.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -6,16 +7,57 @@ class SessionManager {
   static Future<MUser?> restoreSession() async {
     try {
       await UserPrefs.I.initialize();
+
       if (!UserPrefs.I.isLoggedIn()) {
         return null;
       }
 
       final provider = UserPrefs.I.getLoginProvider();
-      if (provider == 'supabase') {
+
+      if (provider == 'google') {
+        return await _restoreGoogleSession();
+      } else if (provider == 'supabase') {
         return await _restoreSupabaseSession();
       } else {
         return null;
       }
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<MUser?> _restoreGoogleSession() async {
+    try {
+      final fbUser = fb.FirebaseAuth.instance.currentUser;
+      if (fbUser == null) {
+        return null;
+      }
+
+      final email = fbUser.email;
+      if (email != null && email.isNotEmpty) {
+        final response = await Supabase.instance.client
+            .from('users')
+            .select()
+            .eq('email', email)
+            .maybeSingle();
+
+        if (response != null) {
+          final mUser = MUser(
+            id: response['id'] as String,
+            name: response['name'] as String?,
+            email: response['email'] as String?,
+            bio: response['bio'] as String?,
+            avatarUrl: response['avatarUrl'] as String?,
+            createdAt: response['createdAt'] != null
+                ? DateTime.parse(response['createdAt'] as String)
+                : null,
+          );
+
+          UserPrefs.I.setUser(mUser);
+          return mUser;
+        }
+      }
+      return null;
     } catch (e) {
       return null;
     }
@@ -27,6 +69,7 @@ class SessionManager {
       if (supabaseUser == null) {
         return null;
       }
+
       final response = await Supabase.instance.client
           .from('users')
           .select()
@@ -48,6 +91,7 @@ class SessionManager {
         UserPrefs.I.setUser(mUser);
         return mUser;
       }
+
       return null;
     } catch (e) {
       return null;

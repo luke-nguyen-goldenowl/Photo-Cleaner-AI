@@ -40,11 +40,7 @@ class ProfileView extends StatelessWidget {
             const SizedBox(height: 46),
             InkWell(
               onTap: () async {
-                final result =
-                    await context.read<AccountBloc>().onLogOut(context);
-                if (result == true) {
-                  AppCoordinator.pop();
-                }
+                await context.read<AccountBloc>().onLogOut(context);
               },
               child: const XCard(
                 child: Text(

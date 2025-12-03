@@ -15,7 +15,11 @@ enum AppRouteNames {
   ),
   profile(path: '/profile'),
   settings(path: '/settings'),
-  photoView(path: '/photoView');
+  photo(path: '/photo'),
+  cleaner(path: '/cleaner'),
+  friend(path: '/friend'),
+  places(path: '/places'),
+  ;
 
   const AppRouteNames({
     required this.path,
