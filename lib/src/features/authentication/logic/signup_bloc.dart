@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:myapp/generated/i18n/app_localizations.dart';
 import 'package:myapp/src/dialogs/alert_wrapper.dart';
 import 'package:myapp/src/dialogs/toast_wrapper.dart';
 import 'package:myapp/src/dialogs/widget/alert_dialog.dart';
@@ -9,7 +10,6 @@ import 'package:myapp/src/features/account/logic/account_bloc.dart';
 import 'package:myapp/src/features/authentication/model/email_fromz.dart';
 import 'package:myapp/src/features/authentication/model/model_input.dart';
 import 'package:myapp/src/features/authentication/model/name_formz.dart';
-import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/network/domain_manager.dart';
 import 'package:formz/formz.dart';
 import 'package:myapp/src/network/model/common/result.dart';
@@ -46,11 +46,17 @@ class SignupBloc extends Cubit<SignupState> {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));
         final errorResult = MResult<void>.error('Email đã được sử dụng');
         XAlert.show(
-          title: 'Đăng ký thất bại',
+          title: AppLocalizations.of(context)!.error_signUp,
           body: errorResult.error!,
-          actions: [XAlertButton(title: S.text.common_close)],
+          actions: [
+            XAlertButton(title: AppLocalizations.of(context)!.common_close)
+          ],
         );
         return;
+      } else if (existing != null && existing['email_confirmed_at'] == null) {
+        XToast.hideLoading();
+        emit(state.copyWith(status: FormzSubmissionStatus.success));
+        XToast.success(AppLocalizations.of(context)!.success_signUp);
       }
       final response = await Supabase.instance.client.auth.signUp(
         email: email,
@@ -63,9 +69,11 @@ class SignupBloc extends Cubit<SignupState> {
         XToast.hideLoading();
         emit(state.copyWith(status: FormzSubmissionStatus.failure));
         XAlert.show(
-          title: 'Đăng ký thất bại',
-          body: 'Không thể tạo tài khoản. Vui lòng thử lại.',
-          actions: [XAlertButton(title: S.text.common_close)],
+          title: AppLocalizations.of(context)!.error_signUp,
+          body: AppLocalizations.of(context)!.error_somethingWrongTryAgain,
+          actions: [
+            XAlertButton(title: AppLocalizations.of(context)!.common_close)
+          ],
         );
         return;
       }
@@ -95,9 +103,12 @@ class SignupBloc extends Cubit<SignupState> {
 
       final errorResult = MResult<void>.exception(e);
       XAlert.show(
-        title: 'Đăng ký thất bại',
-        body: errorResult.error ?? 'Đã xảy ra lỗi không xác định',
-        actions: [XAlertButton(title: S.text.common_close)],
+        title: AppLocalizations.of(context)!.error_signUp,
+        body: errorResult.error ??
+            AppLocalizations.of(context)!.error_somethingWrongTryAgain,
+        actions: [
+          XAlertButton(title: AppLocalizations.of(context)!.common_close)
+        ],
       );
     }
   }
@@ -107,7 +118,7 @@ class SignupBloc extends Cubit<SignupState> {
     UserPrefs.I.setIsLoggedIn(true);
     GetIt.I<AccountBloc>().onLoginSuccess(incomingUser);
     AppCoordinator.pop();
-    XToast.success('Đăng ký thành công! Vui lòng kiểm tra email để xác nhận.');
+    XToast.success(AppLocalizations.of(context)!.success_signUp);
   }
 
   void onEmailChanged(String value) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myapp/generated/i18n/app_localizations.dart';
 import 'package:myapp/src/features/authentication/logic/signin_bloc.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/widgets/button/primary_button.dart';
@@ -39,14 +40,13 @@ class SigninView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const XAppLogo(),
-          const XScreenHeader(
-            title: 'Pixel Perfect',
-            subtitle:
-                'Smartest AI Gallery & Cleaner\nĐăng nhập để quản lý kho ảnh của bạn',
+          XScreenHeader(
+            title: AppLocalizations.of(context)!.common_appTitle,
+            subtitle: AppLocalizations.of(context)!.common_subTitle_Signin,
           ),
           const SizedBox(height: 40),
           XCustomTextField(
-            hintText: 'Email',
+            hintText: AppLocalizations.of(context)!.common_emailTitle,
             prefixIcon: Icons.email_outlined,
             onChanged: (value) {
               context.read<SigninBloc>().onEmailChanged(value);
@@ -54,7 +54,7 @@ class SigninView extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           XCustomTextField(
-            hintText: 'Mật khẩu',
+            hintText: AppLocalizations.of(context)!.common_passwordTitle,
             prefixIcon: Icons.lock_outline,
             isPassword: true,
             onChanged: (value) {
@@ -63,10 +63,10 @@ class SigninView extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           XPrimaryButton(
-            text: 'Đăng Nhập',
+            text: AppLocalizations.of(context)!.common_buttonSignin_Title,
             onPressed: state.isValidated
                 ? () {
-                    context.read<SigninBloc>().loginWithEmail();
+                    context.read<SigninBloc>().loginWithEmail(context);
                   }
                 : null,
           ),
@@ -76,7 +76,7 @@ class SigninView extends StatelessWidget {
               AppCoordinator.showForgotPasswordScreen();
             },
             child: Text(
-              'Quên mật khẩu?',
+              AppLocalizations.of(context)!.common_forgotPass_Title,
               style: TextStyle(color: Colors.grey[600], fontSize: 16),
             ),
           ),
@@ -87,7 +87,7 @@ class SigninView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  "Hoặc",
+                  AppLocalizations.of(context)!.common_Or_Title,
                   style: TextStyle(color: Colors.grey[500], fontSize: 14),
                 ),
               ),
@@ -99,7 +99,7 @@ class SigninView extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                context.read<SigninBloc>().loginWithGoogle();
+                context.read<SigninBloc>().loginWithGoogle(context);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
@@ -126,8 +126,8 @@ class SigninView extends StatelessWidget {
                     },
                   ),
                   const SizedBox(width: 12),
-                  const Text(
-                    'Đăng nhập với Google',
+                  Text(
+                    AppLocalizations.of(context)!.sign_signin_signinWithGoogle,
                     style: TextStyle(
                       color: Colors.black87,
                       fontWeight: FontWeight.w600,
@@ -143,15 +143,15 @@ class SigninView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Chưa có tài khoản? ',
+                AppLocalizations.of(context)!.common_dontHaveAccount_title,
                 style: TextStyle(color: Colors.grey[600], fontSize: 16),
               ),
               GestureDetector(
                 onTap: () {
                   AppCoordinator.showSignUpScreen();
                 },
-                child: const Text(
-                  'Đăng ký ngay',
+                child: Text(
+                  AppLocalizations.of(context)!.common_SignupNow_title,
                   style: TextStyle(
                     color: Color(0xFF6C63FF),
                     fontWeight: FontWeight.bold,

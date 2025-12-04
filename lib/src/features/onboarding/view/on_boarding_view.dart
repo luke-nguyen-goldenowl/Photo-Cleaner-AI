@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/generated/i18n/app_localizations.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/src/services/user_prefs.dart';
 import 'package:myapp/widgets/button/primary_button.dart';
@@ -14,26 +15,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-  final List<Map<String, dynamic>> _onboardingData = [
-    {
-      "title": "Dọn dẹp ảnh thông minh",
-      "subtitle":
-          "Tự động nhóm và xóa ảnh trùng lặp của bạn chỉ trong vài giây.",
-      "icon": Icons.cleaning_services_outlined,
-    },
-    {
-      "title": "Nâng cấp chất lượng AI",
-      "subtitle":
-          "Biến những bức ảnh cũ, vỡ nét trở nên sắc nét và sống động nhờ công nghệ AI",
-      "icon": Icons.auto_fix_high,
-    },
-    {
-      "title": "Kho ảnh bảo mật",
-      "subtitle":
-          "Lưu trữ những khoảnh khắc riêng tư an toàn tuyệt đối với mã hóa cấp cao và trình quản lý thông minh.",
-      "icon": Icons.lock_person_outlined,
-    },
-  ];
+  List<Map<String, dynamic>> get _onboardingData => [
+        {
+          "title": AppLocalizations.of(context)!.common_onBoarding_1_Title,
+          "subtitle":
+              AppLocalizations.of(context)!.common_onBoarding_1_subTitle,
+          "icon": Icons.cleaning_services_outlined,
+        },
+        {
+          "title": AppLocalizations.of(context)!.common_onBoarding_2_Title,
+          "subtitle":
+              AppLocalizations.of(context)!.common_onBoarding_2_subTitle,
+          "icon": Icons.auto_fix_high,
+        },
+        {
+          "title": AppLocalizations.of(context)!.common_onBoarding_3_Title,
+          "subtitle":
+              AppLocalizations.of(context)!.common_onBoarding_3_subTitle,
+          "icon": Icons.lock_person_outlined,
+        },
+      ];
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +51,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   //context.go(AppRouteNames.gettingStarted.path);
                   AppCoordinator.showGettingStartedScreen();
                 },
-                child: const Text(
-                  "Bỏ qua",
-                  style: TextStyle(
+                child: Text(
+                  AppLocalizations.of(context)!.common_buttonSkip,
+                  style: const TextStyle(
                       color: Color(0xFF6C63FF),
                       fontWeight: FontWeight.bold,
                       fontSize: 18),
@@ -89,8 +90,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   const SizedBox(height: 30),
                   XPrimaryButton(
                     text: _currentPage == _onboardingData.length - 1
-                        ? "Khám phá ngay"
-                        : "Tiếp tục",
+                        ? AppLocalizations.of(context)!.common_buttonDiscover
+                        : AppLocalizations.of(context)!.common_buttonContinue,
                     onPressed: () {
                       if (_currentPage == _onboardingData.length - 1) {
                         UserPrefs.I.setHasSeenOnboarding(true);

@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get common_appTitle => 'My App';
+  String get common_appTitle => 'Pixel Perfect';
 
   @override
   String common_appVersion(String value) {
@@ -17,13 +17,126 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get common_loading => 'Loading';
+  String get common_appDescription => 'Photo gallery and smart cleaner';
 
   @override
-  String get common_next => 'Next';
+  String get common_buttonSkip => 'Skip';
 
   @override
-  String get common_cancel => 'Cancel';
+  String get common_onBoarding_1_Title => 'Smart photo cleanup';
+
+  @override
+  String get common_onBoarding_1_subTitle =>
+      'Automatically group and remove your duplicate photos in seconds';
+
+  @override
+  String get common_onBoarding_2_Title => 'AI Quality Upgrade';
+
+  @override
+  String get common_onBoarding_2_subTitle =>
+      'Transform old, blurry photos into sharp and vibrant images with AI technology';
+
+  @override
+  String get common_onBoarding_3_Title => 'Secure your photos';
+
+  @override
+  String get common_onBoarding_3_subTitle =>
+      'Store your private moments with absolute safety using high-level encryption and smart management';
+
+  @override
+  String get common_buttonDiscover => 'Discover Now';
+
+  @override
+  String get common_buttonContinue => 'Continue';
+
+  @override
+  String get common_getStarted_Title => 'Welcome to Pixel Perfect';
+
+  @override
+  String get common_getStarted_subTitle =>
+      'Optimize your image library with the power of artificial intelligence';
+
+  @override
+  String get common_buttonStarted => 'Start';
+
+  @override
+  String get common_subTitle_Signin => 'Log in to manage your image library';
+
+  @override
+  String get common_emailTitle => 'Email';
+
+  @override
+  String get common_passwordTitle => 'Password';
+
+  @override
+  String get common_buttonSignin_Title => 'Sign In';
+
+  @override
+  String get common_forgotPass_Title => 'Forgot Password?';
+
+  @override
+  String get common_Or_Title => 'or';
+
+  @override
+  String get sign_signin_signinWithGoogle => 'Sign in with Google';
+
+  @override
+  String get sign_signin_signinWithApple => 'Sign in with Apple';
+
+  @override
+  String get sign_signin_signinWithFacebook => 'Sign in with Facebook';
+
+  @override
+  String get common_dontHaveAccount_title => 'Don\'t have an account?';
+
+  @override
+  String get common_SignupNow_title => 'Sign up now';
+
+  @override
+  String get common_signUp_subTitle =>
+      'Create an account to join the Pixel Perfect community to optimize your image library';
+
+  @override
+  String get common_userName_signUp => 'Username';
+
+  @override
+  String get common_confirmPass_signUp => 'Confirm password';
+
+  @override
+  String get common_buttonSignUp_title => 'Sign Up';
+
+  @override
+  String get common_haveAccount_title => 'Have an account?';
+
+  @override
+  String get common_signIn_title => 'Sign in';
+
+  @override
+  String get common_tab_photo => 'Photo';
+
+  @override
+  String get common_tab_clean => 'Cleaner';
+
+  @override
+  String get common_tab_friend => 'Friends';
+
+  @override
+  String get common_tab_place => 'Place';
+
+  @override
+  String get common_tab_profile => 'Profile';
+
+  @override
+  String get common_logout_title => 'Sign out';
+
+  @override
+  String get common_confirmLogout_title => 'Are you sure you want to log out?';
+
+  @override
+  String get common_agreeButton_title => 'Confirm';
+
+  @override
+  String get common_cancelButton_title => 'Cancel';
 
   @override
   String get common_yes => 'Yes';
@@ -35,134 +148,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String get common_close => 'Close';
 
   @override
-  String get common_exit => 'Exit';
-
-  @override
-  String get common_back => 'Back';
-
-  @override
-  String get common_tap_to_refresh => 'Tap to refresh';
+  String get common_next => 'Next';
 
   @override
   String get common_list_empty_title => 'List empty!';
 
   @override
-  String get common_gallery_request_title => 'Gallery Permission was denied';
-
-  @override
-  String get common_gallery_request_content =>
-      'We need your gallery to upload your profile avatar or create photo message, Do you want to grant permission?';
-
-  @override
-  String get common_camera_request_title => 'Camera Permission was denied';
-
-  @override
-  String get common_camera_request_content =>
-      'We need your camera to upload your profile avatar or create photo message, Do you want to grant permission?';
-
-  @override
-  String get camera_choose_option_take_image =>
-      'Please choose option to take image';
-
-  @override
-  String get camera_choose_option_take_video =>
-      'Please choose option to take video';
-
-  @override
-  String get camera_image_from_camera => 'Image from camera';
-
-  @override
-  String get camera_video_from_camera => 'Video from camera';
-
-  @override
-  String get camera_image_from_gallery => 'Image from gallery';
-
-  @override
-  String get camera_video_from_gallery => 'Video from gallery';
-
-  @override
-  String get error_noInternet => 'A Server Error Occurred';
-
-  @override
-  String get error_unknown => 'An Unknown Error Occurred';
+  String get common_tap_to_refresh => 'Tap to refresh';
 
   @override
   String get error_somethingWrongTryAgain =>
       'Something went wrong, try again...';
 
   @override
+  String get error_login => 'Sign in Failed';
+
+  @override
+  String get error_signUp => 'Sign up Failed';
+
+  @override
   String get error_fieldRequired => 'This field is required';
 
   @override
-  String get error_not_login_yet => 'Not Login yet!';
+  String get error_invalidEmail => 'Invalid email ';
 
   @override
-  String get error_upload_file_fail =>
-      'Upload failed. Please check the file and try again.';
+  String get error_invalidPassword =>
+      'Invalid password! Requires at least 6 characters';
 
   @override
-  String get sign_signin_signinWithApple => 'Login with Apple';
+  String get error_confirmPasswordMismatch =>
+      'Password confirmation does not match';
 
   @override
-  String get sign_signin_signinWithGoogle => 'Login with Google';
+  String get success_login => 'Login success';
 
   @override
-  String get sign_signin_signinWithFacebook => 'Login with Facebook';
-
-  @override
-  String get chat_room_this_is_reply => 'reply message 🖼️';
-
-  @override
-  String get chat_room_this_is_photo => 'send an photo message 🖼️';
-
-  @override
-  String get chat_room_this_is_video => 'send an video message 📹';
-
-  @override
-  String get chat_room_this_is_audio => 'send an audio message 🎤';
-
-  @override
-  String get chat_room_this_is_file => 'send an file message 📁';
-
-  @override
-  String chat_room_you(Object value) {
-    return 'You: $value';
-  }
-
-  @override
-  String get chat_room_all => 'All';
-
-  @override
-  String get chat_room_online => 'Online';
-
-  @override
-  String get chat_room_favorites => 'Favorites';
-
-  @override
-  String get chat_reply_content_of_photo => 'Photo message 🖼️';
-
-  @override
-  String get chat_reply_content_of_video => 'Video message 📹';
-
-  @override
-  String get chat_reply_content_of_audio => 'Audio message 🎤';
-
-  @override
-  String get chat_reply_content_of_file => 'File message 📁';
-
-  @override
-  String chat_reply_to(Object value) {
-    return 'Reply to $value';
-  }
-
-  @override
-  String chat_replied_to(Object value) {
-    return 'Replied to $value';
-  }
-
-  @override
-  String get chat_replied_yourself => 'yourself';
-
-  @override
-  String get last_line => '';
+  String get success_signUp =>
+      'Sign up success! Please check email box to confirm your email';
 }

@@ -21,7 +21,7 @@ class XBottomNavigationBar extends StatelessWidget {
           destinations: XNavigationBarItems.values
               .map(
                 (e) => NavigationDestination(
-                  label: e.label,
+                  label: e.getLabel(context),
                   icon: Icon(e.icon,
                       color: state == e
                           ? const Color(0xFF6C63FF)

@@ -1,0 +1,74 @@
+{
+  "common_appTitle": "Pixel Perfect",
+  "common_appVersion": "Version {value}",
+  "@common_appVersion": {
+    "description": "Version number of app",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "common_appDescription": "Thư viện ảnh và trình dọn dẹp thông minh",
+  "common_buttonSkip": "Bỏ qua",
+  "common_onBoarding_1_Title": "Dọn dẹp ảnh thông minh",
+  "common_onBoarding_1_subTitle": "Tự động nhóm và xóa ảnh trùng lặp của bạn chỉ trong vài giây",
+  "common_onBoarding_2_Title": "Nâng cấp chất lượng AI",
+  "common_onBoarding_2_subTitle": "Biến những bức ảnh cũ, vỡ nét trở nên sắc nét và sống động nhờ công nghệ AI",
+  "common_onBoarding_3_Title": "Kho ảnh bảo mật",
+  "common_onBoarding_3_subTitle": "Lưu trữ những khoảnh khắc riêng tư an toàn tuyệt đối với mã hóa cấp cao và trình quản lý thông minh",
+  "common_buttonDiscover": "Khám phá ngay",
+  "common_buttonContinue": "Tiếp tục",
+  "common_getStarted_Title": "Chào mừng đến với Pixel Perfect",
+  "common_getStarted_subTitle": "Giải pháp tối ưu thư viện ảnh của bạn với sức mạnh của trí tuệ nhân tạo",
+  "common_buttonStarted": "Bắt Đầu",
+  "common_subTitle_Signin": "Đăng nhập để quản lý kho ảnh của bạn",
+  "common_emailTitle": "Email",
+  "common_passwordTitle": "Mật khẩu",
+  "common_buttonSignin_Title": "Đăng Nhập",
+  "common_forgotPass_Title": "Quên mật khẩu?",
+  "common_Or_Title": "hoặc",
+  "sign_signin_signinWithGoogle": "Đăng nhập với Google",
+  "sign_signin_signinWithApple":"Đăng nhập với Apple",
+  "sign_signin_signinWithFacebook":"Đăng nhập với Facebook",
+  "common_dontHaveAccount_title": "Chưa có tài khoản?",
+  "common_SignupNow_title": "Đăng ký ngay",
+
+  "common_signUp_subTitle":"Tạo tài khoản tham gia cộng đồng Pixel Perfect để tối ưu hóa thư viện ảnh của bạn",
+  "common_userName_signUp":"Tên người dùng",
+  "common_confirmPass_signUp":"Xác nhận mật khẩu",
+  "common_buttonSignUp_title":"Đăng ký",
+  "common_haveAccount_title":"Đã có tài khoản?",
+  "common_signIn_title":"Đăng nhập",
+
+  "common_tab_photo":"Ảnh",
+  "common_tab_clean":"Dọn dẹp",
+  "common_tab_friend":"Bạn bè",
+  "common_tab_place":"Địa điểm",
+  "common_tab_profile":"Hồ sơ",
+
+  "common_logout_title": "Đăng xuất",
+  "common_confirmLogout_title": "Bạn có chắc chắn muốn đăng xuất?",
+  "common_agreeButton_title": "Đồng ý",
+  "common_cancelButton_title": "Huỷ",
+
+  "common_yes": "Có",
+  "common_no": "Không",
+  "common_close": "Đóng",
+  "common_next": "Tiếp theo",
+  "common_list_empty_title": "Danh sách trống!",
+  "common_tap_to_refresh": "Kéo xuống để làm mới",
+
+  "error_somethingWrongTryAgain": "Có lỗi xảy ra, vui lòng thử lại sau...",
+  "error_login": "Đăng nhập thất bại",
+  "error_signUp":"Đăng ký thất bại",
+  "error_fieldRequired": "Không được để trống",
+  "error_invalidEmail": "Email không hợp lệ",
+  "error_invalidPassword" : "Mật khẩu không hợp lệ! Yêu cầu ít nhất 6 ký tự",
+  "error_confirmPasswordMismatch": "Xác nhận mật khẩu không khớp",
+
+
+  "success_login":"Đăng nhập thành công",
+  "success_signUp":"Đăng ký thành công! Vui lòng kiểm tra email để xác nhận"
+
+}

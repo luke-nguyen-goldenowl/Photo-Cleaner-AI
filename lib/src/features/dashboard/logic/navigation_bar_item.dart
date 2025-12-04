@@ -1,46 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/generated/i18n/app_localizations.dart';
 import 'package:myapp/src/router/route_name.dart';
 
 enum XNavigationBarItems {
   photos(
-    label: 'Ảnh',
+    //label: 'common_tab_photo',
     route: AppRouteNames.photo,
     icon: Icons.photo_library_outlined,
     selectedIcon: Icons.photo_library,
   ),
   cleaner(
-    label: 'Dọn dẹp',
+    //label: 'common_tab_clean',
     route: AppRouteNames.cleaner,
     icon: Icons.cleaning_services_outlined,
     selectedIcon: Icons.cleaning_services,
   ),
   friend(
-    label: 'Bạn bè',
+    //label: 'common_tab_friend',
     route: AppRouteNames.friend,
     icon: Icons.group_outlined,
     selectedIcon: Icons.group,
   ),
   places(
-    label: 'Địa điểm',
+    //label: 'common_tab_place',
     route: AppRouteNames.places,
     icon: Icons.map_outlined,
     selectedIcon: Icons.map,
   ),
   profile(
-    label: 'Hồ sơ',
+    //label: 'common_tab_profile',
     route: AppRouteNames.profile,
     icon: Icons.person_outline,
     selectedIcon: Icons.person,
   );
 
   const XNavigationBarItems({
-    required this.label,
+    //required this.label,
     required this.route,
     required this.icon,
     this.selectedIcon,
   });
 
-  final String label;
+  //final String label;
   final AppRouteNames route;
   final IconData icon;
   final IconData? selectedIcon;
@@ -58,5 +59,20 @@ enum XNavigationBarItems {
       return XNavigationBarItems.profile;
     }
     return XNavigationBarItems.photos;
+  }
+
+  String getLabel(BuildContext context) {
+    switch (this) {
+      case XNavigationBarItems.photos:
+        return AppLocalizations.of(context)!.common_tab_photo;
+      case XNavigationBarItems.cleaner:
+        return AppLocalizations.of(context)!.common_tab_clean;
+      case XNavigationBarItems.friend:
+        return AppLocalizations.of(context)!.common_tab_friend;
+      case XNavigationBarItems.places:
+        return AppLocalizations.of(context)!.common_tab_place;
+      case XNavigationBarItems.profile:
+        return AppLocalizations.of(context)!.common_tab_profile;
+    }
   }
 }

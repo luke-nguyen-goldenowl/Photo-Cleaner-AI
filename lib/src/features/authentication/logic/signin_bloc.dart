@@ -1,8 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:myapp/generated/i18n/app_localizations.dart';
 import 'package:myapp/src/dialogs/alert_wrapper.dart';
 import 'package:myapp/src/dialogs/toast_wrapper.dart';
+import 'package:myapp/src/dialogs/widget/alert_dialog.dart';
 import 'package:myapp/src/features/account/logic/account_bloc.dart';
 import 'package:myapp/src/features/authentication/model/email_fromz.dart';
 import 'package:myapp/src/features/authentication/model/model_input.dart';
@@ -23,7 +26,7 @@ class SigninBloc extends Cubit<SigninState> {
 
   DomainManager get domain => DomainManager();
 
-  Future loginWithEmail() async {
+  Future loginWithEmail(BuildContext context) async {
     if (state.status.isInProgress) return;
     if (state.isValidated == false) return;
     emit(state.copyWith(
@@ -44,16 +47,13 @@ class SigninBloc extends Cubit<SigninState> {
       if (user == null) {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));
         XToast.hideLoading();
-        XAlert.show(title: 'Đăng nhập thất bại', body: 'Lỗi không xác định');
+        XAlert.show(title: AppLocalizations.of(context)!.error_login);
         return;
       }
       if (user.emailConfirmedAt == null) {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));
         XToast.hideLoading();
-        XAlert.show(
-          title: 'Chưa xác thực email',
-          body: 'Vui lòng xác thực email trước khi đăng nhập.',
-        );
+        XAlert.show(title: AppLocalizations.of(context)!.error_login);
         return;
       }
       XToast.hideLoading();
@@ -61,50 +61,53 @@ class SigninBloc extends Cubit<SigninState> {
       UserPrefs.I.setLoginProvider('supabase');
       UserPrefs.I.setIsLoggedIn(true);
       await loginDecision(MResult.success(mUser));
-      XToast.success('Đăng nhập thành công');
+      XToast.success(AppLocalizations.of(context)!.success_login);
     } catch (e) {
       XToast.hideLoading();
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
       final errorResult = MResult<void>.exception(e);
       XAlert.show(
-        title: 'Đăng nhập thất bại',
+        title: AppLocalizations.of(context)!.error_login,
         body: errorResult.error ?? 'Đã xảy ra lỗi không xác định',
+        actions: [
+          XAlertButton(title: AppLocalizations.of(context)!.common_close),
+        ],
       );
     }
   }
 
-  Future loginWithGoogle() async {
+  Future loginWithGoogle(BuildContext context) async {
     if (state.status.isInProgress) return;
     emit(state.copyWith(
       status: FormzSubmissionStatus.inProgress,
       loginType: MSocialType.google,
     ));
     final result = await domain.sign.loginWithGoogle();
-    return loginSocialDecision(result, MSocialType.google);
+    return loginSocialDecision(result, MSocialType.google, context);
   }
 
-  Future loginWithApple() async {
+  Future loginWithApple(BuildContext context) async {
     if (state.status.isInProgress) return;
     emit(state.copyWith(
       status: FormzSubmissionStatus.inProgress,
       loginType: MSocialType.apple,
     ));
     final result = await domain.sign.loginWithApple();
-    return loginSocialDecision(result, MSocialType.apple);
+    return loginSocialDecision(result, MSocialType.apple, context);
   }
 
-  Future loginWithFacebook() async {
+  Future loginWithFacebook(BuildContext context) async {
     if (state.status.isInProgress) return;
     emit(state.copyWith(
       status: FormzSubmissionStatus.inProgress,
       loginType: MSocialType.facebook,
     ));
     final result = await domain.sign.loginWithFacebook();
-    return loginSocialDecision(result, MSocialType.facebook);
+    return loginSocialDecision(result, MSocialType.facebook, context);
   }
 
-  Future loginSocialDecision(
-      MResult<MSocialUser> result, MSocialType socialType) async {
+  Future loginSocialDecision(MResult<MSocialUser> result,
+      MSocialType socialType, BuildContext? context) async {
     if (result.isSuccess) {
       final data = result.data!;
       if (socialType == MSocialType.google) {
@@ -116,7 +119,9 @@ class SigninBloc extends Cubit<SigninState> {
       }
     } else {
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
-      XAlert.show(title: "Error", body: result.error);
+      XAlert.show(
+          title: AppLocalizations.of(context!)!.error_login,
+          body: result.error);
     }
   }
 
@@ -135,7 +140,8 @@ class SigninBloc extends Cubit<SigninState> {
     return loginDecision(result, socialType: user.type);
   }
 
-  Future loginDecision(MResult<MUser> result, {MSocialType? socialType}) async {
+  Future loginDecision(MResult<MUser> result,
+      {MSocialType? socialType, BuildContext? context}) async {
     if (result.isSuccess) {
       emit(state.copyWith(status: FormzSubmissionStatus.success));
 
@@ -146,10 +152,14 @@ class SigninBloc extends Cubit<SigninState> {
       GetIt.I<AccountBloc>().onLoginSuccess(result.data!);
 
       AppCoordinator.showHomeScreen();
-      XToast.success('Đăng nhập thành công');
+      if (context != null) {
+        XToast.success(AppLocalizations.of(context)!.success_login);
+      }
     } else {
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
-      XAlert.show(title: 'Login Error', body: result.error);
+      XAlert.show(
+          title: AppLocalizations.of(context!)!.error_login,
+          body: result.error);
     }
   }
 
