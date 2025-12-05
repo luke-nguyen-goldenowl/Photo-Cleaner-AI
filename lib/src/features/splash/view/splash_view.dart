@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/generated/i18n/app_localizations.dart';
 import 'package:myapp/src/services/session_manager.dart';
 import 'package:myapp/src/services/user_prefs.dart';
 import 'package:myapp/src/router/coordinator.dart';
@@ -56,9 +57,9 @@ class _SplashViewState extends State<SplashView> {
           children: [
             const XAppLogo(),
             const SizedBox(height: 30),
-            const Text(
-              'Pixel Perfect',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context)!.common_appTitle,
+              style: const TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF091031),
@@ -66,7 +67,7 @@ class _SplashViewState extends State<SplashView> {
             ),
             const SizedBox(height: 10),
             Text(
-              'Thư viện ảnh và trình dọn dẹp thông minh',
+              AppLocalizations.of(context)!.common_appDescription,
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey[600],

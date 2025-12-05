@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myapp/generated/i18n/app_localizations.dart';
 import 'package:myapp/src/features/authentication/logic/signup_bloc.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/widgets/button/primary_button.dart';
+import 'package:myapp/widgets/forms/input.dart';
 import 'package:myapp/widgets/header/screen_header.dart';
 import 'package:myapp/widgets/logo/app_logo.dart';
-import 'package:myapp/widgets/text_field/custom_text_field.dart';
 
 class SignupView extends StatelessWidget {
   const SignupView({super.key});
@@ -37,106 +38,82 @@ class SignupView extends StatelessWidget {
       child: Column(
         children: [
           const XAppLogo(),
-          const XScreenHeader(
-            title: 'Pixel Perfect',
-            subtitle:
-                'Tạo tài khoản tham gia cộng đồng Pixel Perfect để tối ưu hóa thư viện ảnh của bạn.',
+          XScreenHeader(
+            title: AppLocalizations.of(context)!.common_appTitle,
+            subtitle: AppLocalizations.of(context)!.common_signUp_subTitle,
           ),
           const SizedBox(height: 30),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              XCustomTextField(
-                hintText: 'Tên người dùng',
+              XInput(
+                value: state.name.value,
+                hintText: AppLocalizations.of(context)!.common_userName_signUp,
                 prefixIcon: Icons.person_outline,
                 onChanged: (value) {
                   context.read<SignupBloc>().onNameChanged(value);
                 },
+                errorText:
+                    !state.name.isPure ? state.name.errorOf(context) : null,
               ),
-              if (state.isDirty && state.name.value.isEmpty)
-                const Padding(
-                  padding: EdgeInsets.only(left: 12, top: 2),
-                  child: Text(
-                    'Tên người dùng không được để trống',
-                    style: TextStyle(color: Colors.red, fontSize: 13),
-                  ),
-                ),
             ],
           ),
           const SizedBox(height: 20),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              XCustomTextField(
-                hintText: 'Email',
+              XInput(
+                value: state.email.value,
+                hintText: AppLocalizations.of(context)!.common_emailTitle,
                 prefixIcon: Icons.email_outlined,
                 onChanged: (value) {
                   context.read<SignupBloc>().onEmailChanged(value);
                 },
+                errorText:
+                    !state.email.isPure ? state.email.errorOf(context) : null,
               ),
-              if (state.isDirty &&
-                  state.email.value.isNotEmpty &&
-                  state.email.isNotValid)
-                const Padding(
-                  padding: EdgeInsets.only(left: 12, top: 2),
-                  child: Text(
-                    'Email không hợp lệ',
-                    style: TextStyle(color: Colors.red, fontSize: 13),
-                  ),
-                ),
             ],
           ),
           const SizedBox(height: 20),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              XCustomTextField(
-                hintText: 'Mật khẩu',
+              XInput(
+                value: state.password.value,
+                hintText: AppLocalizations.of(context)!.common_passwordTitle,
                 prefixIcon: Icons.lock_outline,
-                isPassword: true,
+                obscureText: true,
                 onChanged: (value) {
                   context.read<SignupBloc>().onPasswordChanged(value);
                 },
+                errorText: !state.password.isPure
+                    ? state.password.errorOf(context)
+                    : null,
               ),
-              if (state.isDirty &&
-                  state.password.value.isNotEmpty &&
-                  state.password.isNotValid)
-                const Padding(
-                  padding: EdgeInsets.only(left: 12, top: 2),
-                  child: Text(
-                    'Mật khẩu không hợp lệ. Yêu cầu ít nhất 6 ký tự',
-                    style: TextStyle(color: Colors.red, fontSize: 13),
-                  ),
-                ),
             ],
           ),
           const SizedBox(height: 20),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              XCustomTextField(
-                hintText: 'Xác nhận mật khẩu',
+              XInput(
+                value: state.confirmPassword.value,
+                hintText:
+                    AppLocalizations.of(context)!.common_confirmPass_signUp,
                 prefixIcon: Icons.lock_outline,
-                isPassword: true,
+                obscureText: true,
                 onChanged: (value) {
                   context.read<SignupBloc>().onConfirmPasswordChanged(value);
                 },
+                errorText: !state.confirmPassword.isPure
+                    ? state.confirmPassword.errorOf(context)
+                    : null,
               ),
-              if (state.isDirty &&
-                  state.confirmPassword.isNotEmpty &&
-                  !state.isConfirmPasswordValid)
-                const Padding(
-                  padding: EdgeInsets.only(left: 12, top: 2),
-                  child: Text(
-                    'Xác nhận mật khẩu không khớp',
-                    style: TextStyle(color: Colors.red, fontSize: 13),
-                  ),
-                ),
             ],
           ),
           const SizedBox(height: 10),
           XPrimaryButton(
-            text: 'Đăng Ký',
+            text: AppLocalizations.of(context)!.common_buttonSignUp_title,
             onPressed: state.isValidated
                 ? () {
                     context.read<SignupBloc>().signupWithEmail(context);
@@ -147,14 +124,14 @@ class SignupView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Đã có tài khoản? ',
+              Text(AppLocalizations.of(context)!.common_haveAccount_title,
                   style: TextStyle(color: Colors.grey[600], fontSize: 16)),
               GestureDetector(
                 onTap: () {
                   AppCoordinator.showSignInScreen();
                 },
-                child: const Text(
-                  'Đăng nhập',
+                child: Text(
+                  AppLocalizations.of(context)!.common_buttonSignin_Title,
                   style: TextStyle(
                     color: Color(0xFF6C63FF),
                     fontWeight: FontWeight.bold,
