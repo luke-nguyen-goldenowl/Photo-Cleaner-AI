@@ -69,5 +69,32 @@
   "error_confirmPasswordMismatch": "Password confirmation does not match",
 
   "success_login":"Login success",
-  "success_signUp":"Sign up success! Please check email box to confirm your email"
+  "success_signUp":"Sign up success! Please check email box to confirm your email",
+
+  "common_forgotPass_Title":"Forgot Password?",
+  "common_forgotPass_subTitle":"Don't worry! Enter your email below and we will send an OTP to restore.",
+  "common_hinTextEmail":"Enter Email address",
+  "common_button_senOTP":"Send OTP code",
+  "common_button_gobackLogin":"Back to Login",
+  "common_sendOTP_Title":"Enter OTP code",
+  "common_sendOTP_subTitle":"We have sent a 6-digit code to your email. Please check your mailbox.",
+  "common_hintTextOTP":"Enter OTP code (6 digits)",
+  "common_button_verify":"Verify",
+  "common_sendOTPAgain_s" : "Resend code after",
+  "common_sendOTPAgain" : "Resend OTP code",
+  "common_recoverPass_title":"Reset password",
+  "common_recoverPass_subTitle":"Enter your new password to complete the recovery process.",
+  "common_newPass_hintText":"New password",
+  "common_confirmNewPass_hintText":"Confirm new password",
+
+  "success_sendOTP":"OTP code has been sent to",
+  "success_verifyOTP":"Verified successfully!",
+  "success_resetPass_noti_Title":"Success",
+  "success_resetPass_noti_subTitle":"Password has been updated successfully! Please log in again.",
+
+
+  "error_sendOTP":"Failed to send OTP",
+  "error_verifyOTP":"Verification failed",
+  "error_OTP_invalid":"Invalid OTP code",
+  "error_resetPass":"Password change failed"
 }

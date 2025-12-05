@@ -2,13 +2,13 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:myapp/generated/i18n/app_localizations.dart';
 import 'package:myapp/src/dialogs/alert_wrapper.dart';
 import 'package:myapp/src/dialogs/toast_wrapper.dart';
 import 'package:myapp/src/dialogs/widget/alert_dialog.dart';
 import 'package:myapp/src/features/account/logic/account_bloc.dart';
 import 'package:myapp/src/features/authentication/model/email_fromz.dart';
-import 'package:myapp/src/features/authentication/model/model_input.dart';
+import 'package:myapp/src/features/authentication/model/password_formz.dart';
+import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/network/model/common/result.dart';
 import 'package:myapp/src/network/model/social_type.dart';
 import 'package:myapp/src/network/domain_manager.dart';
@@ -37,23 +37,23 @@ class SigninBloc extends Cubit<SigninState> {
     final email = state.email.value;
     final password = state.password.value;
 
-    try {
-      final response = await Supabase.instance.client.auth.signInWithPassword(
-        email: email,
-        password: password,
-      );
-
+    Supabase.instance.client.auth
+        .signInWithPassword(
+      email: email,
+      password: password,
+    )
+        .then((response) async {
       final user = response.user;
       if (user == null) {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));
         XToast.hideLoading();
-        XAlert.show(title: AppLocalizations.of(context)!.error_login);
+        XAlert.show(title: S.of(context).error_login);
         return;
       }
       if (user.emailConfirmedAt == null) {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));
         XToast.hideLoading();
-        XAlert.show(title: AppLocalizations.of(context)!.error_login);
+        XAlert.show(title: S.of(context).error_login);
         return;
       }
       XToast.hideLoading();
@@ -61,19 +61,19 @@ class SigninBloc extends Cubit<SigninState> {
       UserPrefs.I.setLoginProvider('supabase');
       UserPrefs.I.setIsLoggedIn(true);
       await loginDecision(MResult.success(mUser));
-      XToast.success(AppLocalizations.of(context)!.success_login);
-    } catch (e) {
+      XToast.success(S.of(context).success_login);
+    }).catchError((e) {
       XToast.hideLoading();
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
       final errorResult = MResult<void>.exception(e);
       XAlert.show(
-        title: AppLocalizations.of(context)!.error_login,
+        title: S.of(context).error_login,
         body: errorResult.error ?? 'Đã xảy ra lỗi không xác định',
         actions: [
-          XAlertButton(title: AppLocalizations.of(context)!.common_close),
+          XAlertButton(title: S.of(context).common_close),
         ],
       );
-    }
+    });
   }
 
   Future loginWithGoogle(BuildContext context) async {
@@ -107,7 +107,7 @@ class SigninBloc extends Cubit<SigninState> {
   }
 
   Future loginSocialDecision(MResult<MSocialUser> result,
-      MSocialType socialType, BuildContext? context) async {
+      MSocialType socialType, BuildContext context) async {
     if (result.isSuccess) {
       final data = result.data!;
       if (socialType == MSocialType.google) {
@@ -119,9 +119,7 @@ class SigninBloc extends Cubit<SigninState> {
       }
     } else {
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
-      XAlert.show(
-          title: AppLocalizations.of(context!)!.error_login,
-          body: result.error);
+      XAlert.show(title: S.of(context).error_login, body: result.error);
     }
   }
 
@@ -153,13 +151,13 @@ class SigninBloc extends Cubit<SigninState> {
 
       AppCoordinator.showHomeScreen();
       if (context != null) {
-        XToast.success(AppLocalizations.of(context)!.success_login);
+        XToast.success(S.of(context).success_login);
       }
     } else {
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
-      XAlert.show(
-          title: AppLocalizations.of(context!)!.error_login,
-          body: result.error);
+      if (context != null) {
+        XAlert.show(title: S.of(context).error_login, body: result.error);
+      }
     }
   }
 

@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/generated/i18n/app_localizations.dart';
 import 'package:myapp/src/dialogs/alert_wrapper.dart';
 import 'package:myapp/src/dialogs/widget/alert_dialog.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
@@ -46,16 +44,15 @@ class AccountBloc extends Cubit<AccountState> {
 
   Future onLogOut(BuildContext context) async {
     final key = await XAlert.show(
-      title: AppLocalizations.of(context)!.common_logout_title,
-      body: AppLocalizations.of(context)!.common_confirmLogout_title,
+      title: S.of(context).common_logout_title,
+      body: S.of(context).common_confirmLogout_title,
       actions: [
         XAlertButton(
-          title: AppLocalizations.of(context)!.common_agreeButton_title,
+          title: S.of(context).common_agreeButton_title,
           isDestructiveAction: true,
           key: 'yes',
         ),
-        XAlertButton(
-            title: AppLocalizations.of(context)!.common_cancelButton_title),
+        XAlertButton(title: S.of(context).common_cancelButton_title),
       ],
     );
     if (key == 'yes') {

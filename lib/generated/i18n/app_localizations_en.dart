@@ -186,4 +186,74 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get success_signUp =>
       'Sign up success! Please check email box to confirm your email';
+
+  @override
+  String get common_forgotPass_subTitle =>
+      'Don\'t worry! Enter your email below and we will send an OTP to restore.';
+
+  @override
+  String get common_hinTextEmail => 'Enter Email address';
+
+  @override
+  String get common_button_senOTP => 'Send OTP code';
+
+  @override
+  String get common_button_gobackLogin => 'Back to Login';
+
+  @override
+  String get common_sendOTP_Title => 'Enter OTP code';
+
+  @override
+  String get common_sendOTP_subTitle =>
+      'We have sent a 6-digit code to your email. Please check your mailbox.';
+
+  @override
+  String get common_hintTextOTP => 'Enter OTP code (6 digits)';
+
+  @override
+  String get common_button_verify => 'Verify';
+
+  @override
+  String get common_sendOTPAgain_s => 'Resend code after';
+
+  @override
+  String get common_sendOTPAgain => 'Resend OTP code';
+
+  @override
+  String get common_recoverPass_title => 'Reset password';
+
+  @override
+  String get common_recoverPass_subTitle =>
+      'Enter your new password to complete the recovery process.';
+
+  @override
+  String get common_newPass_hintText => 'New password';
+
+  @override
+  String get common_confirmNewPass_hintText => 'Confirm new password';
+
+  @override
+  String get success_sendOTP => 'OTP code has been sent to';
+
+  @override
+  String get success_verifyOTP => 'Verified successfully!';
+
+  @override
+  String get success_resetPass_noti_Title => 'Success';
+
+  @override
+  String get success_resetPass_noti_subTitle =>
+      'Password has been updated successfully! Please log in again.';
+
+  @override
+  String get error_sendOTP => 'Failed to send OTP';
+
+  @override
+  String get error_verifyOTP => 'Verification failed';
+
+  @override
+  String get error_OTP_invalid => 'Invalid OTP code';
+
+  @override
+  String get error_resetPass => 'Password change failed';
 }

@@ -186,4 +186,74 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get success_signUp =>
       'Đăng ký thành công! Vui lòng kiểm tra email để xác nhận';
+
+  @override
+  String get common_forgotPass_subTitle =>
+      'Đừng lo lắng! Nhập email của bạn bên dưới và chúng tôi sẽ gửi mã OTP để khôi phục.';
+
+  @override
+  String get common_hinTextEmail => 'Nhập địa chỉ Email';
+
+  @override
+  String get common_button_senOTP => 'Gửi mã OTP';
+
+  @override
+  String get common_button_gobackLogin => 'Quay lại đăng nhập';
+
+  @override
+  String get common_sendOTP_Title => 'Nhập mã OTP';
+
+  @override
+  String get common_sendOTP_subTitle =>
+      'Chúng tôi đã gửi mã 6 chữ số đến email của bạn. Vui lòng kiểm tra hộp thư.';
+
+  @override
+  String get common_hintTextOTP => 'Nhập mã OTP (6 chữ số)';
+
+  @override
+  String get common_button_verify => 'Xác thực';
+
+  @override
+  String get common_sendOTPAgain_s => 'Gửi lại mã sau';
+
+  @override
+  String get common_sendOTPAgain => 'Gửi lại mã OTP';
+
+  @override
+  String get common_recoverPass_title => 'Đặt lại mật khẩu';
+
+  @override
+  String get common_recoverPass_subTitle =>
+      'Nhập mật khẩu mới của bạn để hoàn tất quá trình khôi phục.';
+
+  @override
+  String get common_newPass_hintText => 'Mật khẩu mới';
+
+  @override
+  String get common_confirmNewPass_hintText => 'Xác nhận mật khẩu mới';
+
+  @override
+  String get success_sendOTP => 'Mã OTP đã được gửi đến';
+
+  @override
+  String get success_verifyOTP => 'Xác thực thành công!';
+
+  @override
+  String get success_resetPass_noti_Title => 'Thành công';
+
+  @override
+  String get success_resetPass_noti_subTitle =>
+      'Mật khẩu đã được cập nhật thành công! Vui lòng đăng nhập lại.';
+
+  @override
+  String get error_sendOTP => 'Gửi OTP thất bại';
+
+  @override
+  String get error_verifyOTP => 'Xác thực thất bại';
+
+  @override
+  String get error_OTP_invalid => 'Mã OTP không hợp lệ';
+
+  @override
+  String get error_resetPass => 'Đổi mật khẩu thất bại';
 }

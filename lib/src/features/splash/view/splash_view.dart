@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/generated/i18n/app_localizations.dart';
+import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/services/session_manager.dart';
 import 'package:myapp/src/services/user_prefs.dart';
 import 'package:myapp/src/router/coordinator.dart';
@@ -58,7 +58,7 @@ class _SplashViewState extends State<SplashView> {
             const XAppLogo(),
             const SizedBox(height: 30),
             Text(
-              AppLocalizations.of(context)!.common_appTitle,
+              S.of(context).common_appTitle,
               style: const TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
@@ -67,7 +67,7 @@ class _SplashViewState extends State<SplashView> {
             ),
             const SizedBox(height: 10),
             Text(
-              AppLocalizations.of(context)!.common_appDescription,
+              S.of(context).common_appDescription,
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey[600],
