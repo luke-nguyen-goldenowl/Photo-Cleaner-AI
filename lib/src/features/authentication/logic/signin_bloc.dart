@@ -37,12 +37,12 @@ class SigninBloc extends Cubit<SigninState> {
     final email = state.email.value;
     final password = state.password.value;
 
-    try {
-      final response = await Supabase.instance.client.auth.signInWithPassword(
-        email: email,
-        password: password,
-      );
-
+    Supabase.instance.client.auth
+        .signInWithPassword(
+      email: email,
+      password: password,
+    )
+        .then((response) async {
       final user = response.user;
       if (user == null) {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));
@@ -62,7 +62,7 @@ class SigninBloc extends Cubit<SigninState> {
       UserPrefs.I.setIsLoggedIn(true);
       await loginDecision(MResult.success(mUser));
       XToast.success(AppLocalizations.of(context)!.success_login);
-    } catch (e) {
+    }).catchError((e) {
       XToast.hideLoading();
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
       final errorResult = MResult<void>.exception(e);
@@ -73,7 +73,7 @@ class SigninBloc extends Cubit<SigninState> {
           XAlertButton(title: AppLocalizations.of(context)!.common_close),
         ],
       );
-    }
+    });
   }
 
   Future loginWithGoogle(BuildContext context) async {
