@@ -231,7 +231,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           children: [
             XInput(
               value: state.password.value,
-              hintText: S.of(context).common_passwordTitle,
+              hintText: S.of(context).common_newPass_hintText,
               prefixIcon: Icons.lock_outline,
               obscureText: true,
               onChanged: (value) {
@@ -249,7 +249,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           children: [
             XInput(
               value: state.confirmPassword.value,
-              hintText: S.of(context).common_confirmPass_signUp,
+              hintText: S.of(context).common_confirmNewPass_hintText,
               prefixIcon: Icons.lock_outline,
               obscureText: true,
               onChanged: (value) {
