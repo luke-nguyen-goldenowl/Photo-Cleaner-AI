@@ -69,6 +69,36 @@
 
 
   "success_login":"Đăng nhập thành công",
-  "success_signUp":"Đăng ký thành công! Vui lòng kiểm tra email để xác nhận"
+  "success_signUp":"Đăng ký thành công! Vui lòng kiểm tra email để xác nhận",
+
+  "common_forgotPass_Title":"Quên mật khẩu?",
+  "common_forgotPass_subTitle":"Đừng lo lắng! Nhập email của bạn bên dưới và chúng tôi sẽ gửi mã OTP để khôi phục.",
+  "common_hinTextEmail":"Nhập địa chỉ Email",
+  "common_button_senOTP":"Gửi mã OTP",
+  "common_button_gobackLogin":"Quay lại đăng nhập",
+  "common_sendOTP_Title":"Nhập mã OTP",
+  "common_sendOTP_subTitle":"Chúng tôi đã gửi mã 6 chữ số đến email của bạn. Vui lòng kiểm tra hộp thư.",
+  "common_hintTextOTP":"Nhập mã OTP (6 chữ số)",
+  "common_button_verify":"Xác thực",
+  "common_sendOTPAgain_s" : "Gửi lại mã sau",
+  "common_sendOTPAgain" : "Gửi lại mã OTP",
+  "common_recoverPass_title":"Đặt lại mật khẩu",
+  "common_recoverPass_subTitle":"Nhập mật khẩu mới của bạn để hoàn tất quá trình khôi phục.",
+  "common_newPass_hintText":"Mật khẩu mới",
+  "common_confirmNewPass_hintText":"Xác nhận mật khẩu mới",
+
+  "success_sendOTP":"Mã OTP đã được gửi đến",
+  "success_verifyOTP":"Xác thực thành công!",
+  "success_resetPass_noti_Title":"Thành công",
+  "success_resetPass_noti_subTitle":"Mật khẩu đã được cập nhật thành công! Vui lòng đăng nhập lại.",
+
+
+  "error_sendOTP":"Gửi OTP thất bại",
+  "error_verifyOTP":"Xác thực thất bại",
+  "error_OTP_invalid":"Mã OTP không hợp lệ",
+  "error_resetPass":"Đổi mật khẩu thất bại"
+
+
+
 
 }

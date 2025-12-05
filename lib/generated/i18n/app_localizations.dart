@@ -433,6 +433,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign up success! Please check email box to confirm your email'**
   String get success_signUp;
+
+  /// No description provided for @common_forgotPass_subTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t worry! Enter your email below and we will send an OTP to restore.'**
+  String get common_forgotPass_subTitle;
+
+  /// No description provided for @common_hinTextEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Email address'**
+  String get common_hinTextEmail;
+
+  /// No description provided for @common_button_senOTP.
+  ///
+  /// In en, this message translates to:
+  /// **'Send OTP code'**
+  String get common_button_senOTP;
+
+  /// No description provided for @common_button_gobackLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Login'**
+  String get common_button_gobackLogin;
+
+  /// No description provided for @common_sendOTP_Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter OTP code'**
+  String get common_sendOTP_Title;
+
+  /// No description provided for @common_sendOTP_subTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We have sent a 6-digit code to your email. Please check your mailbox.'**
+  String get common_sendOTP_subTitle;
+
+  /// No description provided for @common_hintTextOTP.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter OTP code (6 digits)'**
+  String get common_hintTextOTP;
+
+  /// No description provided for @common_button_verify.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify'**
+  String get common_button_verify;
+
+  /// No description provided for @common_sendOTPAgain_s.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend code after'**
+  String get common_sendOTPAgain_s;
+
+  /// No description provided for @common_sendOTPAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend OTP code'**
+  String get common_sendOTPAgain;
+
+  /// No description provided for @common_recoverPass_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password'**
+  String get common_recoverPass_title;
+
+  /// No description provided for @common_recoverPass_subTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your new password to complete the recovery process.'**
+  String get common_recoverPass_subTitle;
+
+  /// No description provided for @common_newPass_hintText.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get common_newPass_hintText;
+
+  /// No description provided for @common_confirmNewPass_hintText.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm new password'**
+  String get common_confirmNewPass_hintText;
+
+  /// No description provided for @success_sendOTP.
+  ///
+  /// In en, this message translates to:
+  /// **'OTP code has been sent to'**
+  String get success_sendOTP;
+
+  /// No description provided for @success_verifyOTP.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified successfully!'**
+  String get success_verifyOTP;
+
+  /// No description provided for @success_resetPass_noti_Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Success'**
+  String get success_resetPass_noti_Title;
+
+  /// No description provided for @success_resetPass_noti_subTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Password has been updated successfully! Please log in again.'**
+  String get success_resetPass_noti_subTitle;
+
+  /// No description provided for @error_sendOTP.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send OTP'**
+  String get error_sendOTP;
+
+  /// No description provided for @error_verifyOTP.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification failed'**
+  String get error_verifyOTP;
+
+  /// No description provided for @error_OTP_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid OTP code'**
+  String get error_OTP_invalid;
+
+  /// No description provided for @error_resetPass.
+  ///
+  /// In en, this message translates to:
+  /// **'Password change failed'**
+  String get error_resetPass;
 }
 
 class _AppLocalizationsDelegate
