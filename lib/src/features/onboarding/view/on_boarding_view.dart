@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/generated/i18n/app_localizations.dart';
+import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/src/services/user_prefs.dart';
 import 'package:myapp/widgets/button/primary_button.dart';
@@ -32,7 +32,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   AppCoordinator.showGettingStartedScreen();
                 },
                 child: Text(
-                  AppLocalizations.of(context)!.common_buttonSkip,
+                  S.of(context).common_buttonSkip,
                   style: const TextStyle(
                       color: Color(0xFF6C63FF),
                       fontWeight: FontWeight.bold,
@@ -70,8 +70,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   const SizedBox(height: 30),
                   XPrimaryButton(
                     text: _currentPage == onboardingData.length - 1
-                        ? AppLocalizations.of(context)!.common_buttonDiscover
-                        : AppLocalizations.of(context)!.common_buttonContinue,
+                        ? S.of(context).common_buttonDiscover
+                        : S.of(context).common_buttonContinue,
                     onPressed: () {
                       if (_currentPage == onboardingData.length - 1) {
                         UserPrefs.I.setHasSeenOnboarding(true);

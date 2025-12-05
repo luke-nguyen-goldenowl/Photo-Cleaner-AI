@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/src/features/authentication/logic/forgot_bloc.dart';
+import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/widgets/button/primary_button.dart';
 import 'package:myapp/widgets/forms/input.dart';
 import 'package:myapp/widgets/header/screen_header.dart';
-import 'package:myapp/generated/i18n/app_localizations.dart';
 
 class ForgotPasswordView extends StatefulWidget {
   const ForgotPasswordView({super.key});
@@ -108,8 +108,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         const Icon(Icons.mark_email_unread_outlined,
             size: 80, color: Color(0xFF6C63FF)),
         XScreenHeader(
-          title: AppLocalizations.of(context)!.common_forgotPass_Title,
-          subtitle: AppLocalizations.of(context)!.common_forgotPass_subTitle,
+          title: S.of(context).common_forgotPass_Title,
+          subtitle: S.of(context).common_forgotPass_subTitle,
         ),
         const SizedBox(height: 40),
         Column(
@@ -117,7 +117,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           children: [
             XInput(
               value: state.email.value,
-              hintText: AppLocalizations.of(context)!.common_emailTitle,
+              hintText: S.of(context).common_emailTitle,
               prefixIcon: Icons.email_outlined,
               onChanged: (value) {
                 context.read<ForgotBloc>().onEmailChanged(value);
@@ -129,7 +129,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         ),
         const SizedBox(height: 20),
         XPrimaryButton(
-          text: AppLocalizations.of(context)!.common_button_senOTP,
+          text: S.of(context).common_button_senOTP,
           onPressed: state.isValidated
               ? () {
                   context.read<ForgotBloc>().sendOtpToEmail(context);
@@ -142,7 +142,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
             AppCoordinator.showSignInScreen();
           },
           child: Text(
-            AppLocalizations.of(context)!.common_button_gobackLogin,
+            S.of(context).common_button_gobackLogin,
             style: const TextStyle(
               color: Color(0xFF6C63FF),
               fontWeight: FontWeight.bold,
@@ -160,12 +160,12 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       children: [
         const Icon(Icons.pin_outlined, size: 80, color: Color(0xFF6C63FF)),
         XScreenHeader(
-          title: AppLocalizations.of(context)!.common_sendOTP_Title,
-          subtitle: AppLocalizations.of(context)!.common_sendOTP_subTitle,
+          title: S.of(context).common_sendOTP_Title,
+          subtitle: S.of(context).common_sendOTP_subTitle,
         ),
         const SizedBox(height: 40),
         XInput(
-          hintText: AppLocalizations.of(context)!.common_hintTextOTP,
+          hintText: S.of(context).common_hintTextOTP,
           prefixIcon: Icons.lock_outline,
           keyboardType: TextInputType.number,
           maxLength: 6,
@@ -182,7 +182,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         ),
         const SizedBox(height: 20),
         XPrimaryButton(
-          text: AppLocalizations.of(context)!.common_button_verify,
+          text: S.of(context).common_button_verify,
           onPressed: state.isOtpValid
               ? () {
                   context.read<ForgotBloc>().verifyOtp(context);
@@ -192,7 +192,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         const SizedBox(height: 20),
         _resendCountdown > 0
             ? Text(
-                '${AppLocalizations.of(context)!.common_sendOTPAgain_s} $_resendCountdown s',
+                '${S.of(context).common_sendOTPAgain_s} $_resendCountdown s',
                 style: const TextStyle(
                   color: Colors.grey,
                   fontSize: 16,
@@ -204,7 +204,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                   _startResendTimer();
                 },
                 child: Text(
-                  AppLocalizations.of(context)!.common_sendOTPAgain,
+                  S.of(context).common_sendOTPAgain,
                   style: const TextStyle(
                     color: Color(0xFF6C63FF),
                     fontWeight: FontWeight.bold,
@@ -222,8 +222,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       children: [
         const Icon(Icons.lock_reset, size: 80, color: Color(0xFF6C63FF)),
         XScreenHeader(
-          title: AppLocalizations.of(context)!.common_recoverPass_title,
-          subtitle: AppLocalizations.of(context)!.common_recoverPass_subTitle,
+          title: S.of(context).common_recoverPass_title,
+          subtitle: S.of(context).common_recoverPass_subTitle,
         ),
         const SizedBox(height: 40),
         Column(
@@ -231,7 +231,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           children: [
             XInput(
               value: state.password.value,
-              hintText: AppLocalizations.of(context)!.common_passwordTitle,
+              hintText: S.of(context).common_passwordTitle,
               prefixIcon: Icons.lock_outline,
               obscureText: true,
               onChanged: (value) {
@@ -249,7 +249,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           children: [
             XInput(
               value: state.confirmPassword.value,
-              hintText: AppLocalizations.of(context)!.common_confirmPass_signUp,
+              hintText: S.of(context).common_confirmPass_signUp,
               prefixIcon: Icons.lock_outline,
               obscureText: true,
               onChanged: (value) {
@@ -263,7 +263,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         ),
         const SizedBox(height: 20),
         XPrimaryButton(
-          text: AppLocalizations.of(context)!.common_recoverPass_title,
+          text: S.of(context).common_recoverPass_title,
           onPressed: state.isPasswordValid
               ? () {
                   context.read<ForgotBloc>().resetPassword(context);
