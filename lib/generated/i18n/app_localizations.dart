@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
+import 'app_localizations_vi.dart';
 
 // ignore_for_file: type=lint
 
@@ -92,12 +93,15 @@ abstract class AppLocalizations {
   ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('vi')
+  ];
 
   /// No description provided for @common_appTitle.
   ///
   /// In en, this message translates to:
-  /// **'My App'**
+  /// **'Pixel Perfect'**
   String get common_appTitle;
 
   /// Version number of app
@@ -106,23 +110,239 @@ abstract class AppLocalizations {
   /// **'Version {value}'**
   String common_appVersion(String value);
 
-  /// No description provided for @common_loading.
+  /// No description provided for @common_appDescription.
   ///
   /// In en, this message translates to:
-  /// **'Loading'**
-  String get common_loading;
+  /// **'Photo gallery and smart cleaner'**
+  String get common_appDescription;
 
-  /// No description provided for @common_next.
+  /// No description provided for @common_buttonSkip.
   ///
   /// In en, this message translates to:
-  /// **'Next'**
-  String get common_next;
+  /// **'Skip'**
+  String get common_buttonSkip;
 
-  /// No description provided for @common_cancel.
+  /// No description provided for @common_onBoarding_1_Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart photo cleanup'**
+  String get common_onBoarding_1_Title;
+
+  /// No description provided for @common_onBoarding_1_subTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically group and remove your duplicate photos in seconds'**
+  String get common_onBoarding_1_subTitle;
+
+  /// No description provided for @common_onBoarding_2_Title.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Quality Upgrade'**
+  String get common_onBoarding_2_Title;
+
+  /// No description provided for @common_onBoarding_2_subTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Transform old, blurry photos into sharp and vibrant images with AI technology'**
+  String get common_onBoarding_2_subTitle;
+
+  /// No description provided for @common_onBoarding_3_Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure your photos'**
+  String get common_onBoarding_3_Title;
+
+  /// No description provided for @common_onBoarding_3_subTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Store your private moments with absolute safety using high-level encryption and smart management'**
+  String get common_onBoarding_3_subTitle;
+
+  /// No description provided for @common_buttonDiscover.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover Now'**
+  String get common_buttonDiscover;
+
+  /// No description provided for @common_buttonContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get common_buttonContinue;
+
+  /// No description provided for @common_getStarted_Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Pixel Perfect'**
+  String get common_getStarted_Title;
+
+  /// No description provided for @common_getStarted_subTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Optimize your image library with the power of artificial intelligence'**
+  String get common_getStarted_subTitle;
+
+  /// No description provided for @common_buttonStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get common_buttonStarted;
+
+  /// No description provided for @common_subTitle_Signin.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in to manage your image library'**
+  String get common_subTitle_Signin;
+
+  /// No description provided for @common_emailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get common_emailTitle;
+
+  /// No description provided for @common_passwordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get common_passwordTitle;
+
+  /// No description provided for @common_buttonSignin_Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get common_buttonSignin_Title;
+
+  /// No description provided for @common_forgotPass_Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get common_forgotPass_Title;
+
+  /// No description provided for @common_Or_Title.
+  ///
+  /// In en, this message translates to:
+  /// **'or'**
+  String get common_Or_Title;
+
+  /// No description provided for @sign_signin_signinWithGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with Google'**
+  String get sign_signin_signinWithGoogle;
+
+  /// No description provided for @sign_signin_signinWithApple.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with Apple'**
+  String get sign_signin_signinWithApple;
+
+  /// No description provided for @sign_signin_signinWithFacebook.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with Facebook'**
+  String get sign_signin_signinWithFacebook;
+
+  /// No description provided for @common_dontHaveAccount_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account?'**
+  String get common_dontHaveAccount_title;
+
+  /// No description provided for @common_SignupNow_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up now'**
+  String get common_SignupNow_title;
+
+  /// No description provided for @common_signUp_subTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create an account to join the Pixel Perfect community to optimize your image library'**
+  String get common_signUp_subTitle;
+
+  /// No description provided for @common_userName_signUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get common_userName_signUp;
+
+  /// No description provided for @common_confirmPass_signUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm password'**
+  String get common_confirmPass_signUp;
+
+  /// No description provided for @common_buttonSignUp_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get common_buttonSignUp_title;
+
+  /// No description provided for @common_haveAccount_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Have an account?'**
+  String get common_haveAccount_title;
+
+  /// No description provided for @common_signIn_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get common_signIn_title;
+
+  /// No description provided for @common_tab_photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo'**
+  String get common_tab_photo;
+
+  /// No description provided for @common_tab_clean.
+  ///
+  /// In en, this message translates to:
+  /// **'Cleaner'**
+  String get common_tab_clean;
+
+  /// No description provided for @common_tab_friend.
+  ///
+  /// In en, this message translates to:
+  /// **'Friends'**
+  String get common_tab_friend;
+
+  /// No description provided for @common_tab_place.
+  ///
+  /// In en, this message translates to:
+  /// **'Place'**
+  String get common_tab_place;
+
+  /// No description provided for @common_tab_profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get common_tab_profile;
+
+  /// No description provided for @common_logout_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get common_logout_title;
+
+  /// No description provided for @common_confirmLogout_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to log out?'**
+  String get common_confirmLogout_title;
+
+  /// No description provided for @common_agreeButton_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get common_agreeButton_title;
+
+  /// No description provided for @common_cancelButton_title.
   ///
   /// In en, this message translates to:
   /// **'Cancel'**
-  String get common_cancel;
+  String get common_cancelButton_title;
 
   /// No description provided for @common_yes.
   ///
@@ -142,23 +362,11 @@ abstract class AppLocalizations {
   /// **'Close'**
   String get common_close;
 
-  /// No description provided for @common_exit.
+  /// No description provided for @common_next.
   ///
   /// In en, this message translates to:
-  /// **'Exit'**
-  String get common_exit;
-
-  /// No description provided for @common_back.
-  ///
-  /// In en, this message translates to:
-  /// **'Back'**
-  String get common_back;
-
-  /// No description provided for @common_tap_to_refresh.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap to refresh'**
-  String get common_tap_to_refresh;
+  /// **'Next'**
+  String get common_next;
 
   /// No description provided for @common_list_empty_title.
   ///
@@ -166,77 +374,11 @@ abstract class AppLocalizations {
   /// **'List empty!'**
   String get common_list_empty_title;
 
-  /// No description provided for @common_gallery_request_title.
+  /// No description provided for @common_tap_to_refresh.
   ///
   /// In en, this message translates to:
-  /// **'Gallery Permission was denied'**
-  String get common_gallery_request_title;
-
-  /// No description provided for @common_gallery_request_content.
-  ///
-  /// In en, this message translates to:
-  /// **'We need your gallery to upload your profile avatar or create photo message, Do you want to grant permission?'**
-  String get common_gallery_request_content;
-
-  /// No description provided for @common_camera_request_title.
-  ///
-  /// In en, this message translates to:
-  /// **'Camera Permission was denied'**
-  String get common_camera_request_title;
-
-  /// No description provided for @common_camera_request_content.
-  ///
-  /// In en, this message translates to:
-  /// **'We need your camera to upload your profile avatar or create photo message, Do you want to grant permission?'**
-  String get common_camera_request_content;
-
-  /// No description provided for @camera_choose_option_take_image.
-  ///
-  /// In en, this message translates to:
-  /// **'Please choose option to take image'**
-  String get camera_choose_option_take_image;
-
-  /// No description provided for @camera_choose_option_take_video.
-  ///
-  /// In en, this message translates to:
-  /// **'Please choose option to take video'**
-  String get camera_choose_option_take_video;
-
-  /// No description provided for @camera_image_from_camera.
-  ///
-  /// In en, this message translates to:
-  /// **'Image from camera'**
-  String get camera_image_from_camera;
-
-  /// No description provided for @camera_video_from_camera.
-  ///
-  /// In en, this message translates to:
-  /// **'Video from camera'**
-  String get camera_video_from_camera;
-
-  /// No description provided for @camera_image_from_gallery.
-  ///
-  /// In en, this message translates to:
-  /// **'Image from gallery'**
-  String get camera_image_from_gallery;
-
-  /// No description provided for @camera_video_from_gallery.
-  ///
-  /// In en, this message translates to:
-  /// **'Video from gallery'**
-  String get camera_video_from_gallery;
-
-  /// No description provided for @error_noInternet.
-  ///
-  /// In en, this message translates to:
-  /// **'A Server Error Occurred'**
-  String get error_noInternet;
-
-  /// No description provided for @error_unknown.
-  ///
-  /// In en, this message translates to:
-  /// **'An Unknown Error Occurred'**
-  String get error_unknown;
+  /// **'Tap to refresh'**
+  String get common_tap_to_refresh;
 
   /// No description provided for @error_somethingWrongTryAgain.
   ///
@@ -244,143 +386,185 @@ abstract class AppLocalizations {
   /// **'Something went wrong, try again...'**
   String get error_somethingWrongTryAgain;
 
+  /// No description provided for @error_login.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in Failed'**
+  String get error_login;
+
+  /// No description provided for @error_signUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up Failed'**
+  String get error_signUp;
+
   /// No description provided for @error_fieldRequired.
   ///
   /// In en, this message translates to:
   /// **'This field is required'**
   String get error_fieldRequired;
 
-  /// No description provided for @error_not_login_yet.
+  /// No description provided for @error_invalidEmail.
   ///
   /// In en, this message translates to:
-  /// **'Not Login yet!'**
-  String get error_not_login_yet;
+  /// **'Invalid email '**
+  String get error_invalidEmail;
 
-  /// No description provided for @error_upload_file_fail.
+  /// No description provided for @error_invalidPassword.
   ///
   /// In en, this message translates to:
-  /// **'Upload failed. Please check the file and try again.'**
-  String get error_upload_file_fail;
+  /// **'Invalid password! Requires at least 6 characters'**
+  String get error_invalidPassword;
 
-  /// No description provided for @sign_signin_signinWithApple.
+  /// No description provided for @error_confirmPasswordMismatch.
   ///
   /// In en, this message translates to:
-  /// **'Login with Apple'**
-  String get sign_signin_signinWithApple;
+  /// **'Password confirmation does not match'**
+  String get error_confirmPasswordMismatch;
 
-  /// No description provided for @sign_signin_signinWithGoogle.
+  /// No description provided for @success_login.
   ///
   /// In en, this message translates to:
-  /// **'Login with Google'**
-  String get sign_signin_signinWithGoogle;
+  /// **'Login success'**
+  String get success_login;
 
-  /// No description provided for @sign_signin_signinWithFacebook.
+  /// No description provided for @success_signUp.
   ///
   /// In en, this message translates to:
-  /// **'Login with Facebook'**
-  String get sign_signin_signinWithFacebook;
+  /// **'Sign up success! Please check email box to confirm your email'**
+  String get success_signUp;
 
-  /// No description provided for @chat_room_this_is_reply.
+  /// No description provided for @common_forgotPass_subTitle.
   ///
   /// In en, this message translates to:
-  /// **'reply message 🖼️'**
-  String get chat_room_this_is_reply;
+  /// **'Don\'t worry! Enter your email below and we will send an OTP to restore.'**
+  String get common_forgotPass_subTitle;
 
-  /// No description provided for @chat_room_this_is_photo.
+  /// No description provided for @common_hinTextEmail.
   ///
   /// In en, this message translates to:
-  /// **'send an photo message 🖼️'**
-  String get chat_room_this_is_photo;
+  /// **'Enter Email address'**
+  String get common_hinTextEmail;
 
-  /// No description provided for @chat_room_this_is_video.
+  /// No description provided for @common_button_senOTP.
   ///
   /// In en, this message translates to:
-  /// **'send an video message 📹'**
-  String get chat_room_this_is_video;
+  /// **'Send OTP code'**
+  String get common_button_senOTP;
 
-  /// No description provided for @chat_room_this_is_audio.
+  /// No description provided for @common_button_gobackLogin.
   ///
   /// In en, this message translates to:
-  /// **'send an audio message 🎤'**
-  String get chat_room_this_is_audio;
+  /// **'Back to Login'**
+  String get common_button_gobackLogin;
 
-  /// No description provided for @chat_room_this_is_file.
+  /// No description provided for @common_sendOTP_Title.
   ///
   /// In en, this message translates to:
-  /// **'send an file message 📁'**
-  String get chat_room_this_is_file;
+  /// **'Enter OTP code'**
+  String get common_sendOTP_Title;
 
-  /// No description provided for @chat_room_you.
+  /// No description provided for @common_sendOTP_subTitle.
   ///
   /// In en, this message translates to:
-  /// **'You: {value}'**
-  String chat_room_you(Object value);
+  /// **'We have sent a 6-digit code to your email. Please check your mailbox.'**
+  String get common_sendOTP_subTitle;
 
-  /// No description provided for @chat_room_all.
+  /// No description provided for @common_hintTextOTP.
   ///
   /// In en, this message translates to:
-  /// **'All'**
-  String get chat_room_all;
+  /// **'Enter OTP code (6 digits)'**
+  String get common_hintTextOTP;
 
-  /// No description provided for @chat_room_online.
+  /// No description provided for @common_button_verify.
   ///
   /// In en, this message translates to:
-  /// **'Online'**
-  String get chat_room_online;
+  /// **'Verify'**
+  String get common_button_verify;
 
-  /// No description provided for @chat_room_favorites.
+  /// No description provided for @common_sendOTPAgain_s.
   ///
   /// In en, this message translates to:
-  /// **'Favorites'**
-  String get chat_room_favorites;
+  /// **'Resend code after'**
+  String get common_sendOTPAgain_s;
 
-  /// No description provided for @chat_reply_content_of_photo.
+  /// No description provided for @common_sendOTPAgain.
   ///
   /// In en, this message translates to:
-  /// **'Photo message 🖼️'**
-  String get chat_reply_content_of_photo;
+  /// **'Resend OTP code'**
+  String get common_sendOTPAgain;
 
-  /// No description provided for @chat_reply_content_of_video.
+  /// No description provided for @common_recoverPass_title.
   ///
   /// In en, this message translates to:
-  /// **'Video message 📹'**
-  String get chat_reply_content_of_video;
+  /// **'Reset password'**
+  String get common_recoverPass_title;
 
-  /// No description provided for @chat_reply_content_of_audio.
+  /// No description provided for @common_recoverPass_subTitle.
   ///
   /// In en, this message translates to:
-  /// **'Audio message 🎤'**
-  String get chat_reply_content_of_audio;
+  /// **'Enter your new password to complete the recovery process.'**
+  String get common_recoverPass_subTitle;
 
-  /// No description provided for @chat_reply_content_of_file.
+  /// No description provided for @common_newPass_hintText.
   ///
   /// In en, this message translates to:
-  /// **'File message 📁'**
-  String get chat_reply_content_of_file;
+  /// **'New password'**
+  String get common_newPass_hintText;
 
-  /// No description provided for @chat_reply_to.
+  /// No description provided for @common_confirmNewPass_hintText.
   ///
   /// In en, this message translates to:
-  /// **'Reply to {value}'**
-  String chat_reply_to(Object value);
+  /// **'Confirm new password'**
+  String get common_confirmNewPass_hintText;
 
-  /// No description provided for @chat_replied_to.
+  /// No description provided for @success_sendOTP.
   ///
   /// In en, this message translates to:
-  /// **'Replied to {value}'**
-  String chat_replied_to(Object value);
+  /// **'OTP code has been sent to'**
+  String get success_sendOTP;
 
-  /// No description provided for @chat_replied_yourself.
+  /// No description provided for @success_verifyOTP.
   ///
   /// In en, this message translates to:
-  /// **'yourself'**
-  String get chat_replied_yourself;
+  /// **'Verified successfully!'**
+  String get success_verifyOTP;
 
-  /// No description provided for @last_line.
+  /// No description provided for @success_resetPass_noti_Title.
   ///
   /// In en, this message translates to:
-  /// **''**
-  String get last_line;
+  /// **'Success'**
+  String get success_resetPass_noti_Title;
+
+  /// No description provided for @success_resetPass_noti_subTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Password has been updated successfully! Please log in again.'**
+  String get success_resetPass_noti_subTitle;
+
+  /// No description provided for @error_sendOTP.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send OTP'**
+  String get error_sendOTP;
+
+  /// No description provided for @error_verifyOTP.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification failed'**
+  String get error_verifyOTP;
+
+  /// No description provided for @error_OTP_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid OTP code'**
+  String get error_OTP_invalid;
+
+  /// No description provided for @error_resetPass.
+  ///
+  /// In en, this message translates to:
+  /// **'Password change failed'**
+  String get error_resetPass;
 }
 
 class _AppLocalizationsDelegate
@@ -394,7 +578,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en'].contains(locale.languageCode);
+      <String>['en', 'vi'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -405,6 +589,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
+    case 'vi':
+      return AppLocalizationsVi();
   }
 
   throw FlutterError(

@@ -6,24 +6,17 @@ class SignupState extends Equatable {
     this.password = const PasswordFormzInput.pure(''),
     this.name = const NameFormzInput.pure(''),
     this.status = FormzSubmissionStatus.initial,
-    this.message = '',
-    this.isDirty = false,
-    this.confirmPassword = '',
+    this.confirmPassword = const ConfirmPasswordFormzInput.pure(),
   });
 
   final EmailFormzInput email;
   final PasswordFormzInput password;
   final NameFormzInput name;
   final FormzSubmissionStatus status;
-  final String message;
-  final bool isDirty;
-  final String confirmPassword;
+  final ConfirmPasswordFormzInput confirmPassword;
   bool get isValidated {
-    return Formz.validate([email, password, name]) && isConfirmPasswordValid;
+    return Formz.validate([email, password, name, confirmPassword]);
   }
-
-  bool get isConfirmPasswordValid =>
-      confirmPassword == password.value && confirmPassword.isNotEmpty;
 
   @override
   List<Object> get props => [
@@ -39,17 +32,13 @@ class SignupState extends Equatable {
     PasswordFormzInput? password,
     FormzSubmissionStatus? status,
     NameFormzInput? name,
-    String? message,
-    bool? isDirty,
-    String? confirmPassword,
+    ConfirmPasswordFormzInput? confirmPassword,
   }) {
     return SignupState(
       email: email ?? this.email,
       password: password ?? this.password,
       status: status ?? this.status,
       name: name ?? this.name,
-      message: message ?? this.message,
-      isDirty: isDirty ?? this.isDirty,
       confirmPassword: confirmPassword ?? this.confirmPassword,
     );
   }
