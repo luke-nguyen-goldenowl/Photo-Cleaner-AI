@@ -5,8 +5,9 @@ import 'package:formz/formz.dart';
 import 'package:myapp/src/dialogs/alert_wrapper.dart';
 import 'package:myapp/src/dialogs/toast_wrapper.dart';
 import 'package:myapp/src/dialogs/widget/alert_dialog.dart';
+import 'package:myapp/src/features/authentication/model/confirm_password_formz.dart';
 import 'package:myapp/src/features/authentication/model/email_fromz.dart';
-import 'package:myapp/src/features/authentication/model/model_input.dart';
+import 'package:myapp/src/features/authentication/model/password_formz.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/network/domain_manager.dart';
 import 'package:myapp/src/network/model/common/result.dart';
@@ -146,18 +147,15 @@ class ForgotBloc extends Cubit<ForgotState> {
       emit(state.copyWith(
         currentStep: ForgotPasswordStep.enterOtp,
         password: const PasswordFormzInput.pure(''),
-        confirmPassword: '',
+        confirmPassword: const ConfirmPasswordFormzInput.pure(),
       ));
     }
   }
 
   void onEmailChanged(String value) {
-    final formz = state.email.isPure
-        ? EmailFormzInput.pure(value)
-        : EmailFormzInput.dirty(value);
+    final formz = EmailFormzInput.dirty(value);
     emit(state.copyWith(
       email: formz,
-      isDirty: true,
     ));
   }
 
@@ -166,11 +164,17 @@ class ForgotBloc extends Cubit<ForgotState> {
   }
 
   void onPasswordChanged(String value) {
-    final formz = PasswordFormzInput.dirty(value);
-    emit(state.copyWith(password: formz, isDirty: true));
+    emit(state.copyWith(
+      password: PasswordFormzInput.dirty(value),
+    ));
   }
 
   void onConfirmPasswordChanged(String value) {
-    emit(state.copyWith(confirmPassword: value, isDirty: true));
+    emit(state.copyWith(
+      confirmPassword: ConfirmPasswordFormzInput.dirty(
+        password: state.password.value,
+        value: value,
+      ),
+    ));
   }
 }

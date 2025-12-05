@@ -8,7 +8,7 @@ import 'package:myapp/src/dialogs/toast_wrapper.dart';
 import 'package:myapp/src/dialogs/widget/alert_dialog.dart';
 import 'package:myapp/src/features/account/logic/account_bloc.dart';
 import 'package:myapp/src/features/authentication/model/email_fromz.dart';
-import 'package:myapp/src/features/authentication/model/model_input.dart';
+import 'package:myapp/src/features/authentication/model/password_formz.dart';
 import 'package:myapp/src/network/model/common/result.dart';
 import 'package:myapp/src/network/model/social_type.dart';
 import 'package:myapp/src/network/domain_manager.dart';

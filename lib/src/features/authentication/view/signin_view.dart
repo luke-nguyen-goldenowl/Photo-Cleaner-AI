@@ -4,9 +4,9 @@ import 'package:myapp/generated/i18n/app_localizations.dart';
 import 'package:myapp/src/features/authentication/logic/signin_bloc.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/widgets/button/primary_button.dart';
+import 'package:myapp/widgets/forms/input.dart';
 import 'package:myapp/widgets/header/screen_header.dart';
 import 'package:myapp/widgets/logo/app_logo.dart';
-import 'package:myapp/widgets/text_field/custom_text_field.dart';
 
 class SigninView extends StatelessWidget {
   const SigninView({super.key});
@@ -45,18 +45,20 @@ class SigninView extends StatelessWidget {
             subtitle: AppLocalizations.of(context)!.common_subTitle_Signin,
           ),
           const SizedBox(height: 40),
-          XCustomTextField(
+          XInput(
             hintText: AppLocalizations.of(context)!.common_emailTitle,
             prefixIcon: Icons.email_outlined,
             onChanged: (value) {
               context.read<SigninBloc>().onEmailChanged(value);
             },
+            value: state.email.value,
           ),
           const SizedBox(height: 20),
-          XCustomTextField(
+          XInput(
+            value: state.password.value,
             hintText: AppLocalizations.of(context)!.common_passwordTitle,
             prefixIcon: Icons.lock_outline,
-            isPassword: true,
+            obscureText: true,
             onChanged: (value) {
               context.read<SigninBloc>().onPasswordChanged(value);
             },
