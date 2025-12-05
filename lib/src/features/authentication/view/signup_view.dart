@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myapp/generated/i18n/app_localizations.dart';
 import 'package:myapp/src/features/authentication/logic/signup_bloc.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/router/coordinator.dart';

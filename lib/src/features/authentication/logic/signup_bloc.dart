@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:myapp/generated/i18n/app_localizations.dart';
 import 'package:myapp/src/dialogs/alert_wrapper.dart';
 import 'package:myapp/src/dialogs/toast_wrapper.dart';
 import 'package:myapp/src/dialogs/widget/alert_dialog.dart';
@@ -10,7 +11,6 @@ import 'package:myapp/src/features/authentication/model/confirm_password_formz.d
 import 'package:myapp/src/features/authentication/model/email_fromz.dart';
 import 'package:myapp/src/features/authentication/model/password_formz.dart';
 import 'package:myapp/src/features/authentication/model/name_formz.dart';
-import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/network/domain_manager.dart';
 import 'package:formz/formz.dart';
 import 'package:myapp/src/network/model/common/result.dart';
