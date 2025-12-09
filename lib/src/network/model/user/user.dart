@@ -39,7 +39,7 @@ abstract class MUser with _$MUser {
       'name': name,
       'email': email,
       'bio': bio,
-      'avatarUrl': avatarUrl ?? '',
+      'avatarUrl': avatarUrl,
       'createdAt': (createdAt ?? DateTime.now()).toIso8601String(),
     };
   }

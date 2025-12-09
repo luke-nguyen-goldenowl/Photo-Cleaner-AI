@@ -233,6 +233,61 @@ class AppLocalizationsEn extends AppLocalizations {
   String get common_confirmNewPass_hintText => 'Confirm new password';
 
   @override
+  String get common_image_text_profile => 'IMAGE';
+
+  @override
+  String get common_friend_text_profile => 'FRIEND';
+
+  @override
+  String get common_helper_text_profile => 'MENU';
+
+  @override
+  String get common_favourite_text_profile => 'Favourite';
+
+  @override
+  String get common_share_folder_text_profile => 'Share Album';
+
+  @override
+  String get common_secure_folder_text_profile => 'Secure Folder';
+
+  @override
+  String get common_log_out_text => 'Log out';
+
+  @override
+  String get common_member_since_text => 'Member since';
+
+  @override
+  String get common_edit_profile_text => 'Edit Profile';
+
+  @override
+  String get common_save_button_profile_text => 'Save';
+
+  @override
+  String get common_name_label_input_text => 'Name';
+
+  @override
+  String get common_bio_label_input_text => 'Bio';
+
+  @override
+  String get common_subTitle_edit_profile =>
+      'Your information will be displayed on your personal page';
+
+  @override
+  String get common_select_from_gallery => 'Select from the gallery';
+
+  @override
+  String get common_take_new_image => 'Take a new photo';
+
+  @override
+  String get common_uploading_image_text => 'Uploading photos...';
+
+  @override
+  String get common_handling_text => 'Processing...';
+
+  @override
+  String get success_update_profile => 'Profile updated successfully';
+
+  @override
   String get success_sendOTP => 'OTP code has been sent to';
 
   @override

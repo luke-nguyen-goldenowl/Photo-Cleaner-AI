@@ -87,6 +87,28 @@
   "common_newPass_hintText":"Mật khẩu mới",
   "common_confirmNewPass_hintText":"Xác nhận mật khẩu mới",
 
+  "common_image_text_profile": "ẢNH",
+  "common_friend_text_profile": "BẠN BÈ",
+  "common_helper_text_profile": "TIỆN ÍCH",
+  "common_favourite_text_profile":"Yêu thích",
+  "common_share_folder_text_profile":"Album chia sẻ",
+  "common_secure_folder_text_profile":"Thư mục bảo mật",
+  "common_log_out_text": "Đăng xuất",
+  "common_member_since_text": "Thành viên từ",
+
+  "common_edit_profile_text": "Chỉnh sửa hồ sơ",
+  "common_save_button_profile_text": "Lưu",
+  "common_name_label_input_text":"Tên",
+  "common_bio_label_input_text":"Giới thiệu",
+  "common_subTitle_edit_profile":"Thông tin của bạn sẽ được hiển thị trên trang cá nhân",
+
+  "common_select_from_gallery":"Chọn từ thư viện",
+  "common_take_new_image":"Chụp ảnh mới",
+  "common_uploading_image_text":"Đang tải ảnh lên",
+  "common_handling_text":"Đang xử lý",
+
+
+  "success_update_profile":"Cập nhật hồ sơ thành công",
   "success_sendOTP":"Mã OTP đã được gửi đến",
   "success_verifyOTP":"Xác thực thành công!",
   "success_resetPass_noti_Title":"Thành công",

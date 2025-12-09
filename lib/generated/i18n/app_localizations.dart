@@ -518,6 +518,114 @@ abstract class AppLocalizations {
   /// **'Confirm new password'**
   String get common_confirmNewPass_hintText;
 
+  /// No description provided for @common_image_text_profile.
+  ///
+  /// In en, this message translates to:
+  /// **'IMAGE'**
+  String get common_image_text_profile;
+
+  /// No description provided for @common_friend_text_profile.
+  ///
+  /// In en, this message translates to:
+  /// **'FRIEND'**
+  String get common_friend_text_profile;
+
+  /// No description provided for @common_helper_text_profile.
+  ///
+  /// In en, this message translates to:
+  /// **'MENU'**
+  String get common_helper_text_profile;
+
+  /// No description provided for @common_favourite_text_profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Favourite'**
+  String get common_favourite_text_profile;
+
+  /// No description provided for @common_share_folder_text_profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Album'**
+  String get common_share_folder_text_profile;
+
+  /// No description provided for @common_secure_folder_text_profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure Folder'**
+  String get common_secure_folder_text_profile;
+
+  /// No description provided for @common_log_out_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get common_log_out_text;
+
+  /// No description provided for @common_member_since_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Member since'**
+  String get common_member_since_text;
+
+  /// No description provided for @common_edit_profile_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get common_edit_profile_text;
+
+  /// No description provided for @common_save_button_profile_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get common_save_button_profile_text;
+
+  /// No description provided for @common_name_label_input_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get common_name_label_input_text;
+
+  /// No description provided for @common_bio_label_input_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Bio'**
+  String get common_bio_label_input_text;
+
+  /// No description provided for @common_subTitle_edit_profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Your information will be displayed on your personal page'**
+  String get common_subTitle_edit_profile;
+
+  /// No description provided for @common_select_from_gallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Select from the gallery'**
+  String get common_select_from_gallery;
+
+  /// No description provided for @common_take_new_image.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a new photo'**
+  String get common_take_new_image;
+
+  /// No description provided for @common_uploading_image_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading photos...'**
+  String get common_uploading_image_text;
+
+  /// No description provided for @common_handling_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing...'**
+  String get common_handling_text;
+
+  /// No description provided for @success_update_profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated successfully'**
+  String get success_update_profile;
+
   /// No description provided for @success_sendOTP.
   ///
   /// In en, this message translates to:

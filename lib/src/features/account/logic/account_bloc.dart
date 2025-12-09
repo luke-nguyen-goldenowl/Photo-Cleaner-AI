@@ -8,17 +8,27 @@ import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/network/domain_manager.dart';
 import 'package:myapp/src/network/model/user/user.dart';
 import 'package:myapp/src/router/coordinator.dart';
+import 'package:myapp/src/services/session_manager.dart';
 import 'package:myapp/src/services/user_prefs.dart';
 
 part 'account_state.dart';
 
 class AccountBloc extends Cubit<AccountState> {
   AccountBloc() : super(AccountState.ds()) {
-    syncUserData();
+    _restoreSession();
   }
 
   StreamController<MUser> statusStream = StreamController.broadcast();
   DomainManager get domain => DomainManager();
+
+  Future<void> _restoreSession() async {
+    final user = await SessionManager.restoreSession();
+    if (user != null) {
+      onUserChange(state.login(user));
+    } else {
+      syncUserData();
+    }
+  }
 
   Future syncUserData() async {
     final String id = state.user.id;

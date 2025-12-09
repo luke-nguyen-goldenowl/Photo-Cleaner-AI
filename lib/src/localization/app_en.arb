@@ -87,6 +87,29 @@
   "common_newPass_hintText":"New password",
   "common_confirmNewPass_hintText":"Confirm new password",
 
+
+  "common_image_text_profile": "IMAGE",
+  "common_friend_text_profile": "FRIEND",
+  "common_helper_text_profile": "MENU",
+  "common_favourite_text_profile":"Favourite",
+  "common_share_folder_text_profile":"Share Album",
+  "common_secure_folder_text_profile":"Secure Folder",
+  "common_log_out_text": "Log out",
+  "common_member_since_text": "Member since",
+  "common_edit_profile_text": "Edit Profile",
+  "common_save_button_profile_text": "Save",
+  "common_name_label_input_text":"Name",
+  "common_bio_label_input_text":"Bio",
+  "common_subTitle_edit_profile":"Your information will be displayed on your personal page",
+
+  "common_select_from_gallery":"Select from the gallery",
+  "common_take_new_image":"Take a new photo",
+  "common_uploading_image_text":"Uploading photos...",
+  "common_handling_text":"Processing...",
+  
+
+  "success_update_profile":"Profile updated successfully",
+
   "success_sendOTP":"OTP code has been sent to",
   "success_verifyOTP":"Verified successfully!",
   "success_resetPass_noti_Title":"Success",

@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
+import 'package:myapp/src/features/account/profile/view/profile_edit_view.dart';
 import 'package:myapp/src/features/account/profile/view/profile_view.dart';
 import 'package:myapp/src/features/common/view/not_found_view.dart';
 import 'package:myapp/src/features/authentication/view/forgot_view.dart';
@@ -102,6 +103,14 @@ class AppRouter {
             pageBuilder: (context, state) => const NoTransitionPage(
               child: ProfileView(),
             ),
+            routes: <RouteBase>[
+              GoRoute(
+                parentNavigatorKey: AppCoordinator.navigatorKey,
+                path: AppRouteNames.profileEdit.subPath,
+                name: AppRouteNames.profileEdit.name,
+                builder: (_, __) => const ProfileEditView(),
+              ),
+            ],
           ),
         ],
       ),

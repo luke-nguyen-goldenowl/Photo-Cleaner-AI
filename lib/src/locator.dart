@@ -5,11 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:myapp/src/config/devices/app_info.dart';
 import 'package:myapp/src/features/account/logic/account_bloc.dart';
+import 'package:myapp/src/network/data/user/user_repository.dart';
+import 'package:myapp/src/network/data/user/user_repository_impl.dart';
 import 'package:myapp/src/network/domain_manager.dart';
 import 'package:myapp/src/router/router.dart';
 import 'package:myapp/src/services/remote_config/remote_config_service.dart';
 import 'package:myapp/src/services/user_prefs.dart';
-
+import 'package:myapp/src/services/supabase/init_supabase.dart';
 import 'features/common/app_bloc/bloc_observer.dart';
 import 'services/firebase_message.dart';
 
@@ -19,6 +21,7 @@ Future initializeApp({String? name, FirebaseOptions? firebaseOptions}) async {
     DeviceOrientation.portraitUp,
   ]);
   _locator();
+  await initializeSupabase();
   await Firebase.initializeApp(name: name, options: firebaseOptions);
   await Future.wait([
     AppInfo.initialize(),
@@ -36,4 +39,5 @@ void _locator() {
   GetIt.I.registerLazySingleton(() => DomainManager());
   GetIt.I.registerLazySingleton(() => AppRouter());
   GetIt.I.registerLazySingleton(() => AccountBloc());
+  GetIt.I.registerLazySingleton<UserRepository>(() => UserRepositoryImpl());
 }
