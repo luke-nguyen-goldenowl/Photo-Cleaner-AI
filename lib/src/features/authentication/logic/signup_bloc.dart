@@ -47,18 +47,16 @@ class SignupBloc extends Cubit<SignupState> {
             emit(state.copyWith(status: FormzSubmissionStatus.failure));
             final errorResult = MResult<void>.error('Email đã được sử dụng');
             XAlert.show(
-              title: AppLocalizations.of(context)!.error_signUp,
+              title: S.of(context).error_signUp,
               body: errorResult.error!,
-              actions: [
-                XAlertButton(title: AppLocalizations.of(context)!.common_close)
-              ],
+              actions: [XAlertButton(title: S.of(context).common_close)],
             );
             return;
           } else if (existing != null &&
               existing['email_confirmed_at'] == null) {
             XToast.hideLoading();
             emit(state.copyWith(status: FormzSubmissionStatus.success));
-            XToast.success(AppLocalizations.of(context)!.success_signUp);
+            XToast.success(S.of(context).success_signUp);
             return;
           }
 
@@ -72,13 +70,9 @@ class SignupBloc extends Cubit<SignupState> {
               XToast.hideLoading();
               emit(state.copyWith(status: FormzSubmissionStatus.failure));
               XAlert.show(
-                title: AppLocalizations.of(context)!.error_signUp,
-                body:
-                    AppLocalizations.of(context)!.error_somethingWrongTryAgain,
-                actions: [
-                  XAlertButton(
-                      title: AppLocalizations.of(context)!.common_close)
-                ],
+                title: S.of(context).error_signUp,
+                body: S.of(context).error_somethingWrongTryAgain,
+                actions: [XAlertButton(title: S.of(context).common_close)],
               );
               return;
             }
@@ -104,13 +98,10 @@ class SignupBloc extends Cubit<SignupState> {
               emit(state.copyWith(status: FormzSubmissionStatus.failure));
               final errorResult = MResult<void>.exception(insertError);
               XAlert.show(
-                title: AppLocalizations.of(context)!.error_signUp,
+                title: S.of(context).error_signUp,
                 body: errorResult.error ??
-                    AppLocalizations.of(context)!.error_somethingWrongTryAgain,
-                actions: [
-                  XAlertButton(
-                      title: AppLocalizations.of(context)!.common_close)
-                ],
+                    S.of(context).error_somethingWrongTryAgain,
+                actions: [XAlertButton(title: S.of(context).common_close)],
               );
             });
           }).catchError((e) {
@@ -118,12 +109,10 @@ class SignupBloc extends Cubit<SignupState> {
             emit(state.copyWith(status: FormzSubmissionStatus.failure));
             final errorResult = MResult<void>.exception(e);
             XAlert.show(
-              title: AppLocalizations.of(context)!.error_signUp,
+              title: S.of(context).error_signUp,
               body: errorResult.error ??
-                  AppLocalizations.of(context)!.error_somethingWrongTryAgain,
-              actions: [
-                XAlertButton(title: AppLocalizations.of(context)!.common_close)
-              ],
+                  S.of(context).error_somethingWrongTryAgain,
+              actions: [XAlertButton(title: S.of(context).common_close)],
             );
           });
         })
@@ -132,12 +121,10 @@ class SignupBloc extends Cubit<SignupState> {
           emit(state.copyWith(status: FormzSubmissionStatus.failure));
           final errorResult = MResult<void>.exception(e);
           XAlert.show(
-            title: AppLocalizations.of(context)!.error_signUp,
-            body: errorResult.error ??
-                AppLocalizations.of(context)!.error_somethingWrongTryAgain,
-            actions: [
-              XAlertButton(title: AppLocalizations.of(context)!.common_close)
-            ],
+            title: S.of(context).error_signUp,
+            body:
+                errorResult.error ?? S.of(context).error_somethingWrongTryAgain,
+            actions: [XAlertButton(title: S.of(context).common_close)],
           );
         });
   }
@@ -147,7 +134,7 @@ class SignupBloc extends Cubit<SignupState> {
     UserPrefs.I.setIsLoggedIn(true);
     GetIt.I<AccountBloc>().onLoginSuccess(incomingUser);
     AppCoordinator.pop();
-    XToast.success(AppLocalizations.of(context)!.success_signUp);
+    XToast.success(S.of(context).success_signUp);
   }
 
   void onEmailChanged(String value) {

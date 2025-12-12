@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/generated/i18n/app_localizations.dart';
+import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/widgets/button/primary_button.dart';
 import 'package:myapp/widgets/logo/app_logo.dart';
@@ -58,7 +58,7 @@ class GettingStartedScreen extends StatelessWidget {
                   const XAppLogo(size: 100),
                   const SizedBox(height: 30),
                   Text(
-                    AppLocalizations.of(context)!.common_getStarted_Title,
+                    S.of(context).common_getStarted_Title,
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -68,7 +68,7 @@ class GettingStartedScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    AppLocalizations.of(context)!.common_getStarted_subTitle,
+                    S.of(context).common_getStarted_subTitle,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 16,
@@ -78,7 +78,7 @@ class GettingStartedScreen extends StatelessWidget {
                   ),
                   const Spacer(),
                   XPrimaryButton(
-                    text: AppLocalizations.of(context)!.common_buttonStarted,
+                    text: S.of(context).common_buttonStarted,
                     onPressed: () => AppCoordinator.showSignInScreen(),
                   ),
                   const SizedBox(height: 40),

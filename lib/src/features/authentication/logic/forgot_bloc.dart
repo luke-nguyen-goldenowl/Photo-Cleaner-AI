@@ -13,7 +13,6 @@ import 'package:myapp/src/network/domain_manager.dart';
 import 'package:myapp/src/network/model/common/result.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:myapp/generated/i18n/app_localizations.dart';
 
 part 'forgot_state.dart';
 
@@ -39,17 +38,15 @@ class ForgotBloc extends Cubit<ForgotState> {
         status: FormzSubmissionStatus.success,
         currentStep: ForgotPasswordStep.enterOtp,
       ));
-      XToast.success(
-          '${AppLocalizations.of(context)!.success_sendOTP} ${state.email.value}');
+      XToast.success('${S.of(context).success_sendOTP} ${state.email.value}');
     } catch (e) {
       XToast.hideLoading();
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
 
       final errorResult = MResult<void>.exception(e);
       XAlert.show(
-        title: AppLocalizations.of(context)!.error_sendOTP,
-        body: errorResult.error ??
-            AppLocalizations.of(context)!.error_somethingWrongTryAgain,
+        title: S.of(context).error_sendOTP,
+        body: errorResult.error ?? S.of(context).error_somethingWrongTryAgain,
         actions: [XAlertButton(title: S.text.common_close)],
       );
     }
@@ -77,12 +74,12 @@ class ForgotBloc extends Cubit<ForgotState> {
           status: FormzSubmissionStatus.success,
           currentStep: ForgotPasswordStep.resetPassword,
         ));
-        XToast.success(AppLocalizations.of(context)!.success_verifyOTP);
+        XToast.success(S.of(context).success_verifyOTP);
       } else {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));
         XAlert.show(
-          title: AppLocalizations.of(context)!.error_verifyOTP,
-          body: AppLocalizations.of(context)!.error_OTP_invalid,
+          title: S.of(context).error_verifyOTP,
+          body: S.of(context).error_OTP_invalid,
           actions: [XAlertButton(title: S.text.common_close)],
         );
       }
@@ -92,9 +89,8 @@ class ForgotBloc extends Cubit<ForgotState> {
 
       final errorResult = MResult<void>.exception(e);
       XAlert.show(
-        title: AppLocalizations.of(context)!.error_verifyOTP,
-        body: errorResult.error ??
-            AppLocalizations.of(context)!.error_OTP_invalid,
+        title: S.of(context).error_verifyOTP,
+        body: errorResult.error ?? S.of(context).error_OTP_invalid,
         actions: [XAlertButton(title: S.text.common_close)],
       );
     }
@@ -114,8 +110,8 @@ class ForgotBloc extends Cubit<ForgotState> {
       XToast.hideLoading();
       emit(state.copyWith(status: FormzSubmissionStatus.success));
       await XAlert.show(
-        title: AppLocalizations.of(context)!.success_resetPass_noti_Title,
-        body: AppLocalizations.of(context)!.success_resetPass_noti_subTitle,
+        title: S.of(context).success_resetPass_noti_Title,
+        body: S.of(context).success_resetPass_noti_subTitle,
         actions: [XAlertButton(title: S.text.common_close)],
       );
       AppCoordinator.showSignInScreen();
@@ -125,9 +121,8 @@ class ForgotBloc extends Cubit<ForgotState> {
 
       final errorResult = MResult<void>.exception(e);
       XAlert.show(
-        title: AppLocalizations.of(context)!.error_resetPass,
-        body: errorResult.error ??
-            AppLocalizations.of(context)!.error_somethingWrongTryAgain,
+        title: S.of(context).error_resetPass,
+        body: errorResult.error ?? S.of(context).error_somethingWrongTryAgain,
         actions: [XAlertButton(title: S.text.common_close)],
       );
     }

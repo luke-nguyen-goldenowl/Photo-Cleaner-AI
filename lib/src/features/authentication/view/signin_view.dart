@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/generated/i18n/app_localizations.dart';
 import 'package:myapp/src/features/authentication/logic/signin_bloc.dart';
+import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/widgets/button/primary_button.dart';
 import 'package:myapp/widgets/forms/input.dart';
@@ -41,12 +42,12 @@ class SigninView extends StatelessWidget {
         children: [
           const XAppLogo(),
           XScreenHeader(
-            title: AppLocalizations.of(context)!.common_appTitle,
-            subtitle: AppLocalizations.of(context)!.common_subTitle_Signin,
+            title: S.of(context).common_appTitle,
+            subtitle: S.of(context).common_subTitle_Signin,
           ),
           const SizedBox(height: 40),
           XInput(
-            hintText: AppLocalizations.of(context)!.common_emailTitle,
+            hintText: S.of(context).common_emailTitle,
             prefixIcon: Icons.email_outlined,
             onChanged: (value) {
               context.read<SigninBloc>().onEmailChanged(value);
@@ -56,7 +57,7 @@ class SigninView extends StatelessWidget {
           const SizedBox(height: 20),
           XInput(
             value: state.password.value,
-            hintText: AppLocalizations.of(context)!.common_passwordTitle,
+            hintText: S.of(context).common_passwordTitle,
             prefixIcon: Icons.lock_outline,
             obscureText: true,
             onChanged: (value) {
@@ -65,7 +66,7 @@ class SigninView extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           XPrimaryButton(
-            text: AppLocalizations.of(context)!.common_buttonSignin_Title,
+            text: S.of(context).common_buttonSignin_Title,
             onPressed: state.isValidated
                 ? () {
                     context.read<SigninBloc>().loginWithEmail(context);
@@ -78,7 +79,7 @@ class SigninView extends StatelessWidget {
               AppCoordinator.showForgotPasswordScreen();
             },
             child: Text(
-              AppLocalizations.of(context)!.common_forgotPass_Title,
+              S.of(context).common_forgotPass_Title,
               style: TextStyle(color: Colors.grey[600], fontSize: 16),
             ),
           ),
@@ -89,7 +90,7 @@ class SigninView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  AppLocalizations.of(context)!.common_Or_Title,
+                  S.of(context).common_Or_Title,
                   style: TextStyle(color: Colors.grey[500], fontSize: 14),
                 ),
               ),
@@ -129,7 +130,7 @@ class SigninView extends StatelessWidget {
                   ),
                   const SizedBox(width: 12),
                   Text(
-                    AppLocalizations.of(context)!.sign_signin_signinWithGoogle,
+                    S.of(context).sign_signin_signinWithGoogle,
                     style: TextStyle(
                       color: Colors.black87,
                       fontWeight: FontWeight.w600,
@@ -145,7 +146,7 @@ class SigninView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                AppLocalizations.of(context)!.common_dontHaveAccount_title,
+                S.of(context).common_dontHaveAccount_title,
                 style: TextStyle(color: Colors.grey[600], fontSize: 16),
               ),
               GestureDetector(
@@ -153,7 +154,7 @@ class SigninView extends StatelessWidget {
                   AppCoordinator.showSignUpScreen();
                 },
                 child: Text(
-                  AppLocalizations.of(context)!.common_SignupNow_title,
+                  S.of(context).common_SignupNow_title,
                   style: TextStyle(
                     color: Color(0xFF6C63FF),
                     fontWeight: FontWeight.bold,
