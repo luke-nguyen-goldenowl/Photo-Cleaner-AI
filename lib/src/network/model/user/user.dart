@@ -9,11 +9,10 @@ abstract class MUser with _$MUser {
   const factory MUser({
     required String id,
     String? name,
-    String? avatar,
     String? email,
     String? bio,
-    @JsonKey(name: 'avatarUrl') String? avatarUrl,
-    @JsonKey(name: 'createdAt') DateTime? createdAt,
+    String? avatarUrl,
+    DateTime? createdAt,
   }) = _MUser;
 
   const MUser._();
@@ -28,7 +27,6 @@ abstract class MUser with _$MUser {
       id: user.id,
       email: user.email,
       name: user.userMetadata?['name'] as String?,
-      avatar: user.userMetadata?['avatar'] as String?,
       avatarUrl: user.userMetadata?['avatarUrl'] as String?,
       bio: user.userMetadata?['bio'] as String?,
       createdAt: DateTime.parse(user.createdAt),
@@ -41,7 +39,7 @@ abstract class MUser with _$MUser {
       'name': name,
       'email': email,
       'bio': bio,
-      'avatarUrl': avatarUrl ?? avatar,
+      'avatarUrl': avatarUrl ?? '',
       'createdAt': (createdAt ?? DateTime.now()).toIso8601String(),
     };
   }

@@ -9,21 +9,19 @@ part of 'user.dart';
 _MUser _$MUserFromJson(Map<String, dynamic> json) => _MUser(
       id: json['id'] as String,
       name: json['name'] as String?,
-      avatar: json['avatar'] as String?,
       email: json['email'] as String?,
       bio: json['bio'] as String?,
-      avatarUrl: json['avatarUrl'] as String?,
-      createdAt: json['createdAt'] == null
+      avatarUrl: json['avatar_url'] as String?,
+      createdAt: json['created_at'] == null
           ? null
-          : DateTime.parse(json['createdAt'] as String),
+          : DateTime.parse(json['created_at'] as String),
     );
 
 Map<String, dynamic> _$MUserToJson(_MUser instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'avatar': instance.avatar,
       'email': instance.email,
       'bio': instance.bio,
-      'avatarUrl': instance.avatarUrl,
-      'createdAt': instance.createdAt?.toIso8601String(),
+      'avatar_url': instance.avatarUrl,
+      'created_at': instance.createdAt?.toIso8601String(),
     };

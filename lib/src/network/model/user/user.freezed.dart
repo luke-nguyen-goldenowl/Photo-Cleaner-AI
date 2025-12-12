@@ -16,12 +16,9 @@ T _$identity<T>(T value) => value;
 mixin _$MUser {
   String get id;
   String? get name;
-  String? get avatar;
   String? get email;
   String? get bio;
-  @JsonKey(name: 'avatarUrl')
   String? get avatarUrl;
-  @JsonKey(name: 'createdAt')
   DateTime? get createdAt;
 
   /// Create a copy of MUser
@@ -41,7 +38,6 @@ mixin _$MUser {
             other is MUser &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.bio, bio) || other.bio == bio) &&
             (identical(other.avatarUrl, avatarUrl) ||
@@ -52,12 +48,12 @@ mixin _$MUser {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, name, avatar, email, bio, avatarUrl, createdAt);
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, email, bio, avatarUrl, createdAt);
 
   @override
   String toString() {
-    return 'MUser(id: $id, name: $name, avatar: $avatar, email: $email, bio: $bio, avatarUrl: $avatarUrl, createdAt: $createdAt)';
+    return 'MUser(id: $id, name: $name, email: $email, bio: $bio, avatarUrl: $avatarUrl, createdAt: $createdAt)';
   }
 }
 
@@ -69,11 +65,10 @@ abstract mixin class $MUserCopyWith<$Res> {
   $Res call(
       {String id,
       String? name,
-      String? avatar,
       String? email,
       String? bio,
-      @JsonKey(name: 'avatarUrl') String? avatarUrl,
-      @JsonKey(name: 'createdAt') DateTime? createdAt});
+      String? avatarUrl,
+      DateTime? createdAt});
 }
 
 /// @nodoc
@@ -90,7 +85,6 @@ class _$MUserCopyWithImpl<$Res> implements $MUserCopyWith<$Res> {
   $Res call({
     Object? id = null,
     Object? name = freezed,
-    Object? avatar = freezed,
     Object? email = freezed,
     Object? bio = freezed,
     Object? avatarUrl = freezed,
@@ -104,10 +98,6 @@ class _$MUserCopyWithImpl<$Res> implements $MUserCopyWith<$Res> {
       name: freezed == name
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      avatar: freezed == avatar
-          ? _self.avatar
-          : avatar // ignore: cast_nullable_to_non_nullable
               as String?,
       email: freezed == email
           ? _self.email
@@ -222,22 +212,16 @@ extension MUserPatterns on MUser {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(
-            String id,
-            String? name,
-            String? avatar,
-            String? email,
-            String? bio,
-            @JsonKey(name: 'avatarUrl') String? avatarUrl,
-            @JsonKey(name: 'createdAt') DateTime? createdAt)?
+    TResult Function(String id, String? name, String? email, String? bio,
+            String? avatarUrl, DateTime? createdAt)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _MUser() when $default != null:
-        return $default(_that.id, _that.name, _that.avatar, _that.email,
-            _that.bio, _that.avatarUrl, _that.createdAt);
+        return $default(_that.id, _that.name, _that.email, _that.bio,
+            _that.avatarUrl, _that.createdAt);
       case _:
         return orElse();
     }
@@ -258,21 +242,15 @@ extension MUserPatterns on MUser {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(
-            String id,
-            String? name,
-            String? avatar,
-            String? email,
-            String? bio,
-            @JsonKey(name: 'avatarUrl') String? avatarUrl,
-            @JsonKey(name: 'createdAt') DateTime? createdAt)
+    TResult Function(String id, String? name, String? email, String? bio,
+            String? avatarUrl, DateTime? createdAt)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _MUser():
-        return $default(_that.id, _that.name, _that.avatar, _that.email,
-            _that.bio, _that.avatarUrl, _that.createdAt);
+        return $default(_that.id, _that.name, _that.email, _that.bio,
+            _that.avatarUrl, _that.createdAt);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -292,21 +270,15 @@ extension MUserPatterns on MUser {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(
-            String id,
-            String? name,
-            String? avatar,
-            String? email,
-            String? bio,
-            @JsonKey(name: 'avatarUrl') String? avatarUrl,
-            @JsonKey(name: 'createdAt') DateTime? createdAt)?
+    TResult? Function(String id, String? name, String? email, String? bio,
+            String? avatarUrl, DateTime? createdAt)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _MUser() when $default != null:
-        return $default(_that.id, _that.name, _that.avatar, _that.email,
-            _that.bio, _that.avatarUrl, _that.createdAt);
+        return $default(_that.id, _that.name, _that.email, _that.bio,
+            _that.avatarUrl, _that.createdAt);
       case _:
         return null;
     }
@@ -319,11 +291,10 @@ class _MUser extends MUser {
   const _MUser(
       {required this.id,
       this.name,
-      this.avatar,
       this.email,
       this.bio,
-      @JsonKey(name: 'avatarUrl') this.avatarUrl,
-      @JsonKey(name: 'createdAt') this.createdAt})
+      this.avatarUrl,
+      this.createdAt})
       : super._();
   factory _MUser.fromJson(Map<String, dynamic> json) => _$MUserFromJson(json);
 
@@ -332,16 +303,12 @@ class _MUser extends MUser {
   @override
   final String? name;
   @override
-  final String? avatar;
-  @override
   final String? email;
   @override
   final String? bio;
   @override
-  @JsonKey(name: 'avatarUrl')
   final String? avatarUrl;
   @override
-  @JsonKey(name: 'createdAt')
   final DateTime? createdAt;
 
   /// Create a copy of MUser
@@ -366,7 +333,6 @@ class _MUser extends MUser {
             other is _MUser &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.bio, bio) || other.bio == bio) &&
             (identical(other.avatarUrl, avatarUrl) ||
@@ -377,12 +343,12 @@ class _MUser extends MUser {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, name, avatar, email, bio, avatarUrl, createdAt);
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, email, bio, avatarUrl, createdAt);
 
   @override
   String toString() {
-    return 'MUser(id: $id, name: $name, avatar: $avatar, email: $email, bio: $bio, avatarUrl: $avatarUrl, createdAt: $createdAt)';
+    return 'MUser(id: $id, name: $name, email: $email, bio: $bio, avatarUrl: $avatarUrl, createdAt: $createdAt)';
   }
 }
 
@@ -395,11 +361,10 @@ abstract mixin class _$MUserCopyWith<$Res> implements $MUserCopyWith<$Res> {
   $Res call(
       {String id,
       String? name,
-      String? avatar,
       String? email,
       String? bio,
-      @JsonKey(name: 'avatarUrl') String? avatarUrl,
-      @JsonKey(name: 'createdAt') DateTime? createdAt});
+      String? avatarUrl,
+      DateTime? createdAt});
 }
 
 /// @nodoc
@@ -416,7 +381,6 @@ class __$MUserCopyWithImpl<$Res> implements _$MUserCopyWith<$Res> {
   $Res call({
     Object? id = null,
     Object? name = freezed,
-    Object? avatar = freezed,
     Object? email = freezed,
     Object? bio = freezed,
     Object? avatarUrl = freezed,
@@ -430,10 +394,6 @@ class __$MUserCopyWithImpl<$Res> implements _$MUserCopyWith<$Res> {
       name: freezed == name
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      avatar: freezed == avatar
-          ? _self.avatar
-          : avatar // ignore: cast_nullable_to_non_nullable
               as String?,
       email: freezed == email
           ? _self.email

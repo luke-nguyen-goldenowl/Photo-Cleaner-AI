@@ -1,37 +1,78 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/generated/i18n/app_localizations.dart';
 import 'package:myapp/src/router/route_name.dart';
 
 enum XNavigationBarItems {
-  home(
-    label: 'Home',
-    route: AppRouteNames.home,
-    icon: Icons.home_outlined,
-    selectedIcon: Icons.home,
+  photos(
+    //label: 'common_tab_photo',
+    route: AppRouteNames.photo,
+    icon: Icons.photo_library_outlined,
+    selectedIcon: Icons.photo_library,
   ),
-  account(
-    label: 'Account',
-    route: AppRouteNames.account,
-    icon: Icons.people_outline,
-    selectedIcon: Icons.people,
+  cleaner(
+    //label: 'common_tab_clean',
+    route: AppRouteNames.cleaner,
+    icon: Icons.cleaning_services_outlined,
+    selectedIcon: Icons.cleaning_services,
+  ),
+  friend(
+    //label: 'common_tab_friend',
+    route: AppRouteNames.friend,
+    icon: Icons.group_outlined,
+    selectedIcon: Icons.group,
+  ),
+  places(
+    //label: 'common_tab_place',
+    route: AppRouteNames.places,
+    icon: Icons.map_outlined,
+    selectedIcon: Icons.map,
+  ),
+  profile(
+    //label: 'common_tab_profile',
+    route: AppRouteNames.profile,
+    icon: Icons.person_outline,
+    selectedIcon: Icons.person,
   );
 
   const XNavigationBarItems({
-    required this.label,
+    //required this.label,
     required this.route,
     required this.icon,
     this.selectedIcon,
   });
 
-  final String label;
+  //final String label;
   final AppRouteNames route;
   final IconData icon;
   final IconData? selectedIcon;
 
   static XNavigationBarItems fromLocation(String location) {
-    if (location == XNavigationBarItems.home.route.name) {
-      return XNavigationBarItems.home;
+    if (location.startsWith(XNavigationBarItems.photos.route.path)) {
+      return XNavigationBarItems.photos;
+    } else if (location.startsWith(XNavigationBarItems.cleaner.route.path)) {
+      return XNavigationBarItems.cleaner;
+    } else if (location.startsWith(XNavigationBarItems.friend.route.path)) {
+      return XNavigationBarItems.friend;
+    } else if (location.startsWith(XNavigationBarItems.places.route.path)) {
+      return XNavigationBarItems.places;
+    } else if (location.startsWith(XNavigationBarItems.profile.route.path)) {
+      return XNavigationBarItems.profile;
     }
+    return XNavigationBarItems.photos;
+  }
 
-    return XNavigationBarItems.home;
+  String getLabel(BuildContext context) {
+    switch (this) {
+      case XNavigationBarItems.photos:
+        return AppLocalizations.of(context)!.common_tab_photo;
+      case XNavigationBarItems.cleaner:
+        return AppLocalizations.of(context)!.common_tab_clean;
+      case XNavigationBarItems.friend:
+        return AppLocalizations.of(context)!.common_tab_friend;
+      case XNavigationBarItems.places:
+        return AppLocalizations.of(context)!.common_tab_place;
+      case XNavigationBarItems.profile:
+        return AppLocalizations.of(context)!.common_tab_profile;
+    }
   }
 }
