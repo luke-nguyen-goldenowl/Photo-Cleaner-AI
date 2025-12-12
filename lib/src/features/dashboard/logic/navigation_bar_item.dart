@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/generated/i18n/app_localizations.dart';
+import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/router/route_name.dart';
 
 enum XNavigationBarItems {
@@ -64,15 +64,15 @@ enum XNavigationBarItems {
   String getLabel(BuildContext context) {
     switch (this) {
       case XNavigationBarItems.photos:
-        return AppLocalizations.of(context)!.common_tab_photo;
+        return S.of(context).common_tab_photo;
       case XNavigationBarItems.cleaner:
-        return AppLocalizations.of(context)!.common_tab_clean;
+        return S.of(context).common_tab_clean;
       case XNavigationBarItems.friend:
-        return AppLocalizations.of(context)!.common_tab_friend;
+        return S.of(context).common_tab_friend;
       case XNavigationBarItems.places:
-        return AppLocalizations.of(context)!.common_tab_place;
+        return S.of(context).common_tab_place;
       case XNavigationBarItems.profile:
-        return AppLocalizations.of(context)!.common_tab_profile;
+        return S.of(context).common_tab_profile;
     }
   }
 }

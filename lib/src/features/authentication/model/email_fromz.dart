@@ -28,7 +28,7 @@ class EmailFormzInput extends FormzInput<String, FormError> {
       case FormError.empty:
         return S.of(context).error_fieldRequired;
       case FormError.invalid:
-        return "Email Invalid";
+        return S.of(context).error_invalidEmail;
       default:
         return null;
     }

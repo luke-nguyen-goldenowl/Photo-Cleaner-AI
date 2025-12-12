@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/generated/i18n/app_localizations.dart';
+import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/src/services/user_prefs.dart';
 import 'package:myapp/widgets/button/primary_button.dart';
+import 'package:myapp/src/config/constants/constants.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -14,30 +15,9 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
-
-  List<Map<String, dynamic>> get _onboardingData => [
-        {
-          "title": AppLocalizations.of(context)!.common_onBoarding_1_Title,
-          "subtitle":
-              AppLocalizations.of(context)!.common_onBoarding_1_subTitle,
-          "icon": Icons.cleaning_services_outlined,
-        },
-        {
-          "title": AppLocalizations.of(context)!.common_onBoarding_2_Title,
-          "subtitle":
-              AppLocalizations.of(context)!.common_onBoarding_2_subTitle,
-          "icon": Icons.auto_fix_high,
-        },
-        {
-          "title": AppLocalizations.of(context)!.common_onBoarding_3_Title,
-          "subtitle":
-              AppLocalizations.of(context)!.common_onBoarding_3_subTitle,
-          "icon": Icons.lock_person_outlined,
-        },
-      ];
-
   @override
   Widget build(BuildContext context) {
+    final onboardingData = AppConstants.getOnboardingData(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -52,7 +32,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   AppCoordinator.showGettingStartedScreen();
                 },
                 child: Text(
-                  AppLocalizations.of(context)!.common_buttonSkip,
+                  S.of(context).common_buttonSkip,
                   style: const TextStyle(
                       color: Color(0xFF6C63FF),
                       fontWeight: FontWeight.bold,
@@ -68,11 +48,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     _currentPage = value;
                   });
                 },
-                itemCount: _onboardingData.length,
+                itemCount: onboardingData.length,
                 itemBuilder: (context, index) => OnboardingContent(
-                  title: _onboardingData[index]['title'],
-                  subtitle: _onboardingData[index]['subtitle'],
-                  icon: _onboardingData[index]['icon'],
+                  title: onboardingData[index]['title'],
+                  subtitle: onboardingData[index]['subtitle'],
+                  icon: onboardingData[index]['icon'],
                 ),
               ),
             ),
@@ -83,17 +63,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
-                      _onboardingData.length,
+                      onboardingData.length,
                       (index) => buildDot(index),
                     ),
                   ),
                   const SizedBox(height: 30),
                   XPrimaryButton(
-                    text: _currentPage == _onboardingData.length - 1
-                        ? AppLocalizations.of(context)!.common_buttonDiscover
-                        : AppLocalizations.of(context)!.common_buttonContinue,
+                    text: _currentPage == onboardingData.length - 1
+                        ? S.of(context).common_buttonDiscover
+                        : S.of(context).common_buttonContinue,
                     onPressed: () {
-                      if (_currentPage == _onboardingData.length - 1) {
+                      if (_currentPage == onboardingData.length - 1) {
                         UserPrefs.I.setHasSeenOnboarding(true);
                         AppCoordinator.showGettingStartedScreen();
                       } else {
