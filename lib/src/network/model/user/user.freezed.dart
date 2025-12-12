@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -19,6 +18,11 @@ mixin _$MUser {
   String? get name;
   String? get avatar;
   String? get email;
+  String? get bio;
+  @JsonKey(name: 'avatarUrl')
+  String? get avatarUrl;
+  @JsonKey(name: 'createdAt')
+  DateTime? get createdAt;
 
   /// Create a copy of MUser
   /// with the given fields replaced by the non-null parameter values.
@@ -38,16 +42,22 @@ mixin _$MUser {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.bio, bio) || other.bio == bio) &&
+            (identical(other.avatarUrl, avatarUrl) ||
+                other.avatarUrl == avatarUrl) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, avatar, email);
+  int get hashCode => Object.hash(
+      runtimeType, id, name, avatar, email, bio, avatarUrl, createdAt);
 
   @override
   String toString() {
-    return 'MUser(id: $id, name: $name, avatar: $avatar, email: $email)';
+    return 'MUser(id: $id, name: $name, avatar: $avatar, email: $email, bio: $bio, avatarUrl: $avatarUrl, createdAt: $createdAt)';
   }
 }
 
@@ -56,7 +66,14 @@ abstract mixin class $MUserCopyWith<$Res> {
   factory $MUserCopyWith(MUser value, $Res Function(MUser) _then) =
       _$MUserCopyWithImpl;
   @useResult
-  $Res call({String id, String? name, String? avatar, String? email});
+  $Res call(
+      {String id,
+      String? name,
+      String? avatar,
+      String? email,
+      String? bio,
+      @JsonKey(name: 'avatarUrl') String? avatarUrl,
+      @JsonKey(name: 'createdAt') DateTime? createdAt});
 }
 
 /// @nodoc
@@ -75,6 +92,9 @@ class _$MUserCopyWithImpl<$Res> implements $MUserCopyWith<$Res> {
     Object? name = freezed,
     Object? avatar = freezed,
     Object? email = freezed,
+    Object? bio = freezed,
+    Object? avatarUrl = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -93,14 +113,217 @@ class _$MUserCopyWithImpl<$Res> implements $MUserCopyWith<$Res> {
           ? _self.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
+      bio: freezed == bio
+          ? _self.bio
+          : bio // ignore: cast_nullable_to_non_nullable
+              as String?,
+      avatarUrl: freezed == avatarUrl
+          ? _self.avatarUrl
+          : avatarUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _self.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [MUser].
+extension MUserPatterns on MUser {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_MUser value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _MUser() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_MUser value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _MUser():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_MUser value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _MUser() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            String id,
+            String? name,
+            String? avatar,
+            String? email,
+            String? bio,
+            @JsonKey(name: 'avatarUrl') String? avatarUrl,
+            @JsonKey(name: 'createdAt') DateTime? createdAt)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _MUser() when $default != null:
+        return $default(_that.id, _that.name, _that.avatar, _that.email,
+            _that.bio, _that.avatarUrl, _that.createdAt);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            String id,
+            String? name,
+            String? avatar,
+            String? email,
+            String? bio,
+            @JsonKey(name: 'avatarUrl') String? avatarUrl,
+            @JsonKey(name: 'createdAt') DateTime? createdAt)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _MUser():
+        return $default(_that.id, _that.name, _that.avatar, _that.email,
+            _that.bio, _that.avatarUrl, _that.createdAt);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            String id,
+            String? name,
+            String? avatar,
+            String? email,
+            String? bio,
+            @JsonKey(name: 'avatarUrl') String? avatarUrl,
+            @JsonKey(name: 'createdAt') DateTime? createdAt)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _MUser() when $default != null:
+        return $default(_that.id, _that.name, _that.avatar, _that.email,
+            _that.bio, _that.avatarUrl, _that.createdAt);
+      case _:
+        return null;
+    }
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _MUser extends MUser {
-  const _MUser({required this.id, this.name, this.avatar, this.email})
+  const _MUser(
+      {required this.id,
+      this.name,
+      this.avatar,
+      this.email,
+      this.bio,
+      @JsonKey(name: 'avatarUrl') this.avatarUrl,
+      @JsonKey(name: 'createdAt') this.createdAt})
       : super._();
   factory _MUser.fromJson(Map<String, dynamic> json) => _$MUserFromJson(json);
 
@@ -112,6 +335,14 @@ class _MUser extends MUser {
   final String? avatar;
   @override
   final String? email;
+  @override
+  final String? bio;
+  @override
+  @JsonKey(name: 'avatarUrl')
+  final String? avatarUrl;
+  @override
+  @JsonKey(name: 'createdAt')
+  final DateTime? createdAt;
 
   /// Create a copy of MUser
   /// with the given fields replaced by the non-null parameter values.
@@ -136,16 +367,22 @@ class _MUser extends MUser {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.bio, bio) || other.bio == bio) &&
+            (identical(other.avatarUrl, avatarUrl) ||
+                other.avatarUrl == avatarUrl) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, avatar, email);
+  int get hashCode => Object.hash(
+      runtimeType, id, name, avatar, email, bio, avatarUrl, createdAt);
 
   @override
   String toString() {
-    return 'MUser(id: $id, name: $name, avatar: $avatar, email: $email)';
+    return 'MUser(id: $id, name: $name, avatar: $avatar, email: $email, bio: $bio, avatarUrl: $avatarUrl, createdAt: $createdAt)';
   }
 }
 
@@ -155,7 +392,14 @@ abstract mixin class _$MUserCopyWith<$Res> implements $MUserCopyWith<$Res> {
       __$MUserCopyWithImpl;
   @override
   @useResult
-  $Res call({String id, String? name, String? avatar, String? email});
+  $Res call(
+      {String id,
+      String? name,
+      String? avatar,
+      String? email,
+      String? bio,
+      @JsonKey(name: 'avatarUrl') String? avatarUrl,
+      @JsonKey(name: 'createdAt') DateTime? createdAt});
 }
 
 /// @nodoc
@@ -174,6 +418,9 @@ class __$MUserCopyWithImpl<$Res> implements _$MUserCopyWith<$Res> {
     Object? name = freezed,
     Object? avatar = freezed,
     Object? email = freezed,
+    Object? bio = freezed,
+    Object? avatarUrl = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_MUser(
       id: null == id
@@ -192,6 +439,18 @@ class __$MUserCopyWithImpl<$Res> implements _$MUserCopyWith<$Res> {
           ? _self.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
+      bio: freezed == bio
+          ? _self.bio
+          : bio // ignore: cast_nullable_to_non_nullable
+              as String?,
+      avatarUrl: freezed == avatarUrl
+          ? _self.avatarUrl
+          : avatarUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _self.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }

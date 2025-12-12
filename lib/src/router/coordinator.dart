@@ -26,6 +26,10 @@ class AppCoordinator {
       );
 
   static void showHomeScreen() => context.goNamed(AppRouteNames.home.name);
+  static void showOnboardingScreen() =>
+      context.goNamed(AppRouteNames.onBoarding.name);
+  static void showGettingStartedScreen() =>
+      context.goNamed(AppRouteNames.gettingStarted.name);
   static void showAccountScreen() =>
       context.goNamed(AppRouteNames.account.name);
 

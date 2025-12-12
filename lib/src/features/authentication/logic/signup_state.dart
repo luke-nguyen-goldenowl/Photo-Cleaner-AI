@@ -6,17 +6,16 @@ class SignupState extends Equatable {
     this.password = const PasswordFormzInput.pure(''),
     this.name = const NameFormzInput.pure(''),
     this.status = FormzSubmissionStatus.initial,
-    this.message = '',
+    this.confirmPassword = const ConfirmPasswordFormzInput.pure(),
   });
 
   final EmailFormzInput email;
   final PasswordFormzInput password;
   final NameFormzInput name;
   final FormzSubmissionStatus status;
-  final String message;
-
+  final ConfirmPasswordFormzInput confirmPassword;
   bool get isValidated {
-    return Formz.validate([email, password]);
+    return Formz.validate([email, password, name, confirmPassword]);
   }
 
   @override
@@ -25,6 +24,7 @@ class SignupState extends Equatable {
         password,
         status,
         name,
+        confirmPassword,
       ];
 
   SignupState copyWith({
@@ -32,14 +32,14 @@ class SignupState extends Equatable {
     PasswordFormzInput? password,
     FormzSubmissionStatus? status,
     NameFormzInput? name,
-    String? message,
+    ConfirmPasswordFormzInput? confirmPassword,
   }) {
     return SignupState(
       email: email ?? this.email,
       password: password ?? this.password,
       status: status ?? this.status,
       name: name ?? this.name,
-      message: message ?? this.message,
+      confirmPassword: confirmPassword ?? this.confirmPassword,
     );
   }
 }

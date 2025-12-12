@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
+import 'package:myapp/src/features/authentication/model/form_error.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
-import 'form_error.dart';
 
-class PasswordFormzInput extends FormzInput<String, FormError> {
-  const PasswordFormzInput.pure([super.value = '']) : super.pure();
-  const PasswordFormzInput.dirty([super.value = '']) : super.dirty();
+class ConfirmPasswordFormzInput extends FormzInput<String, FormError> {
+  final String password;
+  const ConfirmPasswordFormzInput.pure({this.password = '', String value = ''})
+      : super.pure(value);
+  const ConfirmPasswordFormzInput.dirty(
+      {required this.password, required String value})
+      : super.dirty(value);
 
   @override
   FormError? validator(String? value) {
     if ((value ?? '').isEmpty) {
       return FormError.empty;
     }
-    if ((value ?? '').length < 6) {
-      return FormError.invalid;
-    }
-    return null;
+    return value == password ? null : FormError.invalid;
   }
 
   String? errorOf(BuildContext context) {
@@ -27,7 +28,7 @@ class PasswordFormzInput extends FormzInput<String, FormError> {
       case FormError.empty:
         return S.of(context).error_fieldRequired;
       case FormError.invalid:
-        return S.of(context).error_invalidPassword;
+        return S.of(context).error_confirmPasswordMismatch;
       default:
         return null;
     }

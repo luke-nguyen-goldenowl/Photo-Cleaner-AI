@@ -1,5 +1,8 @@
 enum AppRouteNames {
-  home(path: '/'),
+  splash(path: '/'),
+  onBoarding(path: '/onboarding'),
+  gettingStarted(path: '/getting-started'),
+  home(path: '/home'),
   dev(path: '/dev'),
   account(path: '/account'),
   signIn(path: '/sign-in'),
