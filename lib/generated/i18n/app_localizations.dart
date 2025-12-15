@@ -389,13 +389,13 @@ abstract class AppLocalizations {
   /// No description provided for @error_login.
   ///
   /// In en, this message translates to:
-  /// **'Sign in Failed'**
+  /// **'Sign in failed'**
   String get error_login;
 
   /// No description provided for @error_signUp.
   ///
   /// In en, this message translates to:
-  /// **'Sign up Failed'**
+  /// **'Sign up failed'**
   String get error_signUp;
 
   /// No description provided for @error_fieldRequired.
@@ -421,6 +421,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Password confirmation does not match'**
   String get error_confirmPasswordMismatch;
+
+  /// No description provided for @error_email_have_been_used.
+  ///
+  /// In en, this message translates to:
+  /// **'Email is already in use'**
+  String get error_email_have_been_used;
+
+  /// No description provided for @error_email_not_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Email has not been verified. Please check your mailbox'**
+  String get error_email_not_confirm;
+
+  /// No description provided for @error_email_or_password_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Email or password is incorrect'**
+  String get error_email_or_password_invalid;
+
+  /// No description provided for @error_otp_expired.
+  ///
+  /// In en, this message translates to:
+  /// **'OTP code has expired. Please request a new code'**
+  String get error_otp_expired;
+
+  /// No description provided for @error_same_password.
+  ///
+  /// In en, this message translates to:
+  /// **'The new password must be different from the current password'**
+  String get error_same_password;
 
   /// No description provided for @success_login.
   ///
@@ -619,6 +649,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Processing...'**
   String get common_handling_text;
+
+  /// No description provided for @common_no_image_selected.
+  ///
+  /// In en, this message translates to:
+  /// **'No image selected'**
+  String get common_no_image_selected;
+
+  /// No description provided for @common_no_image_captured.
+  ///
+  /// In en, this message translates to:
+  /// **'No image captured'**
+  String get common_no_image_captured;
 
   /// No description provided for @success_update_profile.
   ///

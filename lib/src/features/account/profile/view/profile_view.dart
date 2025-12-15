@@ -5,7 +5,6 @@ import 'package:myapp/src/features/account/logic/account_bloc.dart';
 import 'package:myapp/src/features/account/profile/logic/profile_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
-import 'package:myapp/src/network/data/user/user_repository.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/src/router/route_name.dart';
 
@@ -17,7 +16,6 @@ class ProfileView extends StatelessWidget {
     return BlocProvider(
       create: (context) => ProfileBloc(
         context: context,
-        userRepository: context.read<UserRepository>(),
       ),
       child: Scaffold(
         backgroundColor: Colors.white,

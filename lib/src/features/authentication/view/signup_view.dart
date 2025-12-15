@@ -53,8 +53,7 @@ class SignupView extends StatelessWidget {
                 onChanged: (value) {
                   context.read<SignupBloc>().onNameChanged(value);
                 },
-                errorText:
-                    !state.name.isPure ? state.name.errorOf(context) : null,
+                errorText: state.name.errorOf(context),
               ),
             ],
           ),
@@ -69,8 +68,7 @@ class SignupView extends StatelessWidget {
                 onChanged: (value) {
                   context.read<SignupBloc>().onEmailChanged(value);
                 },
-                errorText:
-                    !state.email.isPure ? state.email.errorOf(context) : null,
+                errorText: state.email.errorOf(context),
               ),
             ],
           ),
@@ -86,9 +84,7 @@ class SignupView extends StatelessWidget {
                 onChanged: (value) {
                   context.read<SignupBloc>().onPasswordChanged(value);
                 },
-                errorText: !state.password.isPure
-                    ? state.password.errorOf(context)
-                    : null,
+                errorText: state.password.errorOf(context),
               ),
             ],
           ),
@@ -104,9 +100,7 @@ class SignupView extends StatelessWidget {
                 onChanged: (value) {
                   context.read<SignupBloc>().onConfirmPasswordChanged(value);
                 },
-                errorText: !state.confirmPassword.isPure
-                    ? state.confirmPassword.errorOf(context)
-                    : null,
+                errorText: state.confirmPassword.errorOf(context),
               ),
             ],
           ),

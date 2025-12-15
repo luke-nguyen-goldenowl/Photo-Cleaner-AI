@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:myapp/src/network/model/common/result.dart';
 import 'package:myapp/src/network/model/social_user/social_user.dart';
 import 'package:myapp/src/network/model/user/user.dart';
@@ -5,7 +6,9 @@ import 'package:myapp/src/network/model/user/user.dart';
 abstract class SignRepository {
   // Login with Email
   Future<MResult<MUser>> loginWithEmail(
-      {required String email, required String password});
+      {required String email,
+      required String password,
+      required BuildContext context});
 
   // Login via SDK
   Future<MResult<MUser>> connectBEWithGoogle(MSocialUser user);
@@ -19,8 +22,19 @@ abstract class SignRepository {
 
   // Sign up with email
   Future<MResult<MUser>> signUpWithEmail(
-      {required String email, required String password, required String name});
+      {required String email,
+      required String password,
+      required String name,
+      required BuildContext context});
 
+  //Forgot password
+  Future<MResult<String>> sendOtpToEmail(String email, BuildContext context);
+  Future<MResult<void>> verifyOtp({
+    required String email,
+    required String otp,
+    required BuildContext context,
+  });
+  Future<MResult<void>> resetPassword(String newPassword, BuildContext context);
   Future<MResult<String>> forgotPassword(String email);
 
   /// Logout

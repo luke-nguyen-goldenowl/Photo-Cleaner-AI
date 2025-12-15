@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,83 +8,38 @@ import 'package:myapp/widgets/button/primary_button.dart';
 import 'package:myapp/widgets/forms/input.dart';
 import 'package:myapp/widgets/header/screen_header.dart';
 
-class ForgotPasswordView extends StatefulWidget {
+class ForgotPasswordView extends StatelessWidget {
   const ForgotPasswordView({super.key});
-
-  @override
-  State<ForgotPasswordView> createState() => _ForgotPasswordViewState();
-}
-
-class _ForgotPasswordViewState extends State<ForgotPasswordView> {
-  Timer? _resendTimer;
-  int _resendCountdown = 0;
-
-  @override
-  void dispose() {
-    _resendTimer?.cancel();
-    super.dispose();
-  }
-
-  void _startResendTimer() {
-    setState(() {
-      _resendCountdown = 60;
-    });
-    _resendTimer?.cancel();
-    _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        if (_resendCountdown > 0) {
-          _resendCountdown--;
-        } else {
-          timer.cancel();
-        }
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => ForgotBloc(),
-      child: BlocListener<ForgotBloc, ForgotState>(
-        listener: (context, state) {
-          if (state.currentStep == ForgotPasswordStep.enterOtp &&
-              _resendCountdown == 0) {
-            _startResendTimer();
-          }
-          if (state.currentStep == ForgotPasswordStep.enterEmail) {
-            _resendTimer?.cancel();
-            setState(() {
-              _resendCountdown = 0;
-            });
-          }
-        },
-        child: BlocBuilder<ForgotBloc, ForgotState>(
-          builder: (context, ForgotState state) {
-            return Scaffold(
-              appBar: AppBar(
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-                leading: state.currentStep != ForgotPasswordStep.enterEmail
-                    ? IconButton(
-                        icon: const Icon(Icons.arrow_back),
-                        onPressed: () {
-                          context.read<ForgotBloc>().goBack();
-                        },
-                      )
-                    : null,
-              ),
-              body: Container(
-                padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 50),
-                    child: _buildCurrentStep(context, state),
-                  ),
+      child: BlocBuilder<ForgotBloc, ForgotState>(
+        builder: (context, ForgotState state) {
+          return Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              leading: state.currentStep != ForgotPasswordStep.enterEmail
+                  ? IconButton(
+                      icon: const Icon(Icons.arrow_back),
+                      onPressed: () {
+                        context.read<ForgotBloc>().goBack();
+                      },
+                    )
+                  : null,
+            ),
+            body: Container(
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 50),
+                  child: _buildCurrentStep(context, state),
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -122,8 +76,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               onChanged: (value) {
                 context.read<ForgotBloc>().onEmailChanged(value);
               },
-              errorText:
-                  !state.email.isPure ? state.email.errorOf(context) : null,
+              errorText: state.email.errorOf(context),
             ),
           ],
         ),
@@ -190,9 +143,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               : null,
         ),
         const SizedBox(height: 20),
-        _resendCountdown > 0
+        state.resendCountdown > 0
             ? Text(
-                '${S.of(context).common_sendOTPAgain_s} $_resendCountdown s',
+                '${S.of(context).common_sendOTPAgain_s} ${state.resendCountdown} s',
                 style: const TextStyle(
                   color: Colors.grey,
                   fontSize: 16,
@@ -201,7 +154,6 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
             : GestureDetector(
                 onTap: () {
                   context.read<ForgotBloc>().resendOtp(context);
-                  _startResendTimer();
                 },
                 child: Text(
                   S.of(context).common_sendOTPAgain,
@@ -237,9 +189,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               onChanged: (value) {
                 context.read<ForgotBloc>().onPasswordChanged(value);
               },
-              errorText: !state.password.isPure
-                  ? state.password.errorOf(context)
-                  : null,
+              errorText: state.password.errorOf(context),
             ),
           ],
         ),
@@ -255,9 +205,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               onChanged: (value) {
                 context.read<ForgotBloc>().onConfirmPasswordChanged(value);
               },
-              errorText: !state.confirmPassword.isPure
-                  ? state.confirmPassword.errorOf(context)
-                  : null,
+              errorText: state.confirmPassword.errorOf(context),
             ),
           ],
         ),

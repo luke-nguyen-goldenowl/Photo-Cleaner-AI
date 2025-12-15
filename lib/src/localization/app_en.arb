@@ -61,12 +61,17 @@
 
 
   "error_somethingWrongTryAgain": "Something went wrong, try again...",
-  "error_login": "Sign in Failed",
-  "error_signUp":"Sign up Failed",
+  "error_login": "Sign in failed",
+  "error_signUp":"Sign up failed",
   "error_fieldRequired": "This field is required",
   "error_invalidEmail": "Invalid email ",
   "error_invalidPassword" : "Invalid password! Requires at least 6 characters",
   "error_confirmPasswordMismatch": "Password confirmation does not match",
+  "error_email_have_been_used":"Email is already in use",
+  "error_email_not_confirm":"Email has not been verified. Please check your mailbox",
+   "error_email_or_password_invalid":"Email or password is incorrect",
+   "error_otp_expired":"OTP code has expired. Please request a new code",
+   "error_same_password":"The new password must be different from the current password",
 
   "success_login":"Login success",
   "success_signUp":"Sign up success! Please check email box to confirm your email",
@@ -106,7 +111,8 @@
   "common_take_new_image":"Take a new photo",
   "common_uploading_image_text":"Uploading photos...",
   "common_handling_text":"Processing...",
-  
+  "common_no_image_selected":"No image selected",
+  "common_no_image_captured":"No image captured",
 
   "success_update_profile":"Profile updated successfully",
 

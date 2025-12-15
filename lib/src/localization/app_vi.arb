@@ -66,6 +66,11 @@
   "error_invalidEmail": "Email không hợp lệ",
   "error_invalidPassword" : "Mật khẩu không hợp lệ! Yêu cầu ít nhất 6 ký tự",
   "error_confirmPasswordMismatch": "Xác nhận mật khẩu không khớp",
+  "error_email_have_been_used":"Email đã được sử dụng",
+  "error_email_not_confirm":"Email chưa được xác thực. Vui lòng kiểm tra hộp thư",
+  "error_email_or_password_invalid":"Email hoặc mật khẩu không chính xác",
+  "error_otp_expired":"Mã OTP đã hết hạn. Vui lòng yêu cầu mã mới",
+  "error_same_password":"Mật khẩu mới phải khác mật khẩu hiện tại",
 
 
   "success_login":"Đăng nhập thành công",
@@ -106,6 +111,8 @@
   "common_take_new_image":"Chụp ảnh mới",
   "common_uploading_image_text":"Đang tải ảnh lên",
   "common_handling_text":"Đang xử lý",
+  "common_no_image_selected":"Không có ảnh nào được chọn",
+  "common_no_image_captured":"Không có ảnh nào được chụp",
 
 
   "success_update_profile":"Cập nhật hồ sơ thành công",

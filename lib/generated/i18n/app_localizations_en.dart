@@ -161,10 +161,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Something went wrong, try again...';
 
   @override
-  String get error_login => 'Sign in Failed';
+  String get error_login => 'Sign in failed';
 
   @override
-  String get error_signUp => 'Sign up Failed';
+  String get error_signUp => 'Sign up failed';
 
   @override
   String get error_fieldRequired => 'This field is required';
@@ -179,6 +179,25 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get error_confirmPasswordMismatch =>
       'Password confirmation does not match';
+
+  @override
+  String get error_email_have_been_used => 'Email is already in use';
+
+  @override
+  String get error_email_not_confirm =>
+      'Email has not been verified. Please check your mailbox';
+
+  @override
+  String get error_email_or_password_invalid =>
+      'Email or password is incorrect';
+
+  @override
+  String get error_otp_expired =>
+      'OTP code has expired. Please request a new code';
+
+  @override
+  String get error_same_password =>
+      'The new password must be different from the current password';
 
   @override
   String get success_login => 'Login success';
@@ -283,6 +302,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get common_handling_text => 'Processing...';
+
+  @override
+  String get common_no_image_selected => 'No image selected';
+
+  @override
+  String get common_no_image_captured => 'No image captured';
 
   @override
   String get success_update_profile => 'Profile updated successfully';

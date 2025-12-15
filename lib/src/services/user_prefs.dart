@@ -55,7 +55,7 @@ class UserPrefs {
   }
 
   // user
-  void setUser(MUser? value) {
+  Future<void> setUser(MUser? value) async {
     if (value == null) {
       _prefs.remove(_keys.user);
     } else {
@@ -82,7 +82,7 @@ class UserPrefs {
     }
   }
 
-  void setLoginProvider(String? value) {
+  Future<void> setLoginProvider(String? value) async {
     if (value == null) {
       _prefs.remove(_keys.loginProvider);
     } else {
@@ -122,7 +122,7 @@ class UserPrefs {
     }
   }
 
-  void setIsLoggedIn(bool value) {
+  Future<void> setIsLoggedIn(bool value) async {
     _prefs.setBool(_keys.isLoggedIn, value);
   }
 

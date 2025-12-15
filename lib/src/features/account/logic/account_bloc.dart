@@ -97,8 +97,6 @@ class AccountBloc extends Cubit<AccountState> {
   }
 
   void onUserChange(AccountState newstate) {
-    // setup token and param http
-    UserPrefs.instance.setUser(newstate.user);
     emit(newstate);
   }
 }

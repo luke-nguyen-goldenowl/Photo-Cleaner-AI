@@ -7,7 +7,6 @@ import 'package:myapp/src/dialogs/toast_wrapper.dart';
 import 'package:myapp/src/features/account/logic/account_bloc.dart';
 import 'package:myapp/src/features/account/profile/logic/profile_edit_bloc.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
-import 'package:myapp/src/network/data/user/user_repository.dart';
 import 'package:myapp/src/network/model/user/user.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/widgets/forms/input.dart';
@@ -18,160 +17,132 @@ class ProfileEditView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = GoRouterState.of(context).extra as MUser;
-
     return BlocProvider(
-      create: (context) => ProfileEditBloc(
-        user,
-        userRepository: context.read<UserRepository>(),
-      ),
-      child: const ProfileEditViewBody(),
-    );
-  }
-}
+        create: (context) => ProfileEditBloc(user),
+        child: BlocConsumer<ProfileEditBloc, ProfileEditState>(
+          listener: (context, state) {
+            if (state.status == ProfileEditStatus.success) {
+              XToast.success(S.of(context).success_update_profile);
 
-class ProfileEditViewBody extends StatefulWidget {
-  const ProfileEditViewBody({super.key});
-
-  @override
-  State<ProfileEditViewBody> createState() => _ProfileEditViewBodyState();
-}
-
-class _ProfileEditViewBodyState extends State<ProfileEditViewBody> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocConsumer<ProfileEditBloc, ProfileEditState>(
-      listener: (context, state) {
-        if (state.status == ProfileEditStatus.success) {
-          XToast.success(S.of(context).success_update_profile);
-
-          if (state.user != null) {
-            context.read<AccountBloc>().onEditProfileSuccess(
-                  name: state.user!.name ?? '',
-                );
-          }
-          AppCoordinator.pop();
-        } else if (state.status == ProfileEditStatus.error) {
-          XToast.error(
-              state.errorMessage ?? S.of(context).error_somethingWrongTryAgain);
-        }
-      },
-      builder: (context, state) {
-        return Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            centerTitle: true,
-            backgroundColor: Colors.white,
-            elevation: 0,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Color(0xFF091031)),
-              onPressed: () => AppCoordinator.pop(),
-            ),
-            title: Text(
-              S.of(context).common_edit_profile_text,
-              style: TextStyle(
-                color: Color(0xFF091031),
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            actions: [
-              if (state.hasChanges &&
-                  !state.isLoading &&
-                  !state.isUploading &&
-                  state.isValidated)
-                TextButton(
-                  onPressed: () {
-                    context.read<ProfileEditBloc>().saveProfile(context);
-                  },
-                  child: Text(
-                    S.of(context).common_save_button_profile_text,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF6C63FF),
-                    ),
+              if (state.user != null) {
+                context.read<AccountBloc>().onEditProfileSuccess(
+                      name: state.user!.name ?? '',
+                    );
+              }
+              AppCoordinator.pop();
+            } else if (state.status == ProfileEditStatus.error) {
+              XToast.error(state.errorMessage ??
+                  S.of(context).error_somethingWrongTryAgain);
+            }
+          },
+          builder: (context, state) {
+            return Scaffold(
+              backgroundColor: Colors.white,
+              appBar: AppBar(
+                centerTitle: true,
+                backgroundColor: Colors.white,
+                elevation: 0,
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back, color: Color(0xFF091031)),
+                  onPressed: () => AppCoordinator.pop(),
+                ),
+                title: Text(
+                  S.of(context).common_edit_profile_text,
+                  style: TextStyle(
+                    color: Color(0xFF091031),
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-            ],
-          ),
-          body: state.isLoading || state.isUploading
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const CircularProgressIndicator(),
-                      const SizedBox(height: 16),
-                      Text(
-                        state.isUploading
-                            ? S.of(context).common_uploading_image_text
-                            : S.of(context).common_handling_text,
-                        style: TextStyle(
+                actions: [
+                  if (state.hasChanges &&
+                      !state.isLoading &&
+                      !state.isUploading &&
+                      state.isValidated)
+                    TextButton(
+                      onPressed: () {
+                        context.read<ProfileEditBloc>().saveProfile(context);
+                      },
+                      child: Text(
+                        S.of(context).common_save_button_profile_text,
+                        style: const TextStyle(
                           fontSize: 16,
-                          color: Colors.grey[600],
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF6C63FF),
                         ),
                       ),
-                    ],
-                  ),
-                )
-              : SingleChildScrollView(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    children: [
-                      _buildAvatarSection(state),
-                      const SizedBox(height: 40),
-                      XInput(
-                        value: state.name.value,
-                        hintText: S.of(context).common_name_label_input_text,
-                        prefixIcon: Icons.person_outline,
-                        onChanged: (value) {
-                          context.read<ProfileEditBloc>().onNameChanged(value);
-                        },
-                        errorText: !state.name.isPure
-                            ? state.name.errorOf(context)
-                            : null,
+                    ),
+                ],
+              ),
+              body: state.isLoading || state.isUploading
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const CircularProgressIndicator(),
+                          const SizedBox(height: 16),
+                          Text(
+                            state.isUploading
+                                ? S.of(context).common_uploading_image_text
+                                : S.of(context).common_handling_text,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 20),
-                      XInput(
-                        value: state.bio.value,
-                        hintText: S.of(context).common_bio_label_input_text,
-                        prefixIcon: Icons.info_outline,
-                        onChanged: (value) {
-                          context.read<ProfileEditBloc>().onBioChanged(value);
-                        },
-                        errorText: !state.bio.isPure
-                            ? state.bio.errorOf(context)
-                            : null,
-                        keyboardType: TextInputType.multiline,
-                        maxLength: 200,
+                    )
+                  : SingleChildScrollView(
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
+                        children: [
+                          _buildAvatarSection(context, state),
+                          const SizedBox(height: 40),
+                          XInput(
+                            value: state.name.value,
+                            hintText:
+                                S.of(context).common_name_label_input_text,
+                            prefixIcon: Icons.person_outline,
+                            onChanged: (value) {
+                              context
+                                  .read<ProfileEditBloc>()
+                                  .onNameChanged(value);
+                            },
+                            errorText: state.name.errorOf(context),
+                          ),
+                          const SizedBox(height: 20),
+                          XInput(
+                            value: state.bio.value,
+                            hintText: S.of(context).common_bio_label_input_text,
+                            prefixIcon: Icons.info_outline,
+                            onChanged: (value) {
+                              context
+                                  .read<ProfileEditBloc>()
+                                  .onBioChanged(value);
+                            },
+                            errorText: state.bio.errorOf(context),
+                            keyboardType: TextInputType.multiline,
+                            maxLength: 200,
+                          ),
+                          const SizedBox(height: 40),
+                          Text(
+                            S.of(context).common_subTitle_edit_profile,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[500],
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 40),
-                      Text(
-                        S.of(context).common_subTitle_edit_profile,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[500],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-        );
-      },
-    );
+                    ),
+            );
+          },
+        ));
   }
 
-  Widget _buildAvatarSection(ProfileEditState state) {
+  Widget _buildAvatarSection(BuildContext context, ProfileEditState state) {
     ImageProvider avatarProvider;
     if (state.avatarUrl != null && state.avatarUrl!.isNotEmpty) {
       avatarProvider = NetworkImage(state.avatarUrl!);
@@ -215,7 +186,7 @@ class _ProfileEditViewBodyState extends State<ProfileEditViewBody> {
             bottom: 0,
             right: 0,
             child: GestureDetector(
-              onTap: _showImageSourceDialog,
+              onTap: () => _showImageSourceDialog(context),
               child: Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -242,7 +213,7 @@ class _ProfileEditViewBodyState extends State<ProfileEditViewBody> {
     );
   }
 
-  void _showImageSourceDialog() {
+  void _showImageSourceDialog(BuildContext context) {
     final bloc = context.read<ProfileEditBloc>();
 
     showModalBottomSheet(

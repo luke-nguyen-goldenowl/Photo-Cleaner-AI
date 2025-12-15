@@ -181,6 +181,23 @@ class AppLocalizationsVi extends AppLocalizations {
   String get error_confirmPasswordMismatch => 'Xác nhận mật khẩu không khớp';
 
   @override
+  String get error_email_have_been_used => 'Email đã được sử dụng';
+
+  @override
+  String get error_email_not_confirm =>
+      'Email chưa được xác thực. Vui lòng kiểm tra hộp thư';
+
+  @override
+  String get error_email_or_password_invalid =>
+      'Email hoặc mật khẩu không chính xác';
+
+  @override
+  String get error_otp_expired => 'Mã OTP đã hết hạn. Vui lòng yêu cầu mã mới';
+
+  @override
+  String get error_same_password => 'Mật khẩu mới phải khác mật khẩu hiện tại';
+
+  @override
   String get success_login => 'Đăng nhập thành công';
 
   @override
@@ -283,6 +300,12 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get common_handling_text => 'Đang xử lý';
+
+  @override
+  String get common_no_image_selected => 'Không có ảnh nào được chọn';
+
+  @override
+  String get common_no_image_captured => 'Không có ảnh nào được chụp';
 
   @override
   String get success_update_profile => 'Cập nhật hồ sơ thành công';

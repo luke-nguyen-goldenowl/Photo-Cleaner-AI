@@ -14,6 +14,7 @@ class ForgotState extends Equatable {
     this.confirmPassword = const ConfirmPasswordFormzInput.pure(),
     this.status = FormzSubmissionStatus.initial,
     this.currentStep = ForgotPasswordStep.enterEmail,
+    this.resendCountdown = 0,
   });
 
   final EmailFormzInput email;
@@ -22,6 +23,7 @@ class ForgotState extends Equatable {
   final ConfirmPasswordFormzInput confirmPassword;
   final FormzSubmissionStatus status;
   final ForgotPasswordStep currentStep;
+  final int resendCountdown;
 
   bool get isValidated {
     return Formz.validate([email]);
@@ -37,9 +39,20 @@ class ForgotState extends Equatable {
         confirmPassword.value == password.value;
   }
 
+  bool get canResendOtp {
+    return resendCountdown == 0;
+  }
+
   @override
-  List<Object> get props =>
-      [email, otp, password, confirmPassword, status, currentStep];
+  List<Object> get props => [
+        email,
+        otp,
+        password,
+        confirmPassword,
+        status,
+        currentStep,
+        resendCountdown
+      ];
 
   ForgotState copyWith({
     EmailFormzInput? email,
@@ -50,6 +63,7 @@ class ForgotState extends Equatable {
     String? error,
     bool? isDirty,
     ForgotPasswordStep? currentStep,
+    int? resendCountdown,
   }) {
     return ForgotState(
       email: email ?? this.email,
@@ -58,6 +72,7 @@ class ForgotState extends Equatable {
       confirmPassword: confirmPassword ?? this.confirmPassword,
       status: status ?? this.status,
       currentStep: currentStep ?? this.currentStep,
+      resendCountdown: resendCountdown ?? this.resendCountdown,
     );
   }
 }

@@ -13,11 +13,9 @@ import 'package:myapp/src/features/authentication/model/name_formz.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/network/domain_manager.dart';
 import 'package:formz/formz.dart';
-import 'package:myapp/src/network/model/common/result.dart';
 import 'package:myapp/src/network/model/user/user.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/src/services/user_prefs.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'signup_state.dart';
 
@@ -36,97 +34,26 @@ class SignupBloc extends Cubit<SignupState> {
     final password = state.password.value;
     final name = state.name.value;
 
-    Supabase.instance.client
-        .rpc('email_exists', params: {'email_input': email})
-        .select()
-        .then((rows) async {
-          final existing = rows.isEmpty ? null : rows.first;
+    final result = await domain.sign.signUpWithEmail(
+      email: email,
+      password: password,
+      name: name,
+      context: context,
+    );
 
-          if (existing != null && existing['email_confirmed_at'] != null) {
-            XToast.hideLoading();
-            emit(state.copyWith(status: FormzSubmissionStatus.failure));
-            final errorResult = MResult<void>.error('Email đã được sử dụng');
-            XAlert.show(
-              title: S.of(context).error_signUp,
-              body: errorResult.error!,
-              actions: [XAlertButton(title: S.of(context).common_close)],
-            );
-            return;
-          } else if (existing != null &&
-              existing['email_confirmed_at'] == null) {
-            XToast.hideLoading();
-            emit(state.copyWith(status: FormzSubmissionStatus.success));
-            XToast.success(S.of(context).success_signUp);
-            return;
-          }
+    XToast.hideLoading();
 
-          Supabase.instance.client.auth.signUp(
-            email: email,
-            password: password,
-            data: {'name': name},
-          ).then((response) async {
-            final user = response.user;
-            if (user == null) {
-              XToast.hideLoading();
-              emit(state.copyWith(status: FormzSubmissionStatus.failure));
-              XAlert.show(
-                title: S.of(context).error_signUp,
-                body: S.of(context).error_somethingWrongTryAgain,
-                actions: [XAlertButton(title: S.of(context).common_close)],
-              );
-              return;
-            }
-
-            final mUser = MUser(
-              id: user.id,
-              name: name,
-              email: email,
-              bio: null,
-              avatarUrl: null,
-              createdAt: DateTime.now(),
-            );
-
-            Supabase.instance.client
-                .from('users')
-                .insert(mUser.toSupabaseTable())
-                .then((_) {
-              XToast.hideLoading();
-              emit(state.copyWith(status: FormzSubmissionStatus.success));
-              signupDecision(context, mUser);
-            }).catchError((insertError) {
-              XToast.hideLoading();
-              emit(state.copyWith(status: FormzSubmissionStatus.failure));
-              final errorResult = MResult<void>.exception(insertError);
-              XAlert.show(
-                title: S.of(context).error_signUp,
-                body: errorResult.error ??
-                    S.of(context).error_somethingWrongTryAgain,
-                actions: [XAlertButton(title: S.of(context).common_close)],
-              );
-            });
-          }).catchError((e) {
-            XToast.hideLoading();
-            emit(state.copyWith(status: FormzSubmissionStatus.failure));
-            final errorResult = MResult<void>.exception(e);
-            XAlert.show(
-              title: S.of(context).error_signUp,
-              body: errorResult.error ??
-                  S.of(context).error_somethingWrongTryAgain,
-              actions: [XAlertButton(title: S.of(context).common_close)],
-            );
-          });
-        })
-        .catchError((e) {
-          XToast.hideLoading();
-          emit(state.copyWith(status: FormzSubmissionStatus.failure));
-          final errorResult = MResult<void>.exception(e);
-          XAlert.show(
-            title: S.of(context).error_signUp,
-            body:
-                errorResult.error ?? S.of(context).error_somethingWrongTryAgain,
-            actions: [XAlertButton(title: S.of(context).common_close)],
-          );
-        });
+    if (result.isSuccess) {
+      emit(state.copyWith(status: FormzSubmissionStatus.success));
+      signupDecision(context, result.data!);
+    } else {
+      emit(state.copyWith(status: FormzSubmissionStatus.failure));
+      XAlert.show(
+        title: S.of(context).error_signUp,
+        body: result.error ?? S.of(context).error_somethingWrongTryAgain,
+        actions: [XAlertButton(title: S.of(context).common_close)],
+      );
+    }
   }
 
   Future signupDecision(BuildContext context, MUser incomingUser) async {
