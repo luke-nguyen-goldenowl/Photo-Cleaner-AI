@@ -21,4 +21,5 @@ class AppConstants {
       ];
 
   static String avatarLink = 'https://api.dicebear.com/9.x/fun-emoji/png?seed=';
+  static const int pageSize = 100;
 }

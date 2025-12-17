@@ -52,6 +52,9 @@
   "common_agreeButton_title": "Confirm",
   "common_cancelButton_title": "Cancel",
 
+  "common_delete_title_alert":"Confirm Deletion",
+  "common_delete_confirm_title":"Are you sure you want to delete this photo?",
+
   "common_yes": "Yes",
   "common_no": "No",
   "common_close": "Close",
@@ -92,6 +95,34 @@
   "common_newPass_hintText":"New password",
   "common_confirmNewPass_hintText":"Confirm new password",
 
+  "common_photo_tab_title":"My Gallery",
+  "common_offline_mode":"You are in offline mode",
+  "common_all_chip_title":"All",
+  "common_favourite_chip_title":"Favourite",
+  "common_image_count_title":"image",
+  "common_floating_button_text":"Memory",
+  "common_like_button_text":"Like",
+  "common_secure_button_text":"Secure",
+  "common_enhance_button_text":"Enhance",
+  "common_share_button_text":"Share",
+  "common_save_button_text":"Save",
+  "common_delete_button_text":"Delete",
+  "common_text_share":"Share from Pixel Perfect",
+  "common_image_not_found_title":"There are no photos available",
+  "common_image_not_found_subTitle":"Your library is empty",
+  "common_image_liked_not_found_subTitle":"Your list of favorite photos is empty",
+  "common_try_again":"Try Again",
+   "common_add_to_favorite":"Liked",
+  "common_remove_favorite":"Unlike",
+  "common_delete_success":"Delete successfully",
+
+  "common_detail_option_text":"Detail",
+  "common_infor_image_title":"Information",
+  "common_name_image_text":"Name",
+  "common_height_text":"Height",
+  "common_width_text":"Width",
+  "common_path_image_text":"Path",
+  "common_created_text":"Time",
 
   "common_image_text_profile": "IMAGE",
   "common_friend_text_profile": "FRIEND",
@@ -125,5 +156,6 @@
   "error_sendOTP":"Failed to send OTP",
   "error_verifyOTP":"Verification failed",
   "error_OTP_invalid":"Invalid OTP code",
-  "error_resetPass":"Password change failed"
+  "error_resetPass":"Password change failed",
+  "error_permission":"No photo gallery access. Please grant permissions in settings"
 }

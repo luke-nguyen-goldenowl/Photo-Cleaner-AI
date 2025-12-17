@@ -139,6 +139,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get common_cancelButton_title => 'Cancel';
 
   @override
+  String get common_delete_title_alert => 'Confirm Deletion';
+
+  @override
+  String get common_delete_confirm_title =>
+      'Are you sure you want to delete this photo?';
+
+  @override
   String get common_yes => 'Yes';
 
   @override
@@ -252,6 +259,88 @@ class AppLocalizationsEn extends AppLocalizations {
   String get common_confirmNewPass_hintText => 'Confirm new password';
 
   @override
+  String get common_photo_tab_title => 'My Gallery';
+
+  @override
+  String get common_offline_mode => 'You are in offline mode';
+
+  @override
+  String get common_all_chip_title => 'All';
+
+  @override
+  String get common_favourite_chip_title => 'Favourite';
+
+  @override
+  String get common_image_count_title => 'image';
+
+  @override
+  String get common_floating_button_text => 'Memory';
+
+  @override
+  String get common_like_button_text => 'Like';
+
+  @override
+  String get common_secure_button_text => 'Secure';
+
+  @override
+  String get common_enhance_button_text => 'Enhance';
+
+  @override
+  String get common_share_button_text => 'Share';
+
+  @override
+  String get common_save_button_text => 'Save';
+
+  @override
+  String get common_delete_button_text => 'Delete';
+
+  @override
+  String get common_text_share => 'Share from Pixel Perfect';
+
+  @override
+  String get common_image_not_found_title => 'There are no photos available';
+
+  @override
+  String get common_image_not_found_subTitle => 'Your library is empty';
+
+  @override
+  String get common_image_liked_not_found_subTitle =>
+      'Your list of favorite photos is empty';
+
+  @override
+  String get common_try_again => 'Try Again';
+
+  @override
+  String get common_add_to_favorite => 'Liked';
+
+  @override
+  String get common_remove_favorite => 'Unlike';
+
+  @override
+  String get common_delete_success => 'Delete successfully';
+
+  @override
+  String get common_detail_option_text => 'Detail';
+
+  @override
+  String get common_infor_image_title => 'Information';
+
+  @override
+  String get common_name_image_text => 'Name';
+
+  @override
+  String get common_height_text => 'Height';
+
+  @override
+  String get common_width_text => 'Width';
+
+  @override
+  String get common_path_image_text => 'Path';
+
+  @override
+  String get common_created_text => 'Time';
+
+  @override
   String get common_image_text_profile => 'IMAGE';
 
   @override
@@ -336,4 +425,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get error_resetPass => 'Password change failed';
+
+  @override
+  String get error_permission =>
+      'No photo gallery access. Please grant permissions in settings';
 }
