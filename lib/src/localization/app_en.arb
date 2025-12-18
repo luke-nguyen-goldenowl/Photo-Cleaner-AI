@@ -157,5 +157,24 @@
   "error_verifyOTP":"Verification failed",
   "error_OTP_invalid":"Invalid OTP code",
   "error_resetPass":"Password change failed",
-  "error_permission":"No photo gallery access. Please grant permissions in settings"
+  "error_permission":"No photo gallery access. Please grant permissions in settings",
+
+  "common_tab_place_title":"Check In",
+  "common_touch_for_detail":"Touch the photo to see details",
+  "common_timeline_place":"Route according to shooting time",
+  "common_latitude":"Latitude",
+   "common_longtitude":"Longitude",
+   "common_time":"Time",
+  "common_loading":"Loading...",
+   "common_filter_by_time":"Filter by time",
+  "common_filter_all":"All",
+  "common_filter_today":"Today",
+  "common_filter_week":"This week",
+  "common_filter_month":"This month",
+  "common_filter_year":"This year",
+  "common_filter_custom":"Custom",
+  "common_not_found_gps_image":"No photos with GPS found",
+  "common_please_take_gps_image":"Please take photos with GPS enabled",
+  "common_view_mode_maker":"Markers",
+  "common_view_mode_route":"Route"
 }

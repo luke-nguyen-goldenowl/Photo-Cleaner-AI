@@ -159,6 +159,25 @@
   "error_verifyOTP":"Xác thực thất bại",
   "error_OTP_invalid":"Mã OTP không hợp lệ",
   "error_resetPass":"Đổi mật khẩu thất bại",
-  "error_permission":"Không có quyền truy cập thư viện ảnh. Vui lòng cấp quyền trong cài đặt"
+  "error_permission":"Không có quyền truy cập thư viện ảnh. Vui lòng cấp quyền trong cài đặt",
+
+  "common_tab_place_title":"Địa điểm",
+  "common_touch_for_detail":"Chạm vào ảnh để xem chi tiết",
+  "common_timeline_place":"Lộ trình theo thời gian chụp",
+  "common_latitude":"Vĩ độ",
+   "common_longtitude":"Kinh độ",
+   "common_time":"Thời gian",
+  "common_loading":"Đang tải...",
+  "common_filter_by_time":"Lọc theo thời gian",
+  "common_filter_all":"Tất cả",
+  "common_filter_today":"Hôm nay",
+  "common_filter_week":"Tuần này",
+  "common_filter_month":"Tháng này",
+  "common_filter_year":"Năm này",
+  "common_filter_custom":"Tuỳ chỉnh",
+  "common_not_found_gps_image":"Không tìm thấy ảnh có GPS",
+  "common_please_take_gps_image":"Vui lòng chụp ảnh với GPS được bật",
+  "common_view_mode_maker":"Điểm",
+  "common_view_mode_route":"Lộ trình"
 
 }
