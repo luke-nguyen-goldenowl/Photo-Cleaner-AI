@@ -1,6 +1,9 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:media_store_plus/media_store_plus.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/service/remove_bg_service.dart';
 import 'package:myapp/src/features/dashboard/photo/model/photo_item.dart';
 import 'package:myapp/src/features/dashboard/place/model/image_location.dart';
 import 'package:myapp/src/features/dashboard/place/helper/place_helpers.dart';
@@ -9,6 +12,8 @@ import 'package:myapp/src/network/data/photo/photo_local_db.dart';
 import 'package:myapp/src/network/data/photo/photo_repository.dart';
 import 'package:myapp/src/network/model/common/result.dart';
 import 'package:myapp/src/services/user_prefs.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:share_plus/share_plus.dart';
@@ -16,6 +21,7 @@ import 'package:exif/exif.dart';
 
 class PhotoRepositoryImpl extends PhotoRepository {
   final PhotoDatabaseHelper _dbHelper = PhotoDatabaseHelper.instance;
+  final RemoveBgService _removeBgService = RemoveBgService();
   String? get _userId => UserPrefs.I.getUser()?.id;
 
   @override
@@ -353,6 +359,80 @@ class PhotoRepositoryImpl extends PhotoRepository {
         imageId: photo.asset!.id,
         dateTime: dateTime,
       ));
+    } catch (e) {
+      return MResult.exception(e);
+    }
+  }
+
+  @override
+  Future<MResult<Uint8List>> removeBackground(
+      File imageFile, BuildContext context) async {
+    try {
+      final result = await _removeBgService.removeBackground(imageFile.path);
+      if (result != null) {
+        return MResult.success(result);
+      } else {
+        return MResult.error(S.of(context).error_somethingWrongTryAgain);
+      }
+    } on SocketException {
+      return MResult.error(S.of(context).error_noInternetConnection);
+    } catch (e) {
+      return MResult.exception(e);
+    }
+  }
+
+  @override
+  Future<MResult<String>> saveImageToDevice(
+      Uint8List imageData, String fileName, BuildContext context) async {
+    try {
+      if (Platform.isAndroid) {
+        final sdkVersion = await DeviceInfoPlugin()
+            .androidInfo
+            .then((value) => value.version.sdkInt);
+        if (sdkVersion < 33) {
+          final status = await Permission.storage.request();
+          if (!status.isGranted) {
+            return MResult.error(S.of(context).error_permission);
+          }
+        }
+      }
+      final imageName =
+          fileName.toLowerCase().endsWith('.png') ? fileName : '$fileName.png';
+      final tempDir = await getTemporaryDirectory();
+      final tempFile = File(path.join(tempDir.path, imageName));
+      await tempFile.writeAsBytes(imageData);
+
+      final mediaStore = MediaStore();
+      await MediaStore.ensureInitialized();
+      MediaStore.appFolder = 'PixelPerfect';
+
+      if (Platform.isAndroid) {
+        final savedInfo = await mediaStore.saveFile(
+          tempFilePath: tempFile.path,
+          dirType: DirType.download,
+          dirName: DirName.download,
+          relativePath: 'Pictures/PixelPerfect',
+        );
+        await tempFile.delete();
+        if (savedInfo != null) {
+          return MResult.success(savedInfo.uri.toString());
+        } else {
+          return MResult.error(S.of(context).error_somethingWrongTryAgain);
+        }
+      } else {
+        final documentsDir = await getApplicationDocumentsDirectory();
+        final iosFile =
+            File(path.join(documentsDir.path, 'PhotoCleaner', imageName));
+
+        if (!await iosFile.parent.exists()) {
+          await iosFile.parent.create(recursive: true);
+        }
+
+        await tempFile.copy(iosFile.path);
+        await tempFile.delete();
+
+        return MResult.success(iosFile.path);
+      }
     } catch (e) {
       return MResult.exception(e);
     }

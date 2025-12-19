@@ -158,6 +158,7 @@
   "error_OTP_invalid":"Invalid OTP code",
   "error_resetPass":"Password change failed",
   "error_permission":"No photo gallery access. Please grant permissions in settings",
+  "error_noInternetConnection":"Unable to connect to the server. Please check your internet connection",
 
   "common_tab_place_title":"Check In",
   "common_touch_for_detail":"Touch the photo to see details",
@@ -176,5 +177,26 @@
   "common_not_found_gps_image":"No photos with GPS found",
   "common_please_take_gps_image":"Please take photos with GPS enabled",
   "common_view_mode_maker":"Markers",
-  "common_view_mode_route":"Route"
+  "common_view_mode_route":"Route",
+
+
+  "common_cleaner_tab_title":"Tools",
+  "common_result_view_title":"Result",
+  "common_cleaner_tab_subTitle":"Explore photo editing tools",
+  "common_duplicate_image_grid_title": "Duplicate Photos",
+  "common_duplicate_image_grid_subTitle": "Automatically detect and group similar photos",
+
+  "common_remove_bg_grid_title": "Remove Background",
+  "common_remove_bg_grid_subTitle": "Remove the background from your photos",
+
+  "common_enhance_image_grid_title": "Enhance Photo",
+  "common_enhance_image_grid_subTitle": "Sharpen images and enhance photo details",
+
+  "common_make_video_grid_title": "Create Moment Video",
+  "common_make_video_grid_subTitle": "Turn your favorite moments into a video",
+  "common_remove_bg_title":"Remove Background",
+    "common_select_image_title":"Select an image from your device",
+   "common_button_handle_remove_bg":"Continue",
+   "common_button_save":"Save",
+   "common_image_saved_successfully":"Image saved successfully"
 }

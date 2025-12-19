@@ -5,7 +5,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:myapp/src/features/dashboard/place/db/gps_local_db.dart';
 import 'package:myapp/src/features/dashboard/place/helper/place_helpers.dart';
 import 'package:myapp/src/features/dashboard/place/model/map_bound.dart';
-import 'package:myapp/src/network/data/photo/photo_repository.dart';
+import 'package:myapp/src/network/domain_manager.dart';
 import '../model/image_location.dart';
 
 part 'place_state.dart';
@@ -15,10 +15,11 @@ enum MapDisplayMode { markers, heatmap, route }
 enum TimeFilter { all, today, thisWeek, thisMonth, thisYear, custom }
 
 class PlaceBloc extends Cubit<PlaceState> {
-  final PhotoRepository photoRepository;
+  //final PhotoRepository photoRepository;
+  DomainManager get domain => DomainManager();
   bool _hasLoaded = false;
 
-  PlaceBloc({required this.photoRepository}) : super(const PlaceState());
+  PlaceBloc() : super(const PlaceState());
 
   Future<void> loadPhotosWithGPS({
     required BuildContext context,
@@ -31,7 +32,7 @@ class PlaceBloc extends Cubit<PlaceState> {
 
     emit(state.copyWith(status: PlaceStatus.loading));
 
-    final result = await photoRepository.loadPhotos(
+    final result = await domain.photo.loadPhotos(
       page: 0,
       pageSize: 1000,
       context: context,
@@ -70,7 +71,7 @@ class PlaceBloc extends Cubit<PlaceState> {
         }
       }
 
-      final result = await photoRepository.extractGpsFromPhoto(photo);
+      final result = await domain.photo.extractGpsFromPhoto(photo);
 
       if (result.isSuccess && result.data != null) {
         photosWithGPS.add(result.data!);

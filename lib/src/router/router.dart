@@ -9,6 +9,9 @@ import 'package:myapp/src/features/authentication/view/forgot_view.dart';
 import 'package:myapp/src/features/authentication/view/signin_view.dart';
 import 'package:myapp/src/features/authentication/view/signup_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/cleaner_view.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/logic/remove_bg_bloc.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/view/result_view.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/view/select_image_view.dart';
 import 'package:myapp/src/features/dashboard/friend/view/friend_view.dart';
 import 'package:myapp/src/features/dashboard/logic/navigation_bar_item.dart';
 import 'package:myapp/src/features/dashboard/photo/logic/photo_bloc.dart';
@@ -21,7 +24,6 @@ import 'package:myapp/src/features/dashboard/view/dashboard_view.dart';
 import 'package:myapp/src/features/onboarding/view/on_boarding_view.dart';
 import 'package:myapp/src/features/getting_started/view/getting_started_view.dart';
 import 'package:myapp/src/features/splash/view/splash_view.dart';
-import 'package:myapp/src/network/data/photo/photo_repository_impl.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/src/router/route_name.dart';
 import 'package:myapp/src/services/network-connection/internet_connection_cubit.dart';
@@ -75,9 +77,7 @@ class AppRouter {
           providers: [
             BlocProvider(create: (context) => InternetConnectionCubit()),
             BlocProvider<PlaceBloc>(
-              create: (context) => PlaceBloc(
-                photoRepository: PhotoRepositoryImpl(),
-              ),
+              create: (context) => PlaceBloc(),
             ),
           ],
           child: DashBoardScreen(
@@ -118,6 +118,30 @@ class AppRouter {
             pageBuilder: (context, state) => const NoTransitionPage(
               child: CleanerView(),
             ),
+            routes: <RouteBase>[
+              GoRoute(
+                parentNavigatorKey: AppCoordinator.navigatorKey,
+                path: AppRouteNames.selectImage.subPath,
+                name: AppRouteNames.selectImage.name,
+                builder: (_, __) => const SelectImageView(),
+              ),
+              GoRoute(
+                parentNavigatorKey: AppCoordinator.navigatorKey,
+                path: AppRouteNames.resultRemoveBg.subPath,
+                name: AppRouteNames.resultRemoveBg.name,
+                builder: (context, state) {
+                  final imageData = state.extra as Uint8List?;
+                  if (imageData == null) {
+                    return const NotFoundView();
+                  }
+                  return BlocProvider(
+                    create: (context) =>
+                        RemoveBgBloc()..setProcessedImage(imageData),
+                    child: ResultView(imageData: imageData),
+                  );
+                },
+              ),
+            ],
           ),
           GoRoute(
             path: AppRouteNames.friend.path,

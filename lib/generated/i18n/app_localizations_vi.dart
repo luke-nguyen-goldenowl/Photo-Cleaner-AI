@@ -428,6 +428,10 @@ class AppLocalizationsVi extends AppLocalizations {
       'Không có quyền truy cập thư viện ảnh. Vui lòng cấp quyền trong cài đặt';
 
   @override
+  String get error_noInternetConnection =>
+      'Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối internet';
+
+  @override
   String get common_tab_place_title => 'Địa điểm';
 
   @override
@@ -481,4 +485,57 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get common_view_mode_route => 'Lộ trình';
+
+  @override
+  String get common_cleaner_tab_title => 'Công cụ';
+
+  @override
+  String get common_result_view_title => 'Kết quả';
+
+  @override
+  String get common_cleaner_tab_subTitle =>
+      'Khám phá các công cụ hỗ trợ chỉnh sửa ảnh';
+
+  @override
+  String get common_duplicate_image_grid_title => 'Nhóm ảnh trùng lặp';
+
+  @override
+  String get common_duplicate_image_grid_subTitle =>
+      'Tự động phát hiện và nhóm các ảnh giống nhau';
+
+  @override
+  String get common_remove_bg_grid_title => 'Xóa phông nền';
+
+  @override
+  String get common_remove_bg_grid_subTitle =>
+      'Loại bỏ phông nền trong bức ảnh của bạn';
+
+  @override
+  String get common_enhance_image_grid_title => 'Làm nét ảnh';
+
+  @override
+  String get common_enhance_image_grid_subTitle =>
+      'Tăng độ sắc nét và cải thiện chi tiết ảnh';
+
+  @override
+  String get common_make_video_grid_title => 'Tạo video khoảnh khắc';
+
+  @override
+  String get common_make_video_grid_subTitle =>
+      'Lưu lại những khoảnh khắc đẹp của bạn bằng video';
+
+  @override
+  String get common_remove_bg_title => 'Xoá phông nền';
+
+  @override
+  String get common_select_image_title => 'Chọn một ảnh từ thiết bị của bạn';
+
+  @override
+  String get common_button_handle_remove_bg => 'Tiến hành';
+
+  @override
+  String get common_button_save => 'Tải xuống';
+
+  @override
+  String get common_image_saved_successfully => 'Ảnh đã được lưu vào thư viện';
 }

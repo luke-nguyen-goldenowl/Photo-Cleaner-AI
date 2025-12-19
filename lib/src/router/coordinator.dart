@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -57,4 +59,14 @@ class AppCoordinator {
 
   static Future<T?> showProfile<T extends Object?>() =>
       context.pushNamed<T>(AppRouteNames.profile.name);
+
+  static Future<T?> showSelectImage<T extends Object?>() =>
+      context.pushNamed<T>(AppRouteNames.selectImage.name);
+
+  static Future<T?> showResultRemoveBg<T extends Object?>(
+          {required Uint8List imageData}) =>
+      context.pushNamed<T>(
+        AppRouteNames.resultRemoveBg.name,
+        extra: imageData,
+      );
 }
