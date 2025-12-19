@@ -15,6 +15,21 @@ class ForgotPasswordView extends StatelessWidget {
     return BlocProvider(
       create: (_) => ForgotBloc(),
       child: BlocBuilder<ForgotBloc, ForgotState>(
+        buildWhen: (previous, current) {
+          if (previous.currentStep != current.currentStep) {
+            return true;
+          }
+          switch (current.currentStep) {
+            case ForgotPasswordStep.enterEmail:
+              return previous.email != current.email;
+            case ForgotPasswordStep.enterOtp:
+              return previous.otp != current.otp ||
+                  previous.resendCountdown != current.resendCountdown;
+            case ForgotPasswordStep.resetPassword:
+              return previous.password != current.password ||
+                  previous.confirmPassword != current.confirmPassword;
+          }
+        },
         builder: (context, ForgotState state) {
           return Scaffold(
             appBar: AppBar(
@@ -85,7 +100,7 @@ class ForgotPasswordView extends StatelessWidget {
           text: S.of(context).common_button_senOTP,
           onPressed: state.isValidated
               ? () {
-                  context.read<ForgotBloc>().sendOtpToEmail(context);
+                  context.read<ForgotBloc>().sendOtpToEmail();
                 }
               : null,
         ),
@@ -128,7 +143,7 @@ class ForgotPasswordView extends StatelessWidget {
           onChanged: (value) {
             context.read<ForgotBloc>().onOtpChanged(value);
             if (value.length == 6) {
-              context.read<ForgotBloc>().verifyOtp(context);
+              context.read<ForgotBloc>().verifyOtp();
             }
           },
           value: state.otp,
@@ -138,7 +153,7 @@ class ForgotPasswordView extends StatelessWidget {
           text: S.of(context).common_button_verify,
           onPressed: state.isOtpValid
               ? () {
-                  context.read<ForgotBloc>().verifyOtp(context);
+                  context.read<ForgotBloc>().verifyOtp();
                 }
               : null,
         ),
@@ -153,7 +168,7 @@ class ForgotPasswordView extends StatelessWidget {
               )
             : GestureDetector(
                 onTap: () {
-                  context.read<ForgotBloc>().resendOtp(context);
+                  context.read<ForgotBloc>().resendOtp();
                 },
                 child: Text(
                   S.of(context).common_sendOTPAgain,
@@ -214,7 +229,7 @@ class ForgotPasswordView extends StatelessWidget {
           text: S.of(context).common_recoverPass_title,
           onPressed: state.isPasswordValid
               ? () {
-                  context.read<ForgotBloc>().resetPassword(context);
+                  context.read<ForgotBloc>().resetPassword();
                 }
               : null,
         ),

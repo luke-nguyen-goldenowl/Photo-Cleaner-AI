@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/network/domain_manager.dart';
 import 'package:myapp/src/network/model/user/user.dart';
 import 'package:myapp/src/services/user_prefs.dart';
@@ -19,15 +18,17 @@ class ProfileBloc extends Cubit<ProfileState> {
   Future<void> loadUserProfile(BuildContext context) async {
     emit(state.copyWith(status: ProfileStatus.loading));
     final cachedUser = UserPrefs.I.getUser();
-    if (cachedUser == null || cachedUser.id.isEmpty) {
+    final email = cachedUser?.email;
+    if (cachedUser == null ||
+        cachedUser.id.isEmpty ||
+        email == null ||
+        email.isEmpty) {
       emit(state.copyWith(
         status: ProfileStatus.error,
-        errorMessage: S.of(context).error_somethingWrongTryAgain,
       ));
       return;
     }
-    final result =
-        await domain.user.getUserFromSupabase(cachedUser.email!, context);
+    final result = await domain.user.getUserFromSupabase(email, context);
 
     if (result.isSuccess && result.data != null) {
       final user = result.data!;
@@ -44,7 +45,6 @@ class ProfileBloc extends Cubit<ProfileState> {
     } else {
       emit(state.copyWith(
         status: ProfileStatus.error,
-        errorMessage: S.of(context).error_somethingWrongTryAgain,
       ));
     }
   }
