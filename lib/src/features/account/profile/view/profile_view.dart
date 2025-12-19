@@ -20,8 +20,13 @@ class ProfileView extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: BlocBuilder<ProfileBloc, ProfileState>(
+          buildWhen: (previous, current) =>
+              previous.isLoading != current.isLoading ||
+              previous.user != current.user ||
+              previous.photoCount != current.photoCount ||
+              previous.friendCount != current.friendCount,
           builder: (context, profileState) {
-            if (profileState.isLoading) {
+            if (profileState.isLoading && profileState.user == null) {
               return const Center(child: CircularProgressIndicator());
             }
             return Stack(

@@ -38,7 +38,6 @@ class SignupBloc extends Cubit<SignupState> {
       email: email,
       password: password,
       name: name,
-      context: context,
     );
 
     XToast.hideLoading();

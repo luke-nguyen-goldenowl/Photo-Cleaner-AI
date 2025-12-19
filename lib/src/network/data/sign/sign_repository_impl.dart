@@ -133,9 +133,7 @@ class SignRepositoryImpl extends SignRepository {
 
   @override
   Future<MResult<MUser>> loginWithEmail(
-      {required String email,
-      required String password,
-      required BuildContext context}) async {
+      {required String email, required String password}) async {
     try {
       final response = await Supabase.instance.client.auth.signInWithPassword(
         email: email,
@@ -148,10 +146,10 @@ class SignRepositoryImpl extends SignRepository {
       final code = e.code?.toLowerCase();
 
       if (code == 'email_not_confirmed') {
-        return MResult.error(S.of(context).error_email_not_confirm);
+        return MResult.error(S.text.error_email_not_confirm);
       }
       if (code == 'invalid_credentials') {
-        return MResult.error(S.of(context).error_email_or_password_invalid);
+        return MResult.error(S.text.error_email_or_password_invalid);
       }
       return MResult.exception(e);
     } catch (e) {
@@ -199,8 +197,7 @@ class SignRepositoryImpl extends SignRepository {
   Future<MResult<MUser>> signUpWithEmail(
       {required String email,
       required String password,
-      required String name,
-      required BuildContext context}) async {
+      required String name}) async {
     try {
       // Check if email exists
       final rows = await Supabase.instance.client
@@ -209,7 +206,7 @@ class SignRepositoryImpl extends SignRepository {
       final existing = rows.isEmpty ? null : rows.first;
 
       if (existing != null && existing['email_confirmed_at'] != null) {
-        return MResult.error(S.of(context).error_email_have_been_used);
+        return MResult.error(S.text.error_email_have_been_used);
       } else if (existing != null && existing['email_confirmed_at'] == null) {
         return MResult.success(MUser(
           id: existing['id'],
@@ -227,7 +224,7 @@ class SignRepositoryImpl extends SignRepository {
 
       final user = response.user;
       if (user == null) {
-        return MResult.error(S.of(context).error_signUp);
+        return MResult.error(S.text.error_signUp);
       }
 
       final mUser = MUser(
@@ -251,8 +248,7 @@ class SignRepositoryImpl extends SignRepository {
   }
 
   @override
-  Future<MResult<void>> resetPassword(
-      String newPassword, BuildContext context) async {
+  Future<MResult<void>> resetPassword(String newPassword) async {
     try {
       await Supabase.instance.client.auth.updateUser(
         UserAttributes(password: newPassword),
@@ -262,30 +258,27 @@ class SignRepositoryImpl extends SignRepository {
       final code = e.code?.toLowerCase();
 
       if (code == 'same_password') {
-        return MResult.error(S.of(context).error_same_password);
+        return MResult.error(S.text.error_same_password);
       }
-      return MResult.exception(S.of(context).error_somethingWrongTryAgain);
+      return MResult.exception(S.text.error_somethingWrongTryAgain);
     } catch (e) {
-      return MResult.exception(S.of(context).error_somethingWrongTryAgain);
+      return MResult.exception(S.text.error_somethingWrongTryAgain);
     }
   }
 
   @override
-  Future<MResult<String>> sendOtpToEmail(
-      String email, BuildContext context) async {
+  Future<MResult<String>> sendOtpToEmail(String email) async {
     try {
       await Supabase.instance.client.auth.signInWithOtp(email: email);
-      return MResult.success('${S.of(context).success_sendOTP} $email');
+      return MResult.success('${S.text.success_sendOTP} $email');
     } catch (e) {
-      return MResult.exception(S.of(context).error_somethingWrongTryAgain);
+      return MResult.exception(S.text.error_somethingWrongTryAgain);
     }
   }
 
   @override
   Future<MResult<void>> verifyOtp(
-      {required String email,
-      required String otp,
-      required BuildContext context}) async {
+      {required String email, required String otp}) async {
     try {
       final response = await Supabase.instance.client.auth.verifyOTP(
         email: email,
@@ -296,17 +289,17 @@ class SignRepositoryImpl extends SignRepository {
       if (response.user != null) {
         return MResult.success(null);
       } else {
-        return MResult.error(S.of(context).error_verifyOTP);
+        return MResult.error(S.text.error_verifyOTP);
       }
     } on AuthApiException catch (e) {
       final code = e.code?.toLowerCase();
 
       if (code == 'otp_expired') {
-        return MResult.error(S.of(context).error_otp_expired);
+        return MResult.error(S.text.error_otp_expired);
       }
-      return MResult.error(S.of(context).error_somethingWrongTryAgain);
+      return MResult.error(S.text.error_somethingWrongTryAgain);
     } catch (e) {
-      return MResult.exception(S.of(context).error_somethingWrongTryAgain);
+      return MResult.exception(S.text.error_somethingWrongTryAgain);
     }
   }
 }
