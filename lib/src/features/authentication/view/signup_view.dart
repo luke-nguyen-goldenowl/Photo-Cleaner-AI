@@ -16,6 +16,11 @@ class SignupView extends StatelessWidget {
     return BlocProvider(
       create: (_) => SignupBloc(),
       child: BlocBuilder<SignupBloc, SignupState>(
+        buildWhen: (previous, current) =>
+            previous.name != current.name ||
+            previous.email != current.email ||
+            previous.password != current.password ||
+            previous.confirmPassword != current.confirmPassword,
         builder: (context, SignupState state) {
           return Scaffold(
             body: Container(

@@ -15,7 +15,6 @@ class PlaceState extends Equatable {
     this.timeFilter = TimeFilter.all,
     this.customRange,
     this.selectedImage,
-    this.errorMessage,
     this.mapCenter,
     this.mapZoom = 12.0,
   });
@@ -26,7 +25,6 @@ class PlaceState extends Equatable {
   final TimeFilter timeFilter;
   final DateTimeRange? customRange;
   final MImageLocation? selectedImage;
-  final String? errorMessage;
   final LatLng? mapCenter;
   final double mapZoom;
 
@@ -57,7 +55,6 @@ class PlaceState extends Equatable {
     TimeFilter? timeFilter,
     DateTimeRange? customRange,
     MImageLocation? selectedImage,
-    String? errorMessage,
   }) {
     return PlaceState(
       status: status ?? this.status,
@@ -66,7 +63,6 @@ class PlaceState extends Equatable {
       timeFilter: timeFilter ?? this.timeFilter,
       customRange: customRange ?? this.customRange,
       selectedImage: selectedImage ?? this.selectedImage,
-      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
@@ -78,6 +74,5 @@ class PlaceState extends Equatable {
         timeFilter,
         customRange,
         selectedImage,
-        errorMessage,
       ];
 }

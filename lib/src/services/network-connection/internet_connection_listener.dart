@@ -9,6 +9,10 @@ class InternetListener extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<InternetConnectionCubit, InternetStatusState>(
+      listenWhen: (previous, current) {
+        return (previous == InternetStatusState.disconnected) !=
+            (current == InternetStatusState.disconnected);
+      },
       listener: (context, state) {
         if (state == InternetStatusState.disconnected) {
           ScaffoldMessenger.of(context).showSnackBar(

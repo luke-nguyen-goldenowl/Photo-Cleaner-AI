@@ -22,7 +22,6 @@ class PlaceBloc extends Cubit<PlaceState> {
   PlaceBloc() : super(const PlaceState());
 
   Future<void> loadPhotosWithGPS({
-    required BuildContext context,
     bool forceReload = false,
   }) async {
     if (isClosed) return;
@@ -35,14 +34,12 @@ class PlaceBloc extends Cubit<PlaceState> {
     final result = await domain.photo.loadPhotos(
       page: 0,
       pageSize: 1000,
-      context: context,
     );
 
     if (!result.isSuccess) {
       if (isClosed) return;
       emit(state.copyWith(
         status: PlaceStatus.error,
-        errorMessage: result.error,
       ));
       return;
     }
@@ -62,9 +59,10 @@ class PlaceBloc extends Cubit<PlaceState> {
 
     for (final photo in photos) {
       if (isClosed) return;
-
+      final asset = photo.asset;
+      if (asset == null) continue;
       if (!forceReload) {
-        final cached = await gpsCache.get(photo.asset!.id);
+        final cached = await gpsCache.get(asset.id);
         if (cached != null) {
           photosWithGPS.add(cached);
           continue;
@@ -72,10 +70,11 @@ class PlaceBloc extends Cubit<PlaceState> {
       }
 
       final result = await domain.photo.extractGpsFromPhoto(photo);
+      final gpsData = result.data;
 
-      if (result.isSuccess && result.data != null) {
-        photosWithGPS.add(result.data!);
-        await gpsCache.put(result.data!);
+      if (result.isSuccess && gpsData != null) {
+        photosWithGPS.add(gpsData);
+        await gpsCache.put(gpsData);
       }
     }
 
@@ -110,8 +109,8 @@ class PlaceBloc extends Cubit<PlaceState> {
     emit(state.copyWith(selectedImage: null));
   }
 
-  Future<void> refresh(BuildContext context) async {
+  Future<void> refresh() async {
     emit(state.copyWith(status: PlaceStatus.loading));
-    await loadPhotosWithGPS(context: context, forceReload: true);
+    await loadPhotosWithGPS(forceReload: true);
   }
 }

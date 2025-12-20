@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:myapp/src/dialogs/alert_wrapper.dart';
@@ -44,7 +43,7 @@ class ForgotBloc extends Cubit<ForgotState> {
     emit(state.copyWith(resendCountdown: 0));
   }
 
-  Future sendOtpToEmail(BuildContext context) async {
+  Future sendOtpToEmail() async {
     if (state.email.isValid == false || state.status.isInProgress) {
       return;
     }
@@ -52,7 +51,7 @@ class ForgotBloc extends Cubit<ForgotState> {
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     XToast.showLoading();
 
-    final result = await domain.sign.sendOtpToEmail(state.email.value, context);
+    final result = await domain.sign.sendOtpToEmail(state.email.value);
     XToast.hideLoading();
 
     if (result.isSuccess) {
@@ -61,18 +60,18 @@ class ForgotBloc extends Cubit<ForgotState> {
         currentStep: ForgotPasswordStep.enterOtp,
       ));
       _startResendTimer();
-      XToast.success('${S.of(context).success_sendOTP} ${state.email.value}');
+      XToast.success('${S.text.success_sendOTP} ${state.email.value}');
     } else {
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
       XAlert.show(
-        title: S.of(context).error_sendOTP,
-        body: result.error ?? S.of(context).error_somethingWrongTryAgain,
+        title: S.text.error_sendOTP,
+        body: result.error ?? S.text.error_somethingWrongTryAgain,
         actions: [XAlertButton(title: S.text.common_close)],
       );
     }
   }
 
-  Future verifyOtp(BuildContext context) async {
+  Future verifyOtp() async {
     if (state.otp.length != 6 || state.status.isInProgress) {
       return;
     }
@@ -80,8 +79,8 @@ class ForgotBloc extends Cubit<ForgotState> {
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     XToast.showLoading();
 
-    final result = await domain.sign
-        .verifyOtp(email: state.email.value, otp: state.otp, context: context);
+    final result =
+        await domain.sign.verifyOtp(email: state.email.value, otp: state.otp);
 
     XToast.hideLoading();
 
@@ -90,49 +89,48 @@ class ForgotBloc extends Cubit<ForgotState> {
         status: FormzSubmissionStatus.success,
         currentStep: ForgotPasswordStep.resetPassword,
       ));
-      XToast.success(S.of(context).success_verifyOTP);
+      XToast.success(S.text.success_verifyOTP);
     } else {
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
       XAlert.show(
-        title: S.of(context).error_verifyOTP,
-        body: result.error ?? S.of(context).error_OTP_invalid,
+        title: S.text.error_verifyOTP,
+        body: result.error ?? S.text.error_OTP_invalid,
         actions: [XAlertButton(title: S.text.common_close)],
       );
     }
   }
 
-  Future resetPassword(BuildContext context) async {
+  Future resetPassword() async {
     if (!state.isPasswordValid || state.status.isInProgress) return;
 
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     XToast.showLoading();
 
-    final result =
-        await domain.sign.resetPassword(state.password.value, context);
+    final result = await domain.sign.resetPassword(state.password.value);
 
     XToast.hideLoading();
 
     if (result.isSuccess) {
       emit(state.copyWith(status: FormzSubmissionStatus.success));
       await XAlert.show(
-        title: S.of(context).success_resetPass_noti_Title,
-        body: S.of(context).success_resetPass_noti_subTitle,
+        title: S.text.success_resetPass_noti_Title,
+        body: S.text.success_resetPass_noti_subTitle,
         actions: [XAlertButton(title: S.text.common_close)],
       );
       AppCoordinator.showSignInScreen();
     } else {
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
       XAlert.show(
-        title: S.of(context).error_resetPass,
-        body: result.error ?? S.of(context).error_somethingWrongTryAgain,
+        title: S.text.error_resetPass,
+        body: result.error ?? S.text.error_somethingWrongTryAgain,
         actions: [XAlertButton(title: S.text.common_close)],
       );
     }
   }
 
-  Future resendOtp(BuildContext context) async {
+  Future resendOtp() async {
     if (!state.canResendOtp) return;
-    await sendOtpToEmail(context);
+    await sendOtpToEmail();
   }
 
   void goBack() {

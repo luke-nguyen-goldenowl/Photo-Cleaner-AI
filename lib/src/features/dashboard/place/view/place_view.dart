@@ -21,15 +21,19 @@ class PlacesView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: BlocBuilder<PlaceBloc, PlaceState>(
+        buildWhen: (previous, current) {
+          return previous.status != current.status ||
+              previous.imageLocations != current.imageLocations ||
+              previous.timeFilter != current.timeFilter ||
+              previous.customRange != current.customRange;
+        },
         builder: (context, state) {
           if (state.isLoading) {
             return const LocationLoadingIndicator();
           }
           if (state.hasError) {
             return _buildErrorState(
-                context,
-                state.errorMessage ??
-                    S.of(context).error_somethingWrongTryAgain);
+                context, S.of(context).error_somethingWrongTryAgain);
           }
 
           if (state.isEmpty) {
@@ -64,7 +68,7 @@ class MapViewState extends State<MapView> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!_loaded) {
-      context.read<PlaceBloc>().loadPhotosWithGPS(context: context);
+      context.read<PlaceBloc>().loadPhotosWithGPS();
       _loaded = true;
     }
   }
@@ -125,6 +129,14 @@ class MapViewState extends State<MapView> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PlaceBloc, PlaceState>(
+      buildWhen: (previous, current) {
+        return previous.displayMode != current.displayMode ||
+            previous.groupedLocations != current.groupedLocations ||
+            previous.selectedImage != current.selectedImage ||
+            previous.imageLocations != current.imageLocations ||
+            previous.timeFilter != current.timeFilter ||
+            previous.customRange != current.customRange;
+      },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
@@ -139,7 +151,7 @@ class MapViewState extends State<MapView> {
             leading: IconButton(
               icon: const Icon(Icons.refresh_outlined),
               onPressed: () {
-                context.read<PlaceBloc>().refresh(context);
+                context.read<PlaceBloc>().refresh();
               },
             ),
             actions: [
@@ -379,7 +391,7 @@ Widget _buildEmptyState(BuildContext context) {
         const SizedBox(height: 15),
         ElevatedButton(
           onPressed: () {
-            context.read<PlaceBloc>().refresh(context);
+            context.read<PlaceBloc>().refresh();
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF6C63FF),

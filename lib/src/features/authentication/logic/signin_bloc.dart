@@ -39,7 +39,6 @@ class SigninBloc extends Cubit<SigninState> {
     final result = await domain.sign.loginWithEmail(
       email: email,
       password: password,
-      context: context,
     );
     XToast.hideLoading();
 

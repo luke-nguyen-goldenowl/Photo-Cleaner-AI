@@ -25,7 +25,7 @@ class PhotoRepositoryImpl extends PhotoRepository {
   String? get _userId => UserPrefs.I.getUser()?.id;
 
   @override
-  Future<MResult<bool>> checkPermission(BuildContext context) async {
+  Future<MResult<bool>> checkPermission() async {
     try {
       Permission permissionType = Permission.photos;
 
@@ -44,7 +44,7 @@ class PhotoRepositoryImpl extends PhotoRepository {
 
         if (!requested.isGranted) {
           return MResult.error(
-            S.of(context).error_permission,
+            S.text.error_permission,
           );
         }
       }
@@ -59,10 +59,9 @@ class PhotoRepositoryImpl extends PhotoRepository {
   Future<MResult<List<MPhotoItem>>> loadPhotos({
     int page = 0,
     int pageSize = 100,
-    required BuildContext context,
   }) async {
     try {
-      final permissionResult = await checkPermission(context);
+      final permissionResult = await checkPermission();
       if (!permissionResult.isSuccess) {
         return MResult.error(permissionResult.error);
       }
@@ -110,13 +109,11 @@ class PhotoRepositoryImpl extends PhotoRepository {
 
   @override
   Future<MResult<List<MPhotoTimelineGroup>>> loadPhotosByTimeline({
-    required BuildContext context,
     int page = 0,
     int pageSize = 100,
   }) async {
     try {
-      final photosResult =
-          await loadPhotos(page: page, pageSize: pageSize, context: context);
+      final photosResult = await loadPhotos(page: page, pageSize: pageSize);
       if (!photosResult.isSuccess) {
         return MResult.error(photosResult.error);
       }
@@ -153,8 +150,7 @@ class PhotoRepositoryImpl extends PhotoRepository {
   }
 
   @override
-  Future<MResult<bool>> deletePhoto(
-      String photoId, BuildContext context) async {
+  Future<MResult<bool>> deletePhoto(String photoId) async {
     try {
       final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
         type: RequestType.image,
@@ -174,12 +170,12 @@ class PhotoRepositoryImpl extends PhotoRepository {
 
       return MResult.success(true);
     } catch (e) {
-      return MResult.exception(S.of(context).error_somethingWrongTryAgain);
+      return MResult.exception(S.text.error_somethingWrongTryAgain);
     }
   }
 
   @override
-  Future<MResult<bool>> sharePhoto(String photoId, BuildContext context) async {
+  Future<MResult<bool>> sharePhoto(String photoId) async {
     try {
       final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
         type: RequestType.image,
@@ -200,12 +196,12 @@ class PhotoRepositoryImpl extends PhotoRepository {
       if (file != null) {
         await Share.shareXFiles([
           XFile(file.path),
-        ], text: S.of(context).common_text_share);
+        ], text: S.text.common_text_share);
         return MResult.success(true);
       }
-      return MResult.error(S.of(context).error_somethingWrongTryAgain);
+      return MResult.error(S.text.error_somethingWrongTryAgain);
     } catch (e) {
-      return MResult.exception(S.of(context).error_somethingWrongTryAgain);
+      return MResult.exception(S.text.error_somethingWrongTryAgain);
     }
   }
 
@@ -245,12 +241,11 @@ class PhotoRepositoryImpl extends PhotoRepository {
   }
 
   @override
-  Future<MResult<List<MPhotoItem>>> loadFavoritePhotos(
-      BuildContext context, String userId) async {
+  Future<MResult<List<MPhotoItem>>> loadFavoritePhotos(String userId) async {
     try {
       final favoriteIdsResult = await getFavoriteIds(userId);
       if (!favoriteIdsResult.isSuccess) {
-        return MResult.error(S.of(context).error_somethingWrongTryAgain);
+        return MResult.error(S.text.error_somethingWrongTryAgain);
       }
       final favoriteIds = favoriteIdsResult.data ?? [];
 

@@ -20,6 +20,7 @@ class ProfileEditView extends StatelessWidget {
     return BlocProvider(
         create: (context) => ProfileEditBloc(user),
         child: BlocConsumer<ProfileEditBloc, ProfileEditState>(
+          listenWhen: (previous, current) => previous.status != current.status,
           listener: (context, state) {
             if (state.status == ProfileEditStatus.success) {
               XToast.success(S.of(context).success_update_profile);
@@ -31,10 +32,12 @@ class ProfileEditView extends StatelessWidget {
               }
               AppCoordinator.pop();
             } else if (state.status == ProfileEditStatus.error) {
-              XToast.error(state.errorMessage ??
-                  S.of(context).error_somethingWrongTryAgain);
+              XToast.error(S.of(context).error_somethingWrongTryAgain);
             }
           },
+          buildWhen: (previous, current) =>
+              previous != current &&
+              current.status != ProfileEditStatus.success,
           builder: (context, state) {
             return Scaffold(
               backgroundColor: Colors.white,

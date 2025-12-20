@@ -5,14 +5,12 @@ class MPhotoItem extends Equatable {
   const MPhotoItem({
     required this.asset,
     this.isFavorite = false,
-    this.storageUrl,
   });
 
   final AssetEntity? asset;
   final bool isFavorite;
-  final String? storageUrl;
 
-  String get id => asset?.id ?? storageUrl ?? '';
+  String get id => asset?.id ?? '';
   String get title => asset?.title ?? 'No Title';
   String get filePath => asset?.relativePath ?? 'Unknown';
   DateTime? get createDate => asset?.createDateTime;
@@ -21,23 +19,19 @@ class MPhotoItem extends Equatable {
   bool get isVideo => asset?.type == AssetType.video;
   int get width => asset?.width ?? 0;
   int get height => asset?.height ?? 0;
-  bool get isFromCloud => storageUrl != null && asset == null;
 
   MPhotoItem copyWith({
     AssetEntity? asset,
     bool? isFavorite,
-    bool? isSecure,
-    String? storageUrl,
   }) {
     return MPhotoItem(
       asset: asset ?? this.asset,
       isFavorite: isFavorite ?? this.isFavorite,
-      storageUrl: storageUrl ?? this.storageUrl,
     );
   }
 
   @override
-  List<Object?> get props => [id, isFavorite, storageUrl];
+  List<Object?> get props => [id, isFavorite];
 }
 
 class MPhotoTimelineGroup extends Equatable {

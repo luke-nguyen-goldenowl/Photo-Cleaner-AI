@@ -53,6 +53,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with LifecycleMixin {
     return BlocProvider.value(
       value: _dashboardBloc,
       child: BlocBuilder<DashboardBloc, XNavigationBarItems>(
+        buildWhen: (previous, current) => previous != current,
         builder: (context, state) {
           return PopScope(
             canPop: false,
