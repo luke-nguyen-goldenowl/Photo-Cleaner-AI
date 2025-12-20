@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:myapp/src/features/dashboard/photo/model/photo_item.dart';
 import 'package:myapp/src/network/model/common/result.dart';
 
@@ -6,20 +5,18 @@ abstract class PhotoRepository {
   Future<MResult<List<MPhotoItem>>> loadPhotos({
     int page = 0,
     int pageSize = 100,
-    required BuildContext context,
   });
 
   Future<MResult<List<MPhotoTimelineGroup>>> loadPhotosByTimeline({
     int page = 0,
     int pageSize = 100,
-    required BuildContext context,
   });
 
   /// Delete photo
-  Future<MResult<bool>> deletePhoto(String photoId, BuildContext context);
+  Future<MResult<bool>> deletePhoto(String photoId);
 
   /// Share photo
-  Future<MResult<bool>> sharePhoto(String photoId, BuildContext context);
+  Future<MResult<bool>> sharePhoto(String photoId);
 
   /// Toggle favorite status
   Future<MResult<bool>> toggleFavorite(
@@ -32,9 +29,8 @@ abstract class PhotoRepository {
   Future<MResult<List<String>>> getFavoriteIds(String userId);
 
   /// Load favorite photos (flat list, no timeline)
-  Future<MResult<List<MPhotoItem>>> loadFavoritePhotos(
-      BuildContext context, String userId);
+  Future<MResult<List<MPhotoItem>>> loadFavoritePhotos(String userId);
 
   /// Check permission to access photos
-  Future<MResult<bool>> checkPermission(BuildContext context);
+  Future<MResult<bool>> checkPermission();
 }

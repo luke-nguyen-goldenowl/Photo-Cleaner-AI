@@ -15,8 +15,7 @@ class PhotoViewBloc extends Cubit<PhotoViewState> {
   String? get _userId => UserPrefs.I.getUser()?.id;
   PhotoViewBloc() : super(const PhotoViewState());
 
-  Future<void> loadPhotos(
-      {bool isLoadMore = false, required BuildContext context}) async {
+  Future<void> loadPhotos({bool isLoadMore = false}) async {
     if (isClosed) return;
 
     if (isLoadMore) {
@@ -32,20 +31,17 @@ class PhotoViewBloc extends Cubit<PhotoViewState> {
     final page = isLoadMore ? state.currentPage + 1 : 0;
 
     final result = await domain.photo.loadPhotosByTimeline(
-      context: context,
       page: page,
       pageSize: AppConstants.pageSize,
     );
     if (isClosed) return;
 
     if (!result.isSuccess) {
-      if (context.mounted) {
-        emit(state.copyWith(
-          status: PhotoViewStatus.error,
-          errorMessage: result.error,
-          isLoadingMore: false,
-        ));
-      }
+      emit(state.copyWith(
+        status: PhotoViewStatus.error,
+        isLoadingMore: false,
+      ));
+
       return;
     }
 
@@ -65,16 +61,16 @@ class PhotoViewBloc extends Cubit<PhotoViewState> {
     ));
   }
 
-  Future<void> loadMore(BuildContext context) async {
-    await loadPhotos(isLoadMore: true, context: context);
+  Future<void> loadMore() async {
+    await loadPhotos(isLoadMore: true);
   }
 
-  Future<void> refresh(BuildContext context) async {
-    await loadPhotos(isLoadMore: false, context: context);
+  Future<void> refresh() async {
+    await loadPhotos(isLoadMore: false);
   }
 
-  Future<bool> sharePhoto(String photoId, BuildContext context) async {
-    final result = await domain.photo.sharePhoto(photoId, context);
+  Future<bool> sharePhoto(String photoId) async {
+    final result = await domain.photo.sharePhoto(photoId);
     return result.isSuccess && result.data == true;
   }
 
@@ -98,7 +94,7 @@ class PhotoViewBloc extends Cubit<PhotoViewState> {
       return false;
     }
 
-    final result = await domain.photo.deletePhoto(photoId, context);
+    final result = await domain.photo.deletePhoto(photoId);
     if (isClosed) return result.isSuccess;
 
     if (result.isSuccess && result.data == true) {
@@ -128,23 +124,28 @@ class PhotoViewBloc extends Cubit<PhotoViewState> {
     return false;
   }
 
-  Future<void> loadFavoritePhotos(BuildContext context) async {
+  Future<void> loadFavoritePhotos() async {
     if (isClosed) return;
+    final uid = _userId;
+    if (uid == null || uid.isEmpty) {
+      emit(state.copyWith(
+        status: PhotoViewStatus.error,
+      ));
+
+      return;
+    }
     emit(state.copyWith(status: PhotoViewStatus.loading, isFavoriteMode: true));
 
-    final result = await domain.photo.loadFavoritePhotos(context, _userId!);
+    final result = await domain.photo.loadFavoritePhotos(uid);
 
     if (isClosed) return;
 
     if (!result.isSuccess) {
-      if (context.mounted) {
-        emit(state.copyWith(
-          status: PhotoViewStatus.error,
-          errorMessage: result.error ?? 'Lỗi tải ảnh yêu thích',
-          isFavoriteMode: true,
-        ));
-        return;
-      }
+      emit(state.copyWith(
+        status: PhotoViewStatus.error,
+        isFavoriteMode: true,
+      ));
+      return;
     }
 
     emit(state.copyWith(
@@ -155,8 +156,11 @@ class PhotoViewBloc extends Cubit<PhotoViewState> {
   }
 
   Future<bool> toggleFavorite(String photoId, bool isFavorite) async {
-    final result =
-        await domain.photo.toggleFavorite(photoId, isFavorite, _userId!);
+    final uid = _userId;
+    if (uid == null || uid.isEmpty) {
+      return false;
+    }
+    final result = await domain.photo.toggleFavorite(photoId, isFavorite, uid);
 
     if (result.isSuccess) {
       _updatePhotoInGroups(

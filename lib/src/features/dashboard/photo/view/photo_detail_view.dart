@@ -199,9 +199,7 @@ class _PhotoDetailViewState extends State<PhotoDetailView> {
           label: S.of(context).common_share_button_text,
           color: Colors.white,
           onTap: () async {
-            await context
-                .read<PhotoViewBloc>()
-                .sharePhoto(_currentPhoto.id, context);
+            await context.read<PhotoViewBloc>().sharePhoto(_currentPhoto.id);
           },
         ),
 
