@@ -21,7 +21,6 @@ import 'package:myapp/src/features/dashboard/view/dashboard_view.dart';
 import 'package:myapp/src/features/onboarding/view/on_boarding_view.dart';
 import 'package:myapp/src/features/getting_started/view/getting_started_view.dart';
 import 'package:myapp/src/features/splash/view/splash_view.dart';
-import 'package:myapp/src/network/data/photo/photo_repository_impl.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/src/router/route_name.dart';
 import 'package:myapp/src/services/network-connection/internet_connection_cubit.dart';
@@ -75,9 +74,7 @@ class AppRouter {
           providers: [
             BlocProvider(create: (context) => InternetConnectionCubit()),
             BlocProvider<PlaceBloc>(
-              create: (context) => PlaceBloc(
-                photoRepository: PhotoRepositoryImpl(),
-              ),
+              create: (context) => PlaceBloc(),
             ),
           ],
           child: DashBoardScreen(

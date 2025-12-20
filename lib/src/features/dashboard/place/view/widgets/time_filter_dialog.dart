@@ -12,6 +12,10 @@ class XTimeFilterDialog extends StatelessWidget {
     return AlertDialog(
       title: Text(S.of(context).common_filter_by_time),
       content: BlocBuilder<PlaceBloc, PlaceState>(
+        buildWhen: (previous, current) {
+          return previous.timeFilter != current.timeFilter ||
+              previous.customRange != current.customRange;
+        },
         builder: (context, state) {
           return Column(
             mainAxisSize: MainAxisSize.min,

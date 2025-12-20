@@ -33,9 +33,8 @@ abstract class PhotoRepository {
   Future<MResult<List<MPhotoItem>>> loadFavoritePhotos(String userId);
 
   /// Check permission to access photos
-  Future<MResult<bool>> checkPermission(BuildContext context);
+  Future<MResult<bool>> checkPermission();
 
   /// Extract GPS data from photo
   Future<MResult<MImageLocation?>> extractGpsFromPhoto(MPhotoItem photo);
-  Future<MResult<bool>> checkPermission();
 }
