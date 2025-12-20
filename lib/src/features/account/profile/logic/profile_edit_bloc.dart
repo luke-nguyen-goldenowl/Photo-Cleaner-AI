@@ -6,7 +6,6 @@ import 'package:formz/formz.dart';
 import 'package:myapp/src/features/account/profile/model/bio_formz.dart';
 import 'package:myapp/src/features/account/profile/service/image_picker_service.dart';
 import 'package:myapp/src/features/authentication/model/name_formz.dart';
-import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/network/domain_manager.dart';
 import 'package:myapp/src/network/model/user/user.dart';
 import 'package:myapp/src/services/user_prefs.dart';
@@ -57,7 +56,6 @@ class ProfileEditBloc extends Cubit<ProfileEditState> {
       if (context.mounted) {
         emit(state.copyWith(
           status: ProfileEditStatus.error,
-          errorMessage: S.of(context).error_somethingWrongTryAgain,
         ));
       }
     }
@@ -74,9 +72,6 @@ class ProfileEditBloc extends Cubit<ProfileEditState> {
       if (context.mounted) {
         emit(state.copyWith(
           status: ProfileEditStatus.error,
-          errorMessage: result.error == 'no_image_captured'
-              ? S.of(context).common_no_image_captured
-              : S.of(context).error_somethingWrongTryAgain,
         ));
       }
     }
@@ -87,7 +82,6 @@ class ProfileEditBloc extends Cubit<ProfileEditState> {
       if (context.mounted) {
         emit(state.copyWith(
           status: ProfileEditStatus.error,
-          errorMessage: S.of(context).error_somethingWrongTryAgain,
         ));
       }
       return;
@@ -97,7 +91,6 @@ class ProfileEditBloc extends Cubit<ProfileEditState> {
       if (context.mounted) {
         emit(state.copyWith(
           status: ProfileEditStatus.error,
-          errorMessage: S.of(context).error_somethingWrongTryAgain,
         ));
       }
       return;
@@ -121,8 +114,6 @@ class ProfileEditBloc extends Cubit<ProfileEditState> {
         if (context.mounted) {
           emit(state.copyWith(
             status: ProfileEditStatus.error,
-            errorMessage: uploadResult.error ??
-                S.of(context).error_somethingWrongTryAgain,
           ));
         }
         return;
@@ -148,8 +139,6 @@ class ProfileEditBloc extends Cubit<ProfileEditState> {
       if (context.mounted) {
         emit(state.copyWith(
           status: ProfileEditStatus.error,
-          errorMessage:
-              result.error ?? S.of(context).error_somethingWrongTryAgain,
         ));
       }
     }

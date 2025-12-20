@@ -39,14 +39,14 @@ class _PhotoViewState extends State<PhotoView> {
     if (!_scrollController.hasClients) return;
     final pos = _scrollController.position;
     if (pos.pixels >= pos.maxScrollExtent * 0.9) {
-      _bloc.loadMore(context);
+      _bloc.loadMore();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => PhotoViewBloc()..loadPhotos(context: context),
+      create: (_) => PhotoViewBloc()..loadPhotos(),
       child: Builder(builder: (context) {
         _bloc = context.read<PhotoViewBloc>();
         return Scaffold(
@@ -81,6 +81,10 @@ class _PhotoViewState extends State<PhotoView> {
                     color: Colors.grey[300],
                   ),
                   BlocBuilder<InternetConnectionCubit, InternetStatusState>(
+                    buildWhen: (previous, current) {
+                      return (previous == InternetStatusState.disconnected) !=
+                          (current == InternetStatusState.disconnected);
+                    },
                     builder: (context, internetState) {
                       if (internetState == InternetStatusState.disconnected) {
                         return Container(
@@ -142,15 +146,20 @@ class _PhotoViewState extends State<PhotoView> {
                   const SizedBox(height: 12),
                   Expanded(
                     child: BlocBuilder<PhotoViewBloc, PhotoViewState>(
+                      buildWhen: (previous, current) {
+                        return previous.status != current.status ||
+                            previous.isFavoriteMode != current.isFavoriteMode ||
+                            previous.timelineGroups != current.timelineGroups ||
+                            previous.favoritePhotos != current.favoritePhotos ||
+                            previous.isLoadingMore != current.isLoadingMore;
+                      },
                       builder: (context, state) {
                         if (state.status == PhotoViewStatus.loading) {
                           return const Center(
                               child: CircularProgressIndicator());
                         } else if (state.status == PhotoViewStatus.error) {
-                          return _buildErrorState(
-                              context,
-                              state.errorMessage ??
-                                  S.of(context).error_somethingWrongTryAgain);
+                          return _buildErrorState(context,
+                              S.of(context).error_somethingWrongTryAgain);
                         } else if (state.isFavoriteMode &&
                             state.favoritePhotos.isEmpty) {
                           return _buildEmptyFavoriteState();
@@ -158,7 +167,7 @@ class _PhotoViewState extends State<PhotoView> {
                             state.timelineGroups.isEmpty) {
                           return _buildEmptyState();
                         } else {
-                          return _buildTimelineContent(context, state);
+                          return _buildTimelineContent(state);
                         }
                       },
                     ),
@@ -172,11 +181,10 @@ class _PhotoViewState extends State<PhotoView> {
     );
   }
 
-  Widget _buildTimelineContent(BuildContext context, PhotoViewState state) {
+  Widget _buildTimelineContent(PhotoViewState state) {
     if (state.isFavoriteMode) {
       return RefreshIndicator(
-        onRefresh: () =>
-            context.read<PhotoViewBloc>().loadFavoritePhotos(context),
+        onRefresh: () => context.read<PhotoViewBloc>().loadFavoritePhotos(),
         child: GridView.builder(
           controller: _scrollController,
           padding: const EdgeInsets.all(4),
@@ -195,7 +203,7 @@ class _PhotoViewState extends State<PhotoView> {
       );
     }
     return RefreshIndicator(
-      onRefresh: () => context.read<PhotoViewBloc>().refresh(context),
+      onRefresh: () => context.read<PhotoViewBloc>().refresh(),
       child: ListView.builder(
         controller: _scrollController,
         physics: const AlwaysScrollableScrollPhysics(),
@@ -286,8 +294,9 @@ class _PhotoViewState extends State<PhotoView> {
         quality: 80,
       ),
       builder: (context, snapshot) {
+        final thumbnailData = snapshot.data;
         if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.data != null) {
+            thumbnailData != null) {
           return GestureDetector(
             onTap: () {
               final state = context.read<PhotoViewBloc>().state;
@@ -315,7 +324,7 @@ class _PhotoViewState extends State<PhotoView> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     image: DecorationImage(
-                      image: MemoryImage(snapshot.data!),
+                      image: MemoryImage(thumbnailData),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -444,7 +453,7 @@ class _PhotoViewState extends State<PhotoView> {
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () {
-              context.read<PhotoViewBloc>().loadPhotos(context: context);
+              context.read<PhotoViewBloc>().loadPhotos();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF6C63FF),
@@ -463,6 +472,9 @@ class _PhotoViewState extends State<PhotoView> {
 
   Widget _buildFilterChips() {
     return BlocBuilder<PhotoViewBloc, PhotoViewState>(
+      buildWhen: (previous, current) {
+        return previous.isFavoriteMode != current.isFavoriteMode;
+      },
       builder: (context, state) {
         return Row(
           children: [
@@ -471,7 +483,7 @@ class _PhotoViewState extends State<PhotoView> {
               isSelected: !state.isFavoriteMode,
               onTap: () {
                 if (state.isFavoriteMode) {
-                  context.read<PhotoViewBloc>().loadPhotos(context: context);
+                  context.read<PhotoViewBloc>().loadPhotos();
                 }
               },
             ),
@@ -480,7 +492,7 @@ class _PhotoViewState extends State<PhotoView> {
               label: S.of(context).common_favourite_chip_title,
               isSelected: state.isFavoriteMode,
               onTap: () {
-                context.read<PhotoViewBloc>().loadFavoritePhotos(context);
+                context.read<PhotoViewBloc>().loadFavoritePhotos();
               },
             ),
           ],

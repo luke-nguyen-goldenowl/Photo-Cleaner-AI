@@ -13,14 +13,12 @@ class ProfileState extends Equatable {
     this.user,
     this.photoCount = 0,
     this.friendCount = 0,
-    this.errorMessage,
   });
 
   final ProfileStatus status;
   final MUser? user;
   final int photoCount;
   final int friendCount;
-  final String? errorMessage;
 
   bool get isLoading => status == ProfileStatus.loading;
   bool get isLoaded => status == ProfileStatus.loaded;
@@ -32,7 +30,6 @@ class ProfileState extends Equatable {
         user,
         photoCount,
         friendCount,
-        errorMessage,
       ];
 
   ProfileState copyWith({
@@ -40,14 +37,12 @@ class ProfileState extends Equatable {
     MUser? user,
     int? photoCount,
     int? friendCount,
-    String? errorMessage,
   }) {
     return ProfileState(
       status: status ?? this.status,
       user: user ?? this.user,
       photoCount: photoCount ?? this.photoCount,
       friendCount: friendCount ?? this.friendCount,
-      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 }

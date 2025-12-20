@@ -12,7 +12,6 @@ class PhotoViewState extends Equatable {
     this.currentPage = 0,
     this.hasMore = true,
     this.isLoadingMore = false,
-    this.errorMessage,
   });
 
   final PhotoViewStatus status;
@@ -22,7 +21,6 @@ class PhotoViewState extends Equatable {
   final int currentPage;
   final bool hasMore;
   final bool isLoadingMore;
-  final String? errorMessage;
 
   bool get isLoading =>
       status == PhotoViewStatus.loading && timelineGroups.isEmpty;
@@ -38,7 +36,6 @@ class PhotoViewState extends Equatable {
     int? currentPage,
     bool? hasMore,
     bool? isLoadingMore,
-    String? errorMessage,
   }) {
     return PhotoViewState(
       status: status ?? this.status,
@@ -48,7 +45,6 @@ class PhotoViewState extends Equatable {
       currentPage: currentPage ?? this.currentPage,
       hasMore: hasMore ?? this.hasMore,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
-      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
@@ -61,7 +57,6 @@ class PhotoViewState extends Equatable {
         currentPage,
         hasMore,
         isLoadingMore,
-        errorMessage,
       ];
 
   @override

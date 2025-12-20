@@ -17,7 +17,6 @@ class ProfileEditState extends Equatable {
     this.avatarUrl,
     this.localAvatarPath,
     this.uploadProgress = 0.0,
-    this.errorMessage,
   });
 
   final ProfileEditStatus status;
@@ -27,7 +26,6 @@ class ProfileEditState extends Equatable {
   final String? avatarUrl;
   final String? localAvatarPath;
   final double uploadProgress;
-  final String? errorMessage;
 
   bool get isLoading => status == ProfileEditStatus.loading;
   bool get isUploading => status == ProfileEditStatus.uploading;
@@ -46,7 +44,6 @@ class ProfileEditState extends Equatable {
         avatarUrl,
         localAvatarPath,
         uploadProgress,
-        errorMessage,
       ];
 
   ProfileEditState copyWith({
@@ -57,7 +54,6 @@ class ProfileEditState extends Equatable {
     String? avatarUrl,
     String? localAvatarPath,
     double? uploadProgress,
-    String? errorMessage,
   }) {
     return ProfileEditState(
       status: status ?? this.status,
@@ -67,7 +63,6 @@ class ProfileEditState extends Equatable {
       avatarUrl: avatarUrl ?? this.avatarUrl,
       localAvatarPath: localAvatarPath ?? this.localAvatarPath,
       uploadProgress: uploadProgress ?? this.uploadProgress,
-      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 }
