@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/material.dart';
 import 'package:media_store_plus/media_store_plus.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/service/remove_bg_service.dart';
 import 'package:myapp/src/features/dashboard/photo/model/photo_item.dart';
@@ -360,17 +359,16 @@ class PhotoRepositoryImpl extends PhotoRepository {
   }
 
   @override
-  Future<MResult<Uint8List>> removeBackground(
-      File imageFile, BuildContext context) async {
+  Future<MResult<Uint8List>> removeBackground(File imageFile) async {
     try {
       final result = await _removeBgService.removeBackground(imageFile.path);
       if (result != null) {
         return MResult.success(result);
       } else {
-        return MResult.error(S.of(context).error_somethingWrongTryAgain);
+        return MResult.error(S.text.error_somethingWrongTryAgain);
       }
     } on SocketException {
-      return MResult.error(S.of(context).error_noInternetConnection);
+      return MResult.error(S.text.error_noInternetConnection);
     } catch (e) {
       return MResult.exception(e);
     }
@@ -378,7 +376,7 @@ class PhotoRepositoryImpl extends PhotoRepository {
 
   @override
   Future<MResult<String>> saveImageToDevice(
-      Uint8List imageData, String fileName, BuildContext context) async {
+      Uint8List imageData, String fileName) async {
     try {
       if (Platform.isAndroid) {
         final sdkVersion = await DeviceInfoPlugin()
@@ -387,7 +385,7 @@ class PhotoRepositoryImpl extends PhotoRepository {
         if (sdkVersion < 33) {
           final status = await Permission.storage.request();
           if (!status.isGranted) {
-            return MResult.error(S.of(context).error_permission);
+            return MResult.error(S.text.error_permission);
           }
         }
       }
@@ -412,7 +410,7 @@ class PhotoRepositoryImpl extends PhotoRepository {
         if (savedInfo != null) {
           return MResult.success(savedInfo.uri.toString());
         } else {
-          return MResult.error(S.of(context).error_somethingWrongTryAgain);
+          return MResult.error(S.text.error_somethingWrongTryAgain);
         }
       } else {
         final documentsDir = await getApplicationDocumentsDirectory();

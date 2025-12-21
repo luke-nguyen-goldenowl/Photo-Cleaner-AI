@@ -184,7 +184,7 @@ class _PhotoViewState extends State<PhotoView> {
   Widget _buildTimelineContent(PhotoViewState state) {
     if (state.isFavoriteMode) {
       return RefreshIndicator(
-        onRefresh: () => context.read<PhotoViewBloc>().loadFavoritePhotos(),
+        onRefresh: () => _bloc.loadFavoritePhotos(),
         child: GridView.builder(
           controller: _scrollController,
           padding: const EdgeInsets.all(4),
@@ -203,7 +203,7 @@ class _PhotoViewState extends State<PhotoView> {
       );
     }
     return RefreshIndicator(
-      onRefresh: () => context.read<PhotoViewBloc>().refresh(),
+      onRefresh: () => _bloc.refresh(),
       child: ListView.builder(
         controller: _scrollController,
         physics: const AlwaysScrollableScrollPhysics(),

@@ -16,7 +16,7 @@ class SelectImageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => RemoveBgBloc()..loadPhotos(context),
+        create: (context) => RemoveBgBloc()..loadPhotos(),
         child: SafeArea(
           child: Scaffold(
             appBar: AppBar(
@@ -54,6 +54,11 @@ class SelectImageView extends StatelessWidget {
                     ),
                     Expanded(
                       child: BlocBuilder<RemoveBgBloc, RemoveBgState>(
+                        buildWhen: (previous, current) {
+                          return previous.status != current.status ||
+                              previous.photos != current.photos ||
+                              previous.selectedPhoto != current.selectedPhoto;
+                        },
                         builder: (context, state) {
                           if (state.status == RemoveBgStatus.loading) {
                             return const Center(
@@ -70,6 +75,11 @@ class SelectImageView extends StatelessWidget {
                       ),
                     ),
                     BlocBuilder<RemoveBgBloc, RemoveBgState>(
+                      buildWhen: (previous, current) {
+                        return previous.selectedPhoto !=
+                                current.selectedPhoto ||
+                            previous.isProcessing != current.isProcessing;
+                      },
                       builder: (context, state) {
                         return Container(
                           width: double.infinity,
@@ -87,9 +97,8 @@ class SelectImageView extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: state.selectedPhoto != null &&
                                     !state.isProcessing
-                                ? () => context
-                                    .read<RemoveBgBloc>()
-                                    .processImage(context)
+                                ? () =>
+                                    context.read<RemoveBgBloc>().processImage()
                                 : null,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF6C63FF),
@@ -299,7 +308,7 @@ Widget _buildErrorState(BuildContext context, String? errorMessage) {
         const SizedBox(height: 16),
         ElevatedButton(
           onPressed: () {
-            context.read<RemoveBgBloc>().loadPhotos(context);
+            context.read<RemoveBgBloc>().loadPhotos();
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF6C63FF),
@@ -318,6 +327,9 @@ Widget _buildErrorState(BuildContext context, String? errorMessage) {
 
 Widget _buildLoadingOverlay() {
   return BlocBuilder<RemoveBgBloc, RemoveBgState>(
+    buildWhen: (previous, current) {
+      return previous.isProcessing != current.isProcessing;
+    },
     builder: (context, state) {
       if (state.isProcessing) {
         return Positioned.fill(

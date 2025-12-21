@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:myapp/src/features/dashboard/photo/model/photo_item.dart';
 import 'package:myapp/src/features/dashboard/place/model/image_location.dart';
 import 'package:myapp/src/network/model/common/result.dart';
@@ -39,10 +42,9 @@ abstract class PhotoRepository {
   Future<MResult<MImageLocation?>> extractGpsFromPhoto(MPhotoItem photo);
 
   /// Remove background from photo
-  Future<MResult<Uint8List>> removeBackground(
-      File imageFile, BuildContext context);
+  Future<MResult<Uint8List>> removeBackground(File imageFile);
 
   /// Save photo to local storage
   Future<MResult<String>> saveImageToDevice(
-      Uint8List imageData, String fileName, BuildContext context);
+      Uint8List imageData, String fileName);
 }

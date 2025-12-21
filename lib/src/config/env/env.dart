@@ -9,6 +9,10 @@ class ENV {
   /// Base API URL
   static String get baseApiUrl => dotenv.env['BASE_API_URL'] ?? '';
 
+  static String get rapidApiUrl => dotenv.env['RAPID_API_URL'] ?? '';
+  static String get rapidApiKey => dotenv.env['RAPID_API_KEY'] ?? '';
+  static String get rapidApiHost => dotenv.env['RAPID_API_HOST'] ?? '';
+
   /// Check if Sentry is configured
   static bool get isSentryEnabled => sentryDsn.isNotEmpty;
 }

@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/src/dialogs/alert_wrapper.dart';
 import 'package:myapp/src/dialogs/widget/alert_dialog.dart';
@@ -17,13 +16,12 @@ class RemoveBgBloc extends Cubit<RemoveBgState> {
 
   RemoveBgBloc() : super(RemoveBgState());
 
-  Future<void> loadPhotos(BuildContext context) async {
+  Future<void> loadPhotos() async {
     emit(state.copyWith(status: RemoveBgStatus.loading));
 
     final result = await domain.photo.loadPhotos(
       page: 0,
       pageSize: 1000,
-      context: context,
     );
 
     if (isClosed) return;
@@ -32,8 +30,9 @@ class RemoveBgBloc extends Cubit<RemoveBgState> {
       final photos = result.data ?? [];
       thumbnailFutures.clear();
       for (final photo in photos) {
-        if (photo.asset != null) {
-          thumbnailFutures[photo.id] = photo.asset!.thumbnailDataWithSize(
+        final asset = photo.asset;
+        if (asset != null) {
+          thumbnailFutures[photo.id] = asset.thumbnailDataWithSize(
             const ThumbnailSize.square(200),
             quality: 80,
           );
@@ -45,12 +44,10 @@ class RemoveBgBloc extends Cubit<RemoveBgState> {
         photos: photos,
       ));
     } else {
-      if (context.mounted) {
-        emit(state.copyWith(
-          status: RemoveBgStatus.error,
-          errorMessage: result.error,
-        ));
-      }
+      emit(state.copyWith(
+        status: RemoveBgStatus.error,
+        errorMessage: result.error,
+      ));
     }
   }
 
@@ -58,22 +55,23 @@ class RemoveBgBloc extends Cubit<RemoveBgState> {
     emit(state.copyWith(selectedPhoto: photo));
   }
 
-  Future<void> processImage(BuildContext context) async {
-    if (state.selectedPhoto == null) {
+  Future<void> processImage() async {
+    final selectedPhoto = state.selectedPhoto;
+
+    if (selectedPhoto == null) {
       return;
     }
 
     if (isClosed) return;
     emit(state.copyWith(status: RemoveBgStatus.processing));
 
-    final asset = state.selectedPhoto!.asset;
+    final asset = selectedPhoto.asset;
     if (asset == null) {
-      if (context.mounted) {
-        emit(state.copyWith(
-          status: RemoveBgStatus.error,
-          errorMessage: state.errorMessage,
-        ));
-      }
+      emit(state.copyWith(
+        status: RemoveBgStatus.error,
+        errorMessage: state.errorMessage,
+      ));
+
       return;
     }
 
@@ -81,36 +79,36 @@ class RemoveBgBloc extends Cubit<RemoveBgState> {
     if (isClosed) return;
 
     if (file == null) {
-      if (context.mounted) {
-        emit(state.copyWith(
-          status: RemoveBgStatus.error,
-          errorMessage: state.errorMessage,
-        ));
-      }
+      emit(state.copyWith(
+        status: RemoveBgStatus.error,
+        errorMessage: state.errorMessage,
+      ));
+
       return;
     }
-    final result = await domain.photo.removeBackground(file, context);
+    final result = await domain.photo.removeBackground(file);
 
     if (isClosed) return;
+    final processedData = result.data;
 
-    if (result.isSuccess && result.data != null) {
+    if (result.isSuccess && processedData != null) {
       emit(state.copyWith(
         status: RemoveBgStatus.processed,
-        processedImage: result.data,
+        processedImage: processedData,
       ));
-      AppCoordinator.showResultRemoveBg(imageData: result.data!);
+      AppCoordinator.showResultRemoveBg(imageData: processedData);
     } else {
-      if (context.mounted) {
-        emit(state.copyWith(
-          status: RemoveBgStatus.error,
-          errorMessage: result.error,
-        ));
-      }
+      emit(state.copyWith(
+        status: RemoveBgStatus.error,
+        errorMessage: result.error,
+      ));
     }
   }
 
-  Future<void> saveImage(BuildContext context) async {
-    if (state.processedImage == null) {
+  Future<void> saveImage() async {
+    final imageToSave = state.processedImage;
+
+    if (imageToSave == null) {
       return;
     }
 
@@ -118,8 +116,7 @@ class RemoveBgBloc extends Cubit<RemoveBgState> {
     emit(state.copyWith(status: RemoveBgStatus.saving));
 
     final fileName = 'removed_bg_${DateTime.now().millisecondsSinceEpoch}.png';
-    final result = await domain.photo
-        .saveImageToDevice(state.processedImage!, fileName, context);
+    final result = await domain.photo.saveImageToDevice(imageToSave, fileName);
 
     if (isClosed) return;
 
@@ -129,8 +126,8 @@ class RemoveBgBloc extends Cubit<RemoveBgState> {
         savedPath: result.data,
       ));
       final isSaveSuccess = await XAlert.show(
-        title: S.of(context).success_resetPass_noti_Title,
-        body: S.of(context).common_image_saved_successfully,
+        title: S.text.success_resetPass_noti_Title,
+        body: S.text.common_image_saved_successfully,
         actions: [
           XAlertButton(
             title: 'OK',
@@ -138,17 +135,15 @@ class RemoveBgBloc extends Cubit<RemoveBgState> {
           ),
         ],
       );
-      if (isSaveSuccess == 'ok' && context.mounted) {
+      if (isSaveSuccess == 'ok') {
         AppCoordinator.pop();
         AppCoordinator.pop();
       }
     } else {
-      if (context.mounted) {
-        emit(state.copyWith(
-          status: RemoveBgStatus.error,
-          errorMessage: result.error,
-        ));
-      }
+      emit(state.copyWith(
+        status: RemoveBgStatus.error,
+        errorMessage: result.error,
+      ));
     }
   }
 

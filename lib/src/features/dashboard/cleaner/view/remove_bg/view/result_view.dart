@@ -12,7 +12,11 @@ class ResultView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RemoveBgBloc, RemoveBgState>(builder: (context, state) {
+    return BlocBuilder<RemoveBgBloc, RemoveBgState>(
+        buildWhen: (previous, current) {
+      return previous.processedImage != current.processedImage;
+    }, builder: (context, state) {
+      final imageToShow = state.processedImage ?? imageData;
       return SafeArea(
         child: Scaffold(
           appBar: AppBar(
@@ -42,10 +46,18 @@ class ResultView extends StatelessWidget {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(16),
-                    child: Image.memory(
-                      state.processedImage!,
-                      fit: BoxFit.contain,
-                    ),
+                    child: imageToShow != null
+                        ? Image.memory(
+                            imageToShow,
+                            fit: BoxFit.contain,
+                          )
+                        : Center(
+                            child: Text(
+                              S.of(context).error_somethingWrongTryAgain,
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.grey),
+                            ),
+                          ),
                   ),
                 ),
               ),
@@ -71,6 +83,9 @@ class ResultView extends StatelessWidget {
         ],
       ),
       child: BlocBuilder<RemoveBgBloc, RemoveBgState>(
+        buildWhen: (previous, current) {
+          return previous.isSaving != current.isSaving;
+        },
         builder: (context, state) {
           return Row(
             children: [
@@ -107,7 +122,7 @@ class ResultView extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: state.isSaving
                       ? null
-                      : () => context.read<RemoveBgBloc>().saveImage(context),
+                      : () => context.read<RemoveBgBloc>().saveImage(),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     backgroundColor: const Color(0xFF6C63FF),
