@@ -19,7 +19,6 @@ class RemoveBgState {
   final MPhotoItem? selectedPhoto;
   final Uint8List? processedImage;
   final String? savedPath;
-  final String? errorMessage;
 
   RemoveBgState({
     this.status = RemoveBgStatus.initial,
@@ -27,7 +26,6 @@ class RemoveBgState {
     this.selectedPhoto,
     this.processedImage,
     this.savedPath,
-    this.errorMessage,
   });
 
   RemoveBgState copyWith({
@@ -36,7 +34,6 @@ class RemoveBgState {
     MPhotoItem? selectedPhoto,
     Uint8List? processedImage,
     String? savedPath,
-    String? errorMessage,
     bool clearSelectedPhoto = false,
     bool clearProcessedImage = false,
   }) {
@@ -48,7 +45,6 @@ class RemoveBgState {
       processedImage:
           clearProcessedImage ? null : (processedImage ?? this.processedImage),
       savedPath: savedPath ?? this.savedPath,
-      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 

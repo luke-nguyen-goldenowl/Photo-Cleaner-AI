@@ -46,7 +46,6 @@ class RemoveBgBloc extends Cubit<RemoveBgState> {
     } else {
       emit(state.copyWith(
         status: RemoveBgStatus.error,
-        errorMessage: result.error,
       ));
     }
   }
@@ -69,7 +68,6 @@ class RemoveBgBloc extends Cubit<RemoveBgState> {
     if (asset == null) {
       emit(state.copyWith(
         status: RemoveBgStatus.error,
-        errorMessage: state.errorMessage,
       ));
 
       return;
@@ -81,7 +79,6 @@ class RemoveBgBloc extends Cubit<RemoveBgState> {
     if (file == null) {
       emit(state.copyWith(
         status: RemoveBgStatus.error,
-        errorMessage: state.errorMessage,
       ));
 
       return;
@@ -100,7 +97,6 @@ class RemoveBgBloc extends Cubit<RemoveBgState> {
     } else {
       emit(state.copyWith(
         status: RemoveBgStatus.error,
-        errorMessage: result.error,
       ));
     }
   }
@@ -142,7 +138,6 @@ class RemoveBgBloc extends Cubit<RemoveBgState> {
     } else {
       emit(state.copyWith(
         status: RemoveBgStatus.error,
-        errorMessage: result.error,
       ));
     }
   }

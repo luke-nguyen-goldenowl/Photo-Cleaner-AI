@@ -64,8 +64,8 @@ class SelectImageView extends StatelessWidget {
                             return const Center(
                                 child: CircularProgressIndicator());
                           } else if (state.status == RemoveBgStatus.error) {
-                            return _buildErrorState(
-                                context, state.errorMessage);
+                            return _buildErrorState(context,
+                                S.of(context).error_somethingWrongTryAgain);
                           } else if (state.photos.isEmpty) {
                             return _buildEmptyState(context);
                           } else {
@@ -291,18 +291,6 @@ Widget _buildErrorState(BuildContext context, String? errorMessage) {
             fontSize: 18,
             fontWeight: FontWeight.bold,
             color: Colors.grey[600],
-          ),
-        ),
-        const SizedBox(height: 8),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: Text(
-            errorMessage ?? S.of(context).error_somethingWrongTryAgain,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[500],
-            ),
-            textAlign: TextAlign.center,
           ),
         ),
         const SizedBox(height: 16),
