@@ -64,7 +64,7 @@ class ProfileEditView extends StatelessWidget {
                       state.isValidated)
                     TextButton(
                       onPressed: () {
-                        context.read<ProfileEditBloc>().saveProfile(context);
+                        context.read<ProfileEditBloc>().saveProfile();
                       },
                       child: Text(
                         S.of(context).common_save_button_profile_text,
@@ -236,7 +236,7 @@ class ProfileEditView extends StatelessWidget {
                 title: Text(S.of(context).common_select_from_gallery),
                 onTap: () {
                   Navigator.pop(context);
-                  bloc.pickImageFromGallery(context);
+                  bloc.pickImageFromGallery();
                 },
               ),
               ListTile(
@@ -244,7 +244,7 @@ class ProfileEditView extends StatelessWidget {
                 title: Text(S.of(context).common_take_new_image),
                 onTap: () {
                   Navigator.pop(context);
-                  bloc.pickImageFromCamera(context);
+                  bloc.pickImageFromCamera();
                 },
               ),
             ],

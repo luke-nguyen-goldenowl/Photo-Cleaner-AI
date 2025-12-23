@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:myapp/src/features/account/profile/model/bio_formz.dart';
@@ -40,7 +39,7 @@ class ProfileEditBloc extends Cubit<ProfileEditState> {
     emit(state.copyWith(avatarUrl: value));
   }
 
-  Future<void> pickImageFromGallery(BuildContext context) async {
+  Future<void> pickImageFromGallery() async {
     final result = await imagePickerService.pickImageFromGallery();
     if (result.isSuccess && result.data != null) {
       emit(state.copyWith(
@@ -53,15 +52,13 @@ class ProfileEditBloc extends Cubit<ProfileEditState> {
         localAvatarPath: result.data,
       ));
     } else {
-      if (context.mounted) {
-        emit(state.copyWith(
-          status: ProfileEditStatus.error,
-        ));
-      }
+      emit(state.copyWith(
+        status: ProfileEditStatus.error,
+      ));
     }
   }
 
-  Future<void> pickImageFromCamera(BuildContext context) async {
+  Future<void> pickImageFromCamera() async {
     final result = await imagePickerService.pickImageFromCamera();
     if (result.isSuccess && result.data != null) {
       emit(state.copyWith(
@@ -69,30 +66,26 @@ class ProfileEditBloc extends Cubit<ProfileEditState> {
         localAvatarPath: result.data,
       ));
     } else {
-      if (context.mounted) {
-        emit(state.copyWith(
-          status: ProfileEditStatus.error,
-        ));
-      }
+      emit(state.copyWith(
+        status: ProfileEditStatus.error,
+      ));
     }
   }
 
-  Future<void> saveProfile(BuildContext context) async {
+  Future<void> saveProfile() async {
     if (!state.isValidated) {
-      if (context.mounted) {
-        emit(state.copyWith(
-          status: ProfileEditStatus.error,
-        ));
-      }
+      emit(state.copyWith(
+        status: ProfileEditStatus.error,
+      ));
+
       return;
     }
 
     if (!state.hasChanges) {
-      if (context.mounted) {
-        emit(state.copyWith(
-          status: ProfileEditStatus.error,
-        ));
-      }
+      emit(state.copyWith(
+        status: ProfileEditStatus.error,
+      ));
+
       return;
     }
 
@@ -111,11 +104,10 @@ class ProfileEditBloc extends Cubit<ProfileEditState> {
       if (uploadResult.isSuccess && uploadResult.data != null) {
         avatarUrl = uploadResult.data;
       } else {
-        if (context.mounted) {
-          emit(state.copyWith(
-            status: ProfileEditStatus.error,
-          ));
-        }
+        emit(state.copyWith(
+          status: ProfileEditStatus.error,
+        ));
+
         return;
       }
     }
@@ -136,11 +128,9 @@ class ProfileEditBloc extends Cubit<ProfileEditState> {
         localAvatarPath: null,
       ));
     } else {
-      if (context.mounted) {
-        emit(state.copyWith(
-          status: ProfileEditStatus.error,
-        ));
-      }
+      emit(state.copyWith(
+        status: ProfileEditStatus.error,
+      ));
     }
   }
 }
