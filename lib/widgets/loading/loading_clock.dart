@@ -4,38 +4,44 @@ import 'package:lottie/lottie.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 
 class ClockLoadingIndicator extends StatefulWidget {
-  const ClockLoadingIndicator({super.key});
+  final double? progress;
+  const ClockLoadingIndicator({super.key, this.progress});
 
   @override
   State<ClockLoadingIndicator> createState() => _ClockLoadingIndicatorState();
 }
 
 class _ClockLoadingIndicatorState extends State<ClockLoadingIndicator> {
-  double progress = 0.0;
+  double fakeProgress = 0.0;
   late final Ticker _ticker;
 
   @override
   void initState() {
     super.initState();
-    _ticker = Ticker(_onTick)..start();
+    if (widget.progress == null) {
+      _ticker = Ticker(_onTick)..start();
+    }
   }
 
   void _onTick(Duration elapsed) {
     setState(() {
-      progress += 0.01;
-      if (progress > 0.98) progress = 0.98;
+      fakeProgress += 0.01;
+      if (fakeProgress > 0.98) fakeProgress = 0.98;
     });
   }
 
   @override
   void dispose() {
-    _ticker.dispose();
+    if (widget.progress == null) {
+      _ticker.dispose();
+    }
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _buildLoadingIndicator(context, progress: progress);
+    final displayProgress = widget.progress ?? fakeProgress;
+    return _buildLoadingIndicator(context, progress: displayProgress);
   }
 }
 

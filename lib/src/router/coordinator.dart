@@ -63,10 +63,30 @@ class AppCoordinator {
   static Future<T?> showSelectImage<T extends Object?>() =>
       context.pushNamed<T>(AppRouteNames.selectImage.name);
 
+  static Future<T?> showSelectMultipleImage<T extends Object?>() =>
+      context.pushNamed<T>(AppRouteNames.selectMutipleImage.name);
+
   static Future<T?> showResultRemoveBg<T extends Object?>(
           {required Uint8List imageData}) =>
       context.pushNamed<T>(
         AppRouteNames.resultRemoveBg.name,
         extra: imageData,
+      );
+
+  static Future<T?> showSelectAudioView<T extends Object?>({
+    required dynamic bloc,
+  }) =>
+      context.pushNamed<T>(
+        AppRouteNames.selectAudio.name,
+        extra: bloc,
+      );
+
+  static Future<T?> showResultVideo<T extends Object?>({
+    required String videoPath,
+    required dynamic bloc,
+  }) =>
+      context.pushNamed<T>(
+        AppRouteNames.resultVideo.name,
+        extra: {'videoPath': videoPath, 'bloc': bloc},
       );
 }

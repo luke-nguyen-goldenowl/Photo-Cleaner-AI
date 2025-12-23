@@ -9,6 +9,10 @@ import 'package:myapp/src/features/authentication/view/forgot_view.dart';
 import 'package:myapp/src/features/authentication/view/signin_view.dart';
 import 'package:myapp/src/features/authentication/view/signup_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/cleaner_view.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/make_video/logic/make_video_bloc.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/make_video/view/result_view.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/make_video/view/select_audio_view.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/make_video/view/select_mutilple_image_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/logic/remove_bg_bloc.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/view/result_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/view/select_image_view.dart';
@@ -138,6 +142,47 @@ class AppRouter {
                     create: (context) =>
                         RemoveBgBloc()..setProcessedImage(imageData),
                     child: ResultView(imageData: imageData),
+                  );
+                },
+              ),
+              GoRoute(
+                parentNavigatorKey: AppCoordinator.navigatorKey,
+                path: AppRouteNames.selectMutipleImage.subPath,
+                name: AppRouteNames.selectMutipleImage.name,
+                builder: (_, __) => const SelectMutilpleImageView(),
+              ),
+              GoRoute(
+                parentNavigatorKey: AppCoordinator.navigatorKey,
+                path: AppRouteNames.selectAudio.subPath,
+                name: AppRouteNames.selectAudio.name,
+                builder: (context, state) {
+                  final bloc = state.extra as MakeVideoBloc?;
+                  if (bloc == null) {
+                    return const NotFoundView();
+                  }
+                  return BlocProvider.value(
+                    value: bloc,
+                    child: const SelectAudioView(),
+                  );
+                },
+              ),
+              GoRoute(
+                parentNavigatorKey: AppCoordinator.navigatorKey,
+                path: AppRouteNames.resultVideo.subPath,
+                name: AppRouteNames.resultVideo.name,
+                builder: (context, state) {
+                  final extra = state.extra as Map<String, dynamic>?;
+                  if (extra == null) {
+                    return const NotFoundView();
+                  }
+                  final videoPath = extra['videoPath'] as String?;
+                  final bloc = extra['bloc'] as MakeVideoBloc?;
+                  if (videoPath == null || bloc == null) {
+                    return const NotFoundView();
+                  }
+                  return BlocProvider.value(
+                    value: bloc,
+                    child: ResultVideoView(videoPath: videoPath),
                   );
                 },
               ),

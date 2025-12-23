@@ -198,5 +198,19 @@
     "common_select_image_title":"Select an image from your device",
    "common_button_handle_remove_bg":"Continue",
    "common_button_save":"Save",
-   "common_image_saved_successfully":"Image saved successfully"
+   "common_image_saved_successfully":"Image saved successfully",
+
+    "common_select_moments_title":"Select Moments",
+   "common_selected_count_title":"selected",
+   "common_select_audio_title":"Choose Music",
+   "common_browse_from_device_title":"Browse from device",
+   "common_browse_from_device_subTitle":"Select audio files from your device",
+   "common_no_audio_file_selected":"No audio files selected",
+   "common_tap_to_select_audio":"Tap the button above to browse audio files",
+   "common_button_create_video":"Create Video",
+   "common_video_created_successfully":"Your memory video has been successfully created",
+   "common_video_ready_title":"Video Ready",
+   "common_save_video_success":"Video saved successfully",
+   "common_discard_video_title":"Discard Video?",
+   "common_confirm_discard_video":"Are you sure you want to discard this video? This action cannot be undone."
 }

@@ -538,4 +538,47 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get common_image_saved_successfully => 'Ảnh đã được lưu vào thư viện';
+
+  @override
+  String get common_select_moments_title => 'Chọn khoảnh khắc';
+
+  @override
+  String get common_selected_count_title => 'đã chọn';
+
+  @override
+  String get common_select_audio_title => 'Chọn nhạc nền';
+
+  @override
+  String get common_browse_from_device_title => 'Duyệt từ thiết bị';
+
+  @override
+  String get common_browse_from_device_subTitle =>
+      'Chọn nhạc nền từ thiết bị của bạn';
+
+  @override
+  String get common_no_audio_file_selected =>
+      'Chưa có tệp âm thanh nào được chọn';
+
+  @override
+  String get common_tap_to_select_audio => 'Chạm để chọn âm thanh từ thiết bị';
+
+  @override
+  String get common_button_create_video => 'Tạo video';
+
+  @override
+  String get common_video_created_successfully =>
+      'Video của bạn đã được tạo thành công';
+
+  @override
+  String get common_video_ready_title => 'Video sẵn sàng';
+
+  @override
+  String get common_save_video_success => 'Lưu video thành công';
+
+  @override
+  String get common_discard_video_title => 'Huỷ video ?';
+
+  @override
+  String get common_confirm_discard_video =>
+      'Bạn có chắc chắn muốn huỷ video này không? Hành động này không thể hoàn tác.';
 }

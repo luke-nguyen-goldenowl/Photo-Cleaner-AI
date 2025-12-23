@@ -1105,6 +1105,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Image saved successfully'**
   String get common_image_saved_successfully;
+
+  /// No description provided for @common_select_moments_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Moments'**
+  String get common_select_moments_title;
+
+  /// No description provided for @common_selected_count_title.
+  ///
+  /// In en, this message translates to:
+  /// **'selected'**
+  String get common_selected_count_title;
+
+  /// No description provided for @common_select_audio_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Music'**
+  String get common_select_audio_title;
+
+  /// No description provided for @common_browse_from_device_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse from device'**
+  String get common_browse_from_device_title;
+
+  /// No description provided for @common_browse_from_device_subTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select audio files from your device'**
+  String get common_browse_from_device_subTitle;
+
+  /// No description provided for @common_no_audio_file_selected.
+  ///
+  /// In en, this message translates to:
+  /// **'No audio files selected'**
+  String get common_no_audio_file_selected;
+
+  /// No description provided for @common_tap_to_select_audio.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the button above to browse audio files'**
+  String get common_tap_to_select_audio;
+
+  /// No description provided for @common_button_create_video.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Video'**
+  String get common_button_create_video;
+
+  /// No description provided for @common_video_created_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Your memory video has been successfully created'**
+  String get common_video_created_successfully;
+
+  /// No description provided for @common_video_ready_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Video Ready'**
+  String get common_video_ready_title;
+
+  /// No description provided for @common_save_video_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Video saved successfully'**
+  String get common_save_video_success;
+
+  /// No description provided for @common_discard_video_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard Video?'**
+  String get common_discard_video_title;
+
+  /// No description provided for @common_confirm_discard_video.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to discard this video? This action cannot be undone.'**
+  String get common_confirm_discard_video;
 }
 
 class _AppLocalizationsDelegate
