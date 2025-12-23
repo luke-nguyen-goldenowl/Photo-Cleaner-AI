@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/src/config/constants/constants.dart';
 import 'package:myapp/src/dialogs/alert_wrapper.dart';
@@ -74,19 +73,17 @@ class PhotoViewBloc extends Cubit<PhotoViewState> {
     return result.isSuccess && result.data == true;
   }
 
-  Future<bool> deletePhoto(String photoId, BuildContext context) async {
-    if (!context.mounted) return false;
-
+  Future<bool> deletePhoto(String photoId) async {
     final key = await XAlert.show(
-      title: S.of(context).common_delete_title_alert,
-      body: S.of(context).common_delete_confirm_title,
+      title: S.text.common_delete_title_alert,
+      body: S.text.common_delete_confirm_title,
       actions: [
         XAlertButton(
-          title: S.of(context).common_delete_button_text,
+          title: S.text.common_delete_button_text,
           isDestructiveAction: true,
           key: 'delete',
         ),
-        XAlertButton(title: S.of(context).common_cancelButton_title),
+        XAlertButton(title: S.text.common_cancelButton_title),
       ],
     );
 
