@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/network/data/user/user_reference.dart';
 import 'package:myapp/src/network/data/user/user_repository.dart';
@@ -36,8 +35,7 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<MResult<MUser>> getUserFromSupabase(
-      String email, BuildContext context) async {
+  Future<MResult<MUser>> getUserFromSupabase(String email) async {
     try {
       final supabase = Supabase.instance.client;
       final response = await supabase
@@ -59,7 +57,7 @@ class UserRepositoryImpl extends UserRepository {
         );
         return MResult.success(user);
       }
-      return MResult.error(S.of(context).error_somethingWrongTryAgain);
+      return MResult.error(S.text.error_somethingWrongTryAgain);
     } catch (e) {
       return MResult.exception(e);
     }

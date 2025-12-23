@@ -211,7 +211,7 @@ class _PhotoDetailViewState extends State<PhotoDetailView> {
           onTap: () async {
             final success = await context
                 .read<PhotoViewBloc>()
-                .deletePhoto(_currentPhoto.id, context);
+                .deletePhoto(_currentPhoto.id);
             if (success && mounted) {
               Navigator.pop(context);
               XToast.success(S.of(context).common_delete_success);

@@ -33,7 +33,7 @@ class ProfileView extends StatelessWidget {
               children: [
                 RefreshIndicator(
                   onRefresh: () async {
-                    context.read<ProfileBloc>().loadUserProfile(context);
+                    context.read<ProfileBloc>().loadUserProfile();
                   },
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(horizontal: 24),

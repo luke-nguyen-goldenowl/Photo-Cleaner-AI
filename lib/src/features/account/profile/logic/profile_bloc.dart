@@ -12,10 +12,10 @@ class ProfileBloc extends Cubit<ProfileState> {
   DomainManager get domain => DomainManager();
 
   ProfileBloc({required BuildContext context}) : super(const ProfileState()) {
-    loadUserProfile(context);
+    loadUserProfile();
   }
 
-  Future<void> loadUserProfile(BuildContext context) async {
+  Future<void> loadUserProfile() async {
     emit(state.copyWith(status: ProfileStatus.loading));
     final cachedUser = UserPrefs.I.getUser();
     final email = cachedUser?.email;
@@ -28,7 +28,7 @@ class ProfileBloc extends Cubit<ProfileState> {
       ));
       return;
     }
-    final result = await domain.user.getUserFromSupabase(email, context);
+    final result = await domain.user.getUserFromSupabase(email);
 
     if (result.isSuccess && result.data != null) {
       final user = result.data!;
@@ -49,7 +49,7 @@ class ProfileBloc extends Cubit<ProfileState> {
     }
   }
 
-  Future<void> refreshProfile(BuildContext context) async {
-    await loadUserProfile(context);
+  Future<void> refreshProfile() async {
+    await loadUserProfile();
   }
 }
