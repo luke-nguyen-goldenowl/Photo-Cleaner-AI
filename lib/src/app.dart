@@ -11,7 +11,6 @@ import 'package:myapp/src/localization/localization_utils.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     AppScreens.init(context);

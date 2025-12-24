@@ -2,24 +2,33 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/generated/i18n/app_localizations.dart';
 import 'package:myapp/src/dialogs/alert_wrapper.dart';
 import 'package:myapp/src/dialogs/widget/alert_dialog.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/network/domain_manager.dart';
 import 'package:myapp/src/network/model/user/user.dart';
 import 'package:myapp/src/router/coordinator.dart';
+import 'package:myapp/src/services/session_manager.dart';
 import 'package:myapp/src/services/user_prefs.dart';
 
 part 'account_state.dart';
 
 class AccountBloc extends Cubit<AccountState> {
   AccountBloc() : super(AccountState.ds()) {
-    syncUserData();
+    _restoreSession();
   }
 
   StreamController<MUser> statusStream = StreamController.broadcast();
   DomainManager get domain => DomainManager();
+
+  Future<void> _restoreSession() async {
+    final user = await SessionManager.restoreSession();
+    if (user != null) {
+      onUserChange(state.login(user));
+    } else {
+      syncUserData();
+    }
+  }
 
   Future syncUserData() async {
     final String id = state.user.id;
@@ -88,8 +97,6 @@ class AccountBloc extends Cubit<AccountState> {
   }
 
   void onUserChange(AccountState newstate) {
-    // setup token and param http
-    UserPrefs.instance.setUser(newstate.user);
     emit(newstate);
   }
 }

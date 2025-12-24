@@ -161,10 +161,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Something went wrong, try again...';
 
   @override
-  String get error_login => 'Sign in Failed';
+  String get error_login => 'Sign in failed';
 
   @override
-  String get error_signUp => 'Sign up Failed';
+  String get error_signUp => 'Sign up failed';
 
   @override
   String get error_fieldRequired => 'This field is required';
@@ -179,6 +179,25 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get error_confirmPasswordMismatch =>
       'Password confirmation does not match';
+
+  @override
+  String get error_email_have_been_used => 'Email is already in use';
+
+  @override
+  String get error_email_not_confirm =>
+      'Email has not been verified. Please check your mailbox';
+
+  @override
+  String get error_email_or_password_invalid =>
+      'Email or password is incorrect';
+
+  @override
+  String get error_otp_expired =>
+      'OTP code has expired. Please request a new code';
+
+  @override
+  String get error_same_password =>
+      'The new password must be different from the current password';
 
   @override
   String get success_login => 'Login success';
@@ -231,6 +250,67 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get common_confirmNewPass_hintText => 'Confirm new password';
+
+  @override
+  String get common_image_text_profile => 'IMAGE';
+
+  @override
+  String get common_friend_text_profile => 'FRIEND';
+
+  @override
+  String get common_helper_text_profile => 'MENU';
+
+  @override
+  String get common_favourite_text_profile => 'Favourite';
+
+  @override
+  String get common_share_folder_text_profile => 'Share Album';
+
+  @override
+  String get common_secure_folder_text_profile => 'Secure Folder';
+
+  @override
+  String get common_log_out_text => 'Log out';
+
+  @override
+  String get common_member_since_text => 'Member since';
+
+  @override
+  String get common_edit_profile_text => 'Edit Profile';
+
+  @override
+  String get common_save_button_profile_text => 'Save';
+
+  @override
+  String get common_name_label_input_text => 'Name';
+
+  @override
+  String get common_bio_label_input_text => 'Bio';
+
+  @override
+  String get common_subTitle_edit_profile =>
+      'Your information will be displayed on your personal page';
+
+  @override
+  String get common_select_from_gallery => 'Select from the gallery';
+
+  @override
+  String get common_take_new_image => 'Take a new photo';
+
+  @override
+  String get common_uploading_image_text => 'Uploading photos...';
+
+  @override
+  String get common_handling_text => 'Processing...';
+
+  @override
+  String get common_no_image_selected => 'No image selected';
+
+  @override
+  String get common_no_image_captured => 'No image captured';
+
+  @override
+  String get success_update_profile => 'Profile updated successfully';
 
   @override
   String get success_sendOTP => 'OTP code has been sent to';

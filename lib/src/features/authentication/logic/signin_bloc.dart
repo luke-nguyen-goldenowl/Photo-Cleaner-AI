@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:myapp/generated/i18n/app_localizations.dart';
 import 'package:myapp/src/dialogs/alert_wrapper.dart';
 import 'package:myapp/src/dialogs/toast_wrapper.dart';
 import 'package:myapp/src/dialogs/widget/alert_dialog.dart';
@@ -18,7 +17,6 @@ import 'package:myapp/src/network/model/social_user/social_user.dart';
 import 'package:myapp/src/network/model/user/user.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/src/services/user_prefs.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'signin_state.dart';
 
@@ -38,43 +36,28 @@ class SigninBloc extends Cubit<SigninState> {
     final email = state.email.value;
     final password = state.password.value;
 
-    Supabase.instance.client.auth
-        .signInWithPassword(
+    final result = await domain.sign.loginWithEmail(
       email: email,
       password: password,
-    )
-        .then((response) async {
-      final user = response.user;
-      if (user == null) {
-        emit(state.copyWith(status: FormzSubmissionStatus.failure));
-        XToast.hideLoading();
-        XAlert.show(title: S.of(context).error_login);
-        return;
-      }
-      if (user.emailConfirmedAt == null) {
-        emit(state.copyWith(status: FormzSubmissionStatus.failure));
-        XToast.hideLoading();
-        XAlert.show(title: S.of(context).error_login);
-        return;
-      }
-      XToast.hideLoading();
-      final mUser = MUser.fromSupabaseUser(user);
-      UserPrefs.I.setLoginProvider('supabase');
-      UserPrefs.I.setIsLoggedIn(true);
-      await loginDecision(MResult.success(mUser));
-      XToast.success(S.of(context).success_login);
-    }).catchError((e) {
-      XToast.hideLoading();
+    );
+    XToast.hideLoading();
+
+    if (result.isSuccess) {
+      await loginDecision(
+        result,
+        socialType: MSocialType.email,
+        context: context,
+      );
+    } else {
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
-      final errorResult = MResult<void>.exception(e);
       XAlert.show(
         title: S.of(context).error_login,
-        body: errorResult.error ?? 'Đã xảy ra lỗi không xác định',
+        body: result.error ?? S.of(context).error_somethingWrongTryAgain,
         actions: [
           XAlertButton(title: S.of(context).common_close),
         ],
       );
-    });
+    }
   }
 
   Future loginWithGoogle(BuildContext context) async {
@@ -112,11 +95,11 @@ class SigninBloc extends Cubit<SigninState> {
     if (result.isSuccess) {
       final data = result.data!;
       if (socialType == MSocialType.google) {
-        connectBEWithGoogle(data);
+        connectBEWithGoogle(data, context);
       } else if (socialType == MSocialType.facebook) {
-        connectBEWithFacebook(data);
+        connectBEWithFacebook(data, context);
       } else if (socialType == MSocialType.apple) {
-        connectBEWithApple(data);
+        connectBEWithApple(data, context);
       }
     } else {
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
@@ -124,41 +107,36 @@ class SigninBloc extends Cubit<SigninState> {
     }
   }
 
-  Future connectBEWithGoogle(MSocialUser user) async {
+  Future connectBEWithGoogle(MSocialUser user, BuildContext context) async {
     final result = await domain.sign.connectBEWithGoogle(user);
-    return loginDecision(result, socialType: user.type);
+    return loginDecision(result, socialType: user.type, context: context);
   }
 
-  Future connectBEWithFacebook(MSocialUser user) async {
+  Future connectBEWithFacebook(MSocialUser user, BuildContext context) async {
     final result = await domain.sign.connectBEWithFacebook(user);
-    return loginDecision(result, socialType: user.type);
+    return loginDecision(result, socialType: user.type, context: context);
   }
 
-  Future connectBEWithApple(MSocialUser user) async {
+  Future connectBEWithApple(MSocialUser user, BuildContext context) async {
     final result = await domain.sign.connectBEWithApple(user);
-    return loginDecision(result, socialType: user.type);
+    return loginDecision(result, socialType: user.type, context: context);
   }
 
   Future loginDecision(MResult<MUser> result,
-      {MSocialType? socialType, BuildContext? context}) async {
+      {MSocialType? socialType, required BuildContext context}) async {
     if (result.isSuccess) {
+      final provider = _providerNameFor(socialType);
+      await UserPrefs.I.setLoginProvider(provider);
+      await UserPrefs.I.setIsLoggedIn(true);
+      await UserPrefs.I.setUser(result.data);
+
       emit(state.copyWith(status: FormzSubmissionStatus.success));
-
-      if (socialType != null) {
-        UserPrefs.I.setLoginProvider(socialType.name);
-      }
-      UserPrefs.I.setIsLoggedIn(true);
       GetIt.I<AccountBloc>().onLoginSuccess(result.data!);
-
       AppCoordinator.showHomeScreen();
-      if (context != null) {
-        XToast.success(S.of(context).success_login);
-      }
+      XToast.success(S.of(context).success_login);
     } else {
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
-      if (context != null) {
-        XAlert.show(title: S.of(context).error_login, body: result.error);
-      }
+      XAlert.show(title: S.of(context).error_login, body: result.error);
     }
   }
 
@@ -172,5 +150,19 @@ class SigninBloc extends Cubit<SigninState> {
   void onPasswordChanged(String value) {
     final formz = PasswordFormzInput.dirty(value);
     emit(state.copyWith(password: formz));
+  }
+
+  String _providerNameFor(MSocialType? type) {
+    switch (type) {
+      case MSocialType.google:
+        return 'google';
+      case MSocialType.facebook:
+        return 'facebook';
+      case MSocialType.apple:
+        return 'apple';
+      case MSocialType.email:
+      default:
+        return 'supabase';
+    }
   }
 }

@@ -19,4 +19,6 @@ class AppConstants {
           "icon": Icons.lock_person_outlined,
         },
       ];
+
+  static String avatarLink = 'https://api.dicebear.com/9.x/fun-emoji/png?seed=';
 }

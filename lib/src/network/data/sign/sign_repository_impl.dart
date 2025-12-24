@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/rendering.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/network/data/sign/sign_repository.dart';
 import 'package:myapp/src/network/domain_manager.dart';
 import 'package:myapp/src/network/model/common/result.dart';
@@ -77,7 +78,7 @@ class SignRepositoryImpl extends SignRepository {
         createdAt: DateTime.now(),
       );
 
-      // Check if user exists in Supabase 'users' table by email
+      // Check if user exists
       final supabase = Supabase.instance.client;
       final existingUserResponse = await supabase
           .from('users')
@@ -132,9 +133,28 @@ class SignRepositoryImpl extends SignRepository {
 
   @override
   Future<MResult<MUser>> loginWithEmail(
-      {required String email, required String password}) {
-    // TODO: implement loginWithEmail
-    throw UnimplementedError();
+      {required String email, required String password}) async {
+    try {
+      final response = await Supabase.instance.client.auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
+
+      final mUser = MUser.fromSupabaseUser(response.user!);
+      return MResult.success(mUser);
+    } on AuthApiException catch (e) {
+      final code = e.code?.toLowerCase();
+
+      if (code == 'email_not_confirmed') {
+        return MResult.error(S.text.error_email_not_confirm);
+      }
+      if (code == 'invalid_credentials') {
+        return MResult.error(S.text.error_email_or_password_invalid);
+      }
+      return MResult.exception(e);
+    } catch (e) {
+      return MResult.exception(e);
+    }
   }
 
   @override
@@ -175,8 +195,111 @@ class SignRepositoryImpl extends SignRepository {
 
   @override
   Future<MResult<MUser>> signUpWithEmail(
-      {required String email, required String password, required String name}) {
-    // TODO: implement signUpWithEmail
-    throw UnimplementedError();
+      {required String email,
+      required String password,
+      required String name}) async {
+    try {
+      // Check if email exists
+      final rows = await Supabase.instance.client
+          .rpc('email_exists', params: {'email_input': email}).select();
+
+      final existing = rows.isEmpty ? null : rows.first;
+
+      if (existing != null && existing['email_confirmed_at'] != null) {
+        return MResult.error(S.text.error_email_have_been_used);
+      } else if (existing != null && existing['email_confirmed_at'] == null) {
+        return MResult.success(MUser(
+          id: existing['id'],
+          email: email,
+          name: name,
+          createdAt: DateTime.now(),
+        ));
+      }
+
+      final response = await Supabase.instance.client.auth.signUp(
+        email: email,
+        password: password,
+        data: {'name': name},
+      );
+
+      final user = response.user;
+      if (user == null) {
+        return MResult.error(S.text.error_signUp);
+      }
+
+      final mUser = MUser(
+        id: user.id,
+        name: name,
+        email: email,
+        bio: null,
+        avatarUrl: null,
+        createdAt: DateTime.now(),
+      );
+
+      // Insert user to users table
+      await Supabase.instance.client
+          .from('users')
+          .insert(mUser.toSupabaseTable());
+
+      return MResult.success(mUser);
+    } catch (e) {
+      return MResult.exception(e);
+    }
+  }
+
+  @override
+  Future<MResult<void>> resetPassword(String newPassword) async {
+    try {
+      await Supabase.instance.client.auth.updateUser(
+        UserAttributes(password: newPassword),
+      );
+      return MResult.success(null);
+    } on AuthApiException catch (e) {
+      final code = e.code?.toLowerCase();
+
+      if (code == 'same_password') {
+        return MResult.error(S.text.error_same_password);
+      }
+      return MResult.exception(S.text.error_somethingWrongTryAgain);
+    } catch (e) {
+      return MResult.exception(S.text.error_somethingWrongTryAgain);
+    }
+  }
+
+  @override
+  Future<MResult<String>> sendOtpToEmail(String email) async {
+    try {
+      await Supabase.instance.client.auth.signInWithOtp(email: email);
+      return MResult.success('${S.text.success_sendOTP} $email');
+    } catch (e) {
+      return MResult.exception(S.text.error_somethingWrongTryAgain);
+    }
+  }
+
+  @override
+  Future<MResult<void>> verifyOtp(
+      {required String email, required String otp}) async {
+    try {
+      final response = await Supabase.instance.client.auth.verifyOTP(
+        email: email,
+        token: otp,
+        type: OtpType.email,
+      );
+
+      if (response.user != null) {
+        return MResult.success(null);
+      } else {
+        return MResult.error(S.text.error_verifyOTP);
+      }
+    } on AuthApiException catch (e) {
+      final code = e.code?.toLowerCase();
+
+      if (code == 'otp_expired') {
+        return MResult.error(S.text.error_otp_expired);
+      }
+      return MResult.error(S.text.error_somethingWrongTryAgain);
+    } catch (e) {
+      return MResult.exception(S.text.error_somethingWrongTryAgain);
+    }
   }
 }

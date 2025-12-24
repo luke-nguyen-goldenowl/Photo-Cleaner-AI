@@ -103,7 +103,7 @@ class _XInputState extends State<XInput> {
         inputFormatters: widget.inputFormatters,
         onFieldSubmitted: widget.onFieldSubmitted,
         decoration: InputDecoration(
-          counterText: widget.maxLength != null ? '' : null,
+          //counterText: widget.maxLength != null ? '' : null,
           hintText: widget.hintText,
           hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
           prefixIcon: widget.prefixIcon != null

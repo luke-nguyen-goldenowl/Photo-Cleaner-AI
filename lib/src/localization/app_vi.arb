@@ -66,6 +66,11 @@
   "error_invalidEmail": "Email không hợp lệ",
   "error_invalidPassword" : "Mật khẩu không hợp lệ! Yêu cầu ít nhất 6 ký tự",
   "error_confirmPasswordMismatch": "Xác nhận mật khẩu không khớp",
+  "error_email_have_been_used":"Email đã được sử dụng",
+  "error_email_not_confirm":"Email chưa được xác thực. Vui lòng kiểm tra hộp thư",
+  "error_email_or_password_invalid":"Email hoặc mật khẩu không chính xác",
+  "error_otp_expired":"Mã OTP đã hết hạn. Vui lòng yêu cầu mã mới",
+  "error_same_password":"Mật khẩu mới phải khác mật khẩu hiện tại",
 
 
   "success_login":"Đăng nhập thành công",
@@ -87,6 +92,30 @@
   "common_newPass_hintText":"Mật khẩu mới",
   "common_confirmNewPass_hintText":"Xác nhận mật khẩu mới",
 
+  "common_image_text_profile": "ẢNH",
+  "common_friend_text_profile": "BẠN BÈ",
+  "common_helper_text_profile": "TIỆN ÍCH",
+  "common_favourite_text_profile":"Yêu thích",
+  "common_share_folder_text_profile":"Album chia sẻ",
+  "common_secure_folder_text_profile":"Thư mục bảo mật",
+  "common_log_out_text": "Đăng xuất",
+  "common_member_since_text": "Thành viên từ",
+
+  "common_edit_profile_text": "Chỉnh sửa hồ sơ",
+  "common_save_button_profile_text": "Lưu",
+  "common_name_label_input_text":"Tên",
+  "common_bio_label_input_text":"Giới thiệu",
+  "common_subTitle_edit_profile":"Thông tin của bạn sẽ được hiển thị trên trang cá nhân",
+
+  "common_select_from_gallery":"Chọn từ thư viện",
+  "common_take_new_image":"Chụp ảnh mới",
+  "common_uploading_image_text":"Đang tải ảnh lên",
+  "common_handling_text":"Đang xử lý",
+  "common_no_image_selected":"Không có ảnh nào được chọn",
+  "common_no_image_captured":"Không có ảnh nào được chụp",
+
+
+  "success_update_profile":"Cập nhật hồ sơ thành công",
   "success_sendOTP":"Mã OTP đã được gửi đến",
   "success_verifyOTP":"Xác thực thành công!",
   "success_resetPass_noti_Title":"Thành công",

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/generated/i18n/app_localizations.dart';
 import 'package:myapp/src/features/authentication/logic/signup_bloc.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/router/coordinator.dart';
@@ -17,6 +16,11 @@ class SignupView extends StatelessWidget {
     return BlocProvider(
       create: (_) => SignupBloc(),
       child: BlocBuilder<SignupBloc, SignupState>(
+        buildWhen: (previous, current) =>
+            previous.name != current.name ||
+            previous.email != current.email ||
+            previous.password != current.password ||
+            previous.confirmPassword != current.confirmPassword,
         builder: (context, SignupState state) {
           return Scaffold(
             body: Container(
@@ -54,8 +58,7 @@ class SignupView extends StatelessWidget {
                 onChanged: (value) {
                   context.read<SignupBloc>().onNameChanged(value);
                 },
-                errorText:
-                    !state.name.isPure ? state.name.errorOf(context) : null,
+                errorText: state.name.errorOf(context),
               ),
             ],
           ),
@@ -70,8 +73,7 @@ class SignupView extends StatelessWidget {
                 onChanged: (value) {
                   context.read<SignupBloc>().onEmailChanged(value);
                 },
-                errorText:
-                    !state.email.isPure ? state.email.errorOf(context) : null,
+                errorText: state.email.errorOf(context),
               ),
             ],
           ),
@@ -87,9 +89,7 @@ class SignupView extends StatelessWidget {
                 onChanged: (value) {
                   context.read<SignupBloc>().onPasswordChanged(value);
                 },
-                errorText: !state.password.isPure
-                    ? state.password.errorOf(context)
-                    : null,
+                errorText: state.password.errorOf(context),
               ),
             ],
           ),
@@ -105,9 +105,7 @@ class SignupView extends StatelessWidget {
                 onChanged: (value) {
                   context.read<SignupBloc>().onConfirmPasswordChanged(value);
                 },
-                errorText: !state.confirmPassword.isPure
-                    ? state.confirmPassword.errorOf(context)
-                    : null,
+                errorText: state.confirmPassword.errorOf(context),
               ),
             ],
           ),

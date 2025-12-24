@@ -181,6 +181,23 @@ class AppLocalizationsVi extends AppLocalizations {
   String get error_confirmPasswordMismatch => 'Xác nhận mật khẩu không khớp';
 
   @override
+  String get error_email_have_been_used => 'Email đã được sử dụng';
+
+  @override
+  String get error_email_not_confirm =>
+      'Email chưa được xác thực. Vui lòng kiểm tra hộp thư';
+
+  @override
+  String get error_email_or_password_invalid =>
+      'Email hoặc mật khẩu không chính xác';
+
+  @override
+  String get error_otp_expired => 'Mã OTP đã hết hạn. Vui lòng yêu cầu mã mới';
+
+  @override
+  String get error_same_password => 'Mật khẩu mới phải khác mật khẩu hiện tại';
+
+  @override
   String get success_login => 'Đăng nhập thành công';
 
   @override
@@ -231,6 +248,67 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get common_confirmNewPass_hintText => 'Xác nhận mật khẩu mới';
+
+  @override
+  String get common_image_text_profile => 'ẢNH';
+
+  @override
+  String get common_friend_text_profile => 'BẠN BÈ';
+
+  @override
+  String get common_helper_text_profile => 'TIỆN ÍCH';
+
+  @override
+  String get common_favourite_text_profile => 'Yêu thích';
+
+  @override
+  String get common_share_folder_text_profile => 'Album chia sẻ';
+
+  @override
+  String get common_secure_folder_text_profile => 'Thư mục bảo mật';
+
+  @override
+  String get common_log_out_text => 'Đăng xuất';
+
+  @override
+  String get common_member_since_text => 'Thành viên từ';
+
+  @override
+  String get common_edit_profile_text => 'Chỉnh sửa hồ sơ';
+
+  @override
+  String get common_save_button_profile_text => 'Lưu';
+
+  @override
+  String get common_name_label_input_text => 'Tên';
+
+  @override
+  String get common_bio_label_input_text => 'Giới thiệu';
+
+  @override
+  String get common_subTitle_edit_profile =>
+      'Thông tin của bạn sẽ được hiển thị trên trang cá nhân';
+
+  @override
+  String get common_select_from_gallery => 'Chọn từ thư viện';
+
+  @override
+  String get common_take_new_image => 'Chụp ảnh mới';
+
+  @override
+  String get common_uploading_image_text => 'Đang tải ảnh lên';
+
+  @override
+  String get common_handling_text => 'Đang xử lý';
+
+  @override
+  String get common_no_image_selected => 'Không có ảnh nào được chọn';
+
+  @override
+  String get common_no_image_captured => 'Không có ảnh nào được chụp';
+
+  @override
+  String get success_update_profile => 'Cập nhật hồ sơ thành công';
 
   @override
   String get success_sendOTP => 'Mã OTP đã được gửi đến';

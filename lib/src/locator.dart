@@ -9,7 +9,7 @@ import 'package:myapp/src/network/domain_manager.dart';
 import 'package:myapp/src/router/router.dart';
 import 'package:myapp/src/services/remote_config/remote_config_service.dart';
 import 'package:myapp/src/services/user_prefs.dart';
-
+import 'package:myapp/src/services/supabase/init_supabase.dart';
 import 'features/common/app_bloc/bloc_observer.dart';
 import 'services/firebase_message.dart';
 
@@ -19,6 +19,7 @@ Future initializeApp({String? name, FirebaseOptions? firebaseOptions}) async {
     DeviceOrientation.portraitUp,
   ]);
   _locator();
+  await initializeSupabase();
   await Firebase.initializeApp(name: name, options: firebaseOptions);
   await Future.wait([
     AppInfo.initialize(),
