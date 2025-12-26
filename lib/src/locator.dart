@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:myapp/src/config/devices/app_info.dart';
 import 'package:myapp/src/features/account/logic/account_bloc.dart';
+import 'package:myapp/src/features/dashboard/place/db/gps_local_db.dart';
 import 'package:myapp/src/network/data/photo/photo_local_db.dart';
 import 'package:myapp/src/network/domain_manager.dart';
 import 'package:myapp/src/router/router.dart';
@@ -27,6 +28,7 @@ Future initializeApp({String? name, FirebaseOptions? firebaseOptions}) async {
     UserPrefs.instance.initialize(),
     XFirebaseMessage.instance.initialize(),
     PhotoLocalDatabase.instance.initialize(),
+    GpsCacheDb.instance.initialize(),
     //dotenv.load(fileName: '.env.$name'),
   ]);
   await RemoteConfigService.getRemoteConfig();
