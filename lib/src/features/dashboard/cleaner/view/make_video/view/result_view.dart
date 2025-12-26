@@ -295,11 +295,14 @@ class _ResultVideoViewState extends State<ResultVideoView> {
           key: 'discard',
         ),
       ],
-    ).then((key) {
+    ).then((key) async {
       if (key == 'discard') {
-        AppCoordinator.pop();
-        AppCoordinator.pop();
-        AppCoordinator.pop();
+        await context.read<MakeVideoBloc>().disposeVideo();
+        if (mounted) {
+          AppCoordinator.pop();
+          AppCoordinator.pop();
+          AppCoordinator.pop();
+        }
       }
     });
   }

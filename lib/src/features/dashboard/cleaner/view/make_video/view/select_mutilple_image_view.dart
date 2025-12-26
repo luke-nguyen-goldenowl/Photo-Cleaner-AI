@@ -6,6 +6,7 @@ import 'package:myapp/src/features/dashboard/cleaner/view/make_video/logic/make_
 import 'package:myapp/src/features/dashboard/photo/model/photo_item.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/router/coordinator.dart';
+import 'package:myapp/widgets/state/state_pagination_widget.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:redacted/redacted.dart';
 
@@ -14,69 +15,18 @@ class SelectMutilpleImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => MakeVideoBloc()..loadPhotos(),
-      child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Column(
-              children: [
-                Text(
-                  S.of(context).common_select_moments_title,
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: -0.5,
-                    color: Colors.white,
-                  ),
-                ),
-                BlocBuilder<MakeVideoBloc, MakeVideoState>(
-                  buildWhen: (previous, current) =>
-                      previous.selectedPhotos.length !=
-                      current.selectedPhotos.length,
-                  builder: (context, state) {
-                    return Text(
-                      '${state.selectedPhotos.length} selected',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.white.withOpacity(0.9),
-                        fontWeight: FontWeight.normal,
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-            centerTitle: true,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                  color: Colors.white),
-              onPressed: () => AppCoordinator.pop(),
-            ),
-            backgroundColor: const Color(0xFF6C63FF),
-            elevation: 0,
-          ),
-          body: Column(
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Column(
             children: [
-              Expanded(
-                child: BlocBuilder<MakeVideoBloc, MakeVideoState>(
-                  buildWhen: (previous, current) {
-                    return previous.status != current.status ||
-                        previous.photos != current.photos ||
-                        previous.selectedPhotos != current.selectedPhotos;
-                  },
-                  builder: (context, state) {
-                    if (state.status == MakeVideoStatus.loading) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (state.status == MakeVideoStatus.error) {
-                      return _buildErrorState(
-                          context, S.of(context).error_somethingWrongTryAgain);
-                    } else if (state.photos.isEmpty) {
-                      return _buildEmptyState(context);
-                    } else {
-                      return _buildImageGrid(context, state);
-                    }
-                  },
+              Text(
+                S.of(context).common_select_moments_title,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: -0.5,
+                  color: Colors.white,
                 ),
               ),
               BlocBuilder<MakeVideoBloc, MakeVideoState>(
@@ -84,49 +34,97 @@ class SelectMutilpleImageView extends StatelessWidget {
                     previous.selectedPhotos.length !=
                     current.selectedPhotos.length,
                 builder: (context, state) {
-                  return Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          blurRadius: 10,
-                          offset: const Offset(0, -5),
-                        ),
-                      ],
-                    ),
-                    child: ElevatedButton(
-                      onPressed: state.selectedPhotos.isNotEmpty
-                          ? () => AppCoordinator.showSelectAudioView(
-                                bloc: context.read<MakeVideoBloc>(),
-                              )
-                          : null,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF6C63FF),
-                        foregroundColor: Colors.white,
-                        disabledBackgroundColor: Colors.grey[300],
-                        disabledForegroundColor: Colors.grey[500],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        elevation: 0,
-                      ),
-                      child: Text(
-                        S.of(context).common_buttonContinue,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                  return Text(
+                    '${state.selectedPhotos.length} selected',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white.withOpacity(0.9),
+                      fontWeight: FontWeight.normal,
                     ),
                   );
                 },
               ),
             ],
           ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_rounded,
+                color: Colors.white),
+            onPressed: () => AppCoordinator.pop(),
+          ),
+          backgroundColor: const Color(0xFF6C63FF),
+          elevation: 0,
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: BlocBuilder<MakeVideoBloc, MakeVideoState>(
+                buildWhen: (previous, current) {
+                  return previous.status != current.status ||
+                      previous.photos != current.photos ||
+                      previous.selectedPhotos != current.selectedPhotos;
+                },
+                builder: (context, state) {
+                  if (state.status == MakeVideoStatus.loading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state.status == MakeVideoStatus.error) {
+                    return _buildErrorState(
+                        context, S.of(context).error_somethingWrongTryAgain);
+                  } else if (state.photos.isEmpty) {
+                    return _buildEmptyState(context);
+                  } else {
+                    return _buildImageGrid(context, state);
+                  }
+                },
+              ),
+            ),
+            BlocBuilder<MakeVideoBloc, MakeVideoState>(
+              buildWhen: (previous, current) =>
+                  previous.selectedPhotos.length !=
+                  current.selectedPhotos.length,
+              builder: (context, state) {
+                return Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, -5),
+                      ),
+                    ],
+                  ),
+                  child: ElevatedButton(
+                    onPressed: state.selectedPhotos.isNotEmpty
+                        ? () => AppCoordinator.showSelectAudioView(
+                              bloc: context.read<MakeVideoBloc>(),
+                            )
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF6C63FF),
+                      foregroundColor: Colors.white,
+                      disabledBackgroundColor: Colors.grey[300],
+                      disabledForegroundColor: Colors.grey[500],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      elevation: 0,
+                    ),
+                    child: Text(
+                      S.of(context).common_buttonContinue,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
@@ -134,6 +132,8 @@ class SelectMutilpleImageView extends StatelessWidget {
 }
 
 Widget _buildImageGrid(BuildContext context, MakeVideoState state) {
+  final totalItems = state.photoPagination.data.length +
+      (state.photoPagination.hasMore ? 1 : 0);
   return GridView.builder(
     padding: const EdgeInsets.all(16),
     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -141,9 +141,24 @@ Widget _buildImageGrid(BuildContext context, MakeVideoState state) {
       crossAxisSpacing: 6,
       mainAxisSpacing: 6,
     ),
-    itemCount: state.photos.length,
+    itemCount: totalItems,
     itemBuilder: (context, index) {
-      final photo = state.photos[index];
+      if (index == state.photoPagination.data.length) {
+        return XBoxLoadMore(
+          page: state.photoPagination,
+          loadMore: () => context.read<MakeVideoBloc>().loadPhotos(),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Center(
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
+          ),
+        );
+      }
+      final photo = state.photoPagination.data[index];
       final isSelected = state.selectedPhotos.any((p) => p.id == photo.id);
       final selectedIndex =
           state.selectedPhotos.indexWhere((p) => p.id == photo.id);

@@ -5,6 +5,7 @@ import 'package:myapp/src/dialogs/widget/alert_dialog.dart';
 import 'package:myapp/src/features/dashboard/photo/model/photo_item.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/network/domain_manager.dart';
+import 'package:myapp/src/network/model/common/pagination/pagination.dart';
 import 'package:myapp/src/services/user_prefs.dart';
 import 'photo_state.dart';
 
@@ -12,60 +13,64 @@ class PhotoViewBloc extends Cubit<PhotoViewState> {
   //final PhotoRepository photoRepository;
   DomainManager get domain => DomainManager();
   String? get _userId => UserPrefs.I.getUser()?.id;
-  PhotoViewBloc() : super(const PhotoViewState());
+  PhotoViewBloc()
+      : super(PhotoViewState(
+          timelinePagination: MPagination<MPhotoTimelineGroup>(),
+        )) {
+    loadPhotos();
+  }
 
-  Future<void> loadPhotos({bool isLoadMore = false}) async {
+  Future<void> loadPhotos() async {
     if (isClosed) return;
+    if (!state.timelinePagination.canLoad) return;
 
-    if (isLoadMore) {
-      if (!state.hasMore || state.isLoadingMore) return;
-      emit(state.copyWith(isLoadingMore: true));
-    } else {
-      emit(state.copyWith(
-        status: PhotoViewStatus.loading,
-        isFavoriteMode: false,
-      ));
-    }
+    final currentPage = state.timelinePagination.page;
 
-    final page = isLoadMore ? state.currentPage + 1 : 0;
+    emit(state.copyWith(
+      timelinePagination: state.timelinePagination.toLoading(),
+      status: currentPage == 0 ? PhotoViewStatus.loading : state.status,
+      isFavoriteMode: false,
+    ));
 
     final result = await domain.photo.loadPhotosByTimeline(
-      page: page,
+      page: currentPage,
       pageSize: AppConstants.pageSize,
     );
+
     if (isClosed) return;
 
     if (!result.isSuccess) {
-      emit(state.copyWith(
-        status: PhotoViewStatus.error,
-        isLoadingMore: false,
-      ));
-
+      emit(state.copyWith(status: PhotoViewStatus.error));
       return;
     }
 
     final newGroups = result.data ?? [];
-    final hasMore = newGroups.isNotEmpty;
 
-    final updatedGroups =
-        isLoadMore ? [...state.timelineGroups, ...newGroups] : newGroups;
+    final int fetchedPhotoCount =
+        newGroups.fold(0, (sum, group) => sum + group.photos.length);
+
+    final isLastPage = fetchedPhotoCount < AppConstants.pageSize;
+
+    final totalPage = isLastPage ? (currentPage + 1) : -1;
+
+    final countData = isLastPage
+        ? (state.timelinePagination.data.length + newGroups.length)
+        : -1;
 
     emit(state.copyWith(
       status: PhotoViewStatus.success,
-      timelineGroups: updatedGroups,
-      currentPage: page,
-      hasMore: hasMore,
-      isLoadingMore: false,
-      isFavoriteMode: false,
+      timelinePagination: state.timelinePagination.addAll(
+        newGroups,
+        totalPage: totalPage,
+        countData: countData,
+      ),
     ));
   }
 
-  Future<void> loadMore() async {
-    await loadPhotos(isLoadMore: true);
-  }
-
   Future<void> refresh() async {
-    await loadPhotos(isLoadMore: false);
+    //await loadPhotos(isLoadMore: false);
+    emit(state.copyWith(timelinePagination: MPagination()));
+    await loadPhotos();
   }
 
   Future<bool> sharePhoto(String photoId) async {
@@ -95,7 +100,7 @@ class PhotoViewBloc extends Cubit<PhotoViewState> {
     if (isClosed) return result.isSuccess;
 
     if (result.isSuccess && result.data == true) {
-      final updatedGroups = state.timelineGroups
+      final updatedGroups = state.timelinePagination.data
           .map((group) {
             final updatedPhotos =
                 group.photos.where((p) => p.id != photoId).toList();
@@ -113,7 +118,10 @@ class PhotoViewBloc extends Cubit<PhotoViewState> {
 
       if (isClosed) return true;
       emit(state.copyWith(
-        timelineGroups: updatedGroups,
+        // timelineGroups: updatedGroups,
+        timelinePagination: state.timelinePagination.copyWith(
+          data: updatedGroups,
+        ),
         favoritePhotos: updatedFavorites,
       ));
       return true;
@@ -183,7 +191,7 @@ class PhotoViewBloc extends Cubit<PhotoViewState> {
 
   void _updatePhotoInGroups(
       String photoId, MPhotoItem Function(MPhotoItem) updateFn) {
-    final updatedGroups = state.timelineGroups.map((group) {
+    final updatedGroups = state.timelinePagination.data.map((group) {
       final updatedPhotos = group.photos.map((photo) {
         if (photo.id == photoId) {
           return updateFn(photo);
@@ -198,6 +206,9 @@ class PhotoViewBloc extends Cubit<PhotoViewState> {
     }).toList();
 
     if (isClosed) return;
-    emit(state.copyWith(timelineGroups: updatedGroups));
+    emit(state.copyWith(
+        timelinePagination: state.timelinePagination.copyWith(
+      data: updatedGroups,
+    )));
   }
 }
