@@ -38,11 +38,9 @@ class RemoveBgBloc extends Cubit<RemoveBgState> {
     if (result.isSuccess) {
       final photos = result.data ?? [];
 
-      // Calculate if this is the last page
       final isLastPage = photos.length < pageSize;
       final totalFetched = state.photoPagination.data.length + photos.length;
 
-      // Cache thumbnails for new photos
       for (final photo in photos) {
         final asset = photo.asset;
         if (asset != null && !thumbnailFutures.containsKey(photo.id)) {

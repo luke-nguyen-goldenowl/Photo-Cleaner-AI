@@ -12,61 +12,64 @@ class ResultView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RemoveBgBloc, RemoveBgState>(
-        buildWhen: (previous, current) {
-      return previous.processedImage != current.processedImage;
-    }, builder: (context, state) {
-      final imageToShow = state.processedImage ?? imageData;
-      return SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              S.of(context).common_result_view_title,
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                letterSpacing: -0.5,
-                color: Colors.white,
-              ),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            S.of(context).common_result_view_title,
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              letterSpacing: -0.5,
+              color: Colors.white,
             ),
-            automaticallyImplyLeading: false,
-            centerTitle: true,
-            backgroundColor: const Color(0xFF6C63FF),
-            elevation: 0,
           ),
-          body: Column(
-            children: [
-              Expanded(
-                child: Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: Colors.transparent,
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: imageToShow != null
-                        ? Image.memory(
-                            imageToShow,
-                            fit: BoxFit.contain,
-                          )
-                        : Center(
-                            child: Text(
-                              S.of(context).error_somethingWrongTryAgain,
-                              style:
-                                  TextStyle(fontSize: 16, color: Colors.grey),
-                            ),
-                          ),
-                  ),
-                ),
-              ),
-              _buildBottomActions(),
-            ],
-          ),
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          backgroundColor: const Color(0xFF6C63FF),
+          elevation: 0,
         ),
-      );
-    });
+        body: Column(
+          children: [
+            BlocBuilder<RemoveBgBloc, RemoveBgState>(
+              buildWhen: (previous, current) {
+                return previous.processedImage != current.processedImage;
+              },
+              builder: (context, state) {
+                final imageToShow = state.processedImage ?? imageData;
+                return Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Colors.transparent,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: imageToShow != null
+                          ? Image.memory(
+                              imageToShow,
+                              fit: BoxFit.contain,
+                            )
+                          : Center(
+                              child: Text(
+                                S.of(context).error_somethingWrongTryAgain,
+                                style:
+                                    TextStyle(fontSize: 16, color: Colors.grey),
+                              ),
+                            ),
+                    ),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 16),
+            _buildBottomActions(),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildBottomActions() {
