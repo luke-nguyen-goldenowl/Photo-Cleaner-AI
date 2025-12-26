@@ -19,7 +19,6 @@ import 'package:share_plus/share_plus.dart';
 import 'package:exif/exif.dart';
 
 class PhotoRepositoryImpl extends PhotoRepository {
-  final PhotoDatabaseHelper _dbHelper = PhotoDatabaseHelper.instance;
   final RemoveBgService _removeBgService = RemoveBgService();
   String? get _userId => UserPrefs.I.getUser()?.id;
 

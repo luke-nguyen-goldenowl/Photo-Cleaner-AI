@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:myapp/src/features/account/logic/account_bloc.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/logic/remove_bg_bloc.dart';
 import 'package:myapp/src/features/dashboard/photo/logic/photo_bloc.dart';
 import 'package:myapp/src/features/dashboard/place/logic/place_bloc.dart';
 import 'package:myapp/src/features/settings/logic/setting_bloc.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => InternetConnectionCubit()),
         BlocProvider(create: (_) => PhotoViewBloc()),
         BlocProvider(create: (_) => PlaceBloc()),
+        BlocProvider(create: (_) => RemoveBgBloc()),
       ],
       child: BlocBuilder<SettingBloc, SettingState>(builder: (context, state) {
         return MaterialApp.router(

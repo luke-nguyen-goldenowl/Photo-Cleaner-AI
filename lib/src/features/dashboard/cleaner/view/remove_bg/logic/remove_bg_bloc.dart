@@ -6,6 +6,7 @@ import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/logic/remove
 import 'package:myapp/src/features/dashboard/photo/model/photo_item.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/network/domain_manager.dart';
+import 'package:myapp/src/network/model/common/handle.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:photo_manager/photo_manager.dart';
 
@@ -13,25 +14,38 @@ class RemoveBgBloc extends Cubit<RemoveBgState> {
   //final PhotoRepository photoRepository;
   DomainManager get domain => DomainManager();
   final Map<String, Future<Uint8List?>> thumbnailFutures = {};
-
-  RemoveBgBloc() : super(RemoveBgState());
+  RemoveBgBloc() : super(RemoveBgState()) {
+    loadPhotos();
+  }
 
   Future<void> loadPhotos() async {
-    emit(state.copyWith(status: RemoveBgStatus.loading));
+    if (!state.photoPagination.canLoad) return;
+
+    emit(state.copyWith(
+      photoPagination: state.photoPagination.toLoading(),
+    ));
+
+    final currentPage = state.photoPagination.page;
+    final pageSize = state.photoPagination.pageLimit;
 
     final result = await domain.photo.loadPhotos(
-      page: 0,
-      pageSize: 1000,
+      page: currentPage,
+      pageSize: pageSize,
     );
 
     if (isClosed) return;
 
     if (result.isSuccess) {
       final photos = result.data ?? [];
-      thumbnailFutures.clear();
+
+      // Calculate if this is the last page
+      final isLastPage = photos.length < pageSize;
+      final totalFetched = state.photoPagination.data.length + photos.length;
+
+      // Cache thumbnails for new photos
       for (final photo in photos) {
         final asset = photo.asset;
-        if (asset != null) {
+        if (asset != null && !thumbnailFutures.containsKey(photo.id)) {
           thumbnailFutures[photo.id] = asset.thumbnailDataWithSize(
             const ThumbnailSize.square(200),
             quality: 80,
@@ -41,13 +55,27 @@ class RemoveBgBloc extends Cubit<RemoveBgState> {
 
       emit(state.copyWith(
         status: RemoveBgStatus.loaded,
-        photos: photos,
+        photoPagination: state.photoPagination.addAll(
+          photos,
+          totalPage: isLastPage ? (currentPage + 1) : -1,
+          countData: isLastPage ? totalFetched : -1,
+        ),
       ));
     } else {
       emit(state.copyWith(
         status: RemoveBgStatus.error,
+        photoPagination: state.photoPagination.copyWith(
+          status: MStatus.failure,
+        ),
       ));
     }
+  }
+
+  // Refresh photos (reset pagination and reload from page 0)
+  Future<void> refreshPhotos() async {
+    thumbnailFutures.clear();
+    emit(RemoveBgState());
+    await loadPhotos();
   }
 
   void selectPhoto(MPhotoItem photo) {
@@ -144,12 +172,5 @@ class RemoveBgBloc extends Cubit<RemoveBgState> {
 
   void reset() {
     emit(RemoveBgState());
-  }
-
-  void setProcessedImage(Uint8List imageData) {
-    emit(state.copyWith(
-      processedImage: imageData,
-      status: RemoveBgStatus.processed,
-    ));
   }
 }
