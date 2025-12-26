@@ -8,7 +8,6 @@ import 'package:myapp/src/features/authentication/view/forgot_view.dart';
 import 'package:myapp/src/features/authentication/view/signin_view.dart';
 import 'package:myapp/src/features/authentication/view/signup_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/cleaner_view.dart';
-import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/logic/remove_bg_bloc.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/view/result_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/view/select_image_view.dart';
 import 'package:myapp/src/features/dashboard/friend/view/friend_view.dart';
@@ -120,11 +119,7 @@ class AppRouter {
                   if (imageData == null) {
                     return const NotFoundView();
                   }
-                  return BlocProvider(
-                    create: (context) =>
-                        RemoveBgBloc()..setProcessedImage(imageData),
-                    child: ResultView(imageData: imageData),
-                  );
+                  return ResultView(imageData: imageData);
                 },
               ),
             ],
