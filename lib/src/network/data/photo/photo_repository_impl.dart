@@ -209,9 +209,9 @@ class PhotoRepositoryImpl extends PhotoRepository {
       String photoId, bool isFavorite, String userId) async {
     try {
       if (isFavorite) {
-        await _dbHelper.insertFavorite(photoId, userId);
+        await PhotoDatabaseHelper.I.insertFavorite(photoId, userId);
       } else {
-        await _dbHelper.deleteFavorite(photoId, userId);
+        await PhotoDatabaseHelper.I.deleteFavorite(photoId, userId);
       }
       return MResult.success(true);
     } catch (e) {
@@ -222,7 +222,7 @@ class PhotoRepositoryImpl extends PhotoRepository {
   @override
   Future<MResult<bool>> isFavorite(String photoId, String userId) async {
     try {
-      final isFav = await _dbHelper.isFavorite(photoId, userId);
+      final isFav = await PhotoDatabaseHelper.I.isFavorite(photoId, userId);
       return MResult.success(isFav);
     } catch (e) {
       return MResult.exception(e);
@@ -232,7 +232,7 @@ class PhotoRepositoryImpl extends PhotoRepository {
   @override
   Future<MResult<List<String>>> getFavoriteIds(String userId) async {
     try {
-      final ids = await _dbHelper.getAllFavorites(userId);
+      final ids = await PhotoDatabaseHelper.I.getAllFavorites(userId);
       return MResult.success(ids);
     } catch (e) {
       return MResult.exception(e);

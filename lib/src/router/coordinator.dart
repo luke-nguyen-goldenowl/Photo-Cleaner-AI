@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:myapp/src/features/dashboard/photo/model/photo_item.dart';
 import 'package:myapp/src/router/route_name.dart';
 import 'package:myapp/src/router/router.dart';
 
@@ -28,6 +29,19 @@ class AppCoordinator {
       );
 
   static void showHomeScreen() => context.goNamed(AppRouteNames.photo.name);
+
+  static void showPhotoDetailScreen({
+    required List<MPhotoItem> photos,
+    required int initialIndex,
+  }) {
+    context.pushNamed(
+      AppRouteNames.photoDetail.name,
+      extra: {
+        'photos': photos,
+        'initialIndex': initialIndex,
+      },
+    );
+  }
 
   static void showOnboardingScreen() =>
       context.goNamed(AppRouteNames.onBoarding.name);

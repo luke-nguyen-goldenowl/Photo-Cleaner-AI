@@ -10,9 +10,11 @@ class PhotoDatabaseHelper {
   static const String columnUserId = 'user_id';
   static const String columnCreatedAt = 'created_at';
 
-  PhotoDatabaseHelper._privateConstructor();
-  static final PhotoDatabaseHelper instance =
-      PhotoDatabaseHelper._privateConstructor();
+  factory PhotoDatabaseHelper() => instance;
+  PhotoDatabaseHelper._internal();
+
+  static final PhotoDatabaseHelper instance = PhotoDatabaseHelper._internal();
+  static PhotoDatabaseHelper get I => instance;
 
   static Database? _database;
 
