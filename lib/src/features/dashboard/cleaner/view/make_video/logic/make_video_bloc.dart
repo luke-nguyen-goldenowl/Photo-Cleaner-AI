@@ -9,6 +9,8 @@ import 'package:myapp/src/features/dashboard/cleaner/view/make_video/model/audio
 import 'package:myapp/src/features/dashboard/photo/model/photo_item.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/network/domain_manager.dart';
+import 'package:myapp/src/network/model/common/handle.dart';
+import 'package:myapp/src/network/model/common/pagination/pagination.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:photo_manager/photo_manager.dart';
 
@@ -20,9 +22,9 @@ class MakeVideoBloc extends Cubit<MakeVideoState> {
   static const videoPickerChannel = MethodChannel('videoPickerPlatform');
   static const eventChannel = EventChannel('progress');
   StreamSubscription? _subscription;
-
   MakeVideoBloc() : super(MakeVideoState()) {
     _listenToProgress();
+    loadPhotos();
   }
 
   void _listenToProgress() {
@@ -63,21 +65,31 @@ class MakeVideoBloc extends Cubit<MakeVideoState> {
   }
 
   Future<void> loadPhotos() async {
-    emit(state.copyWith(status: MakeVideoStatus.loading));
+    if (!state.photoPagination.canLoad) return;
+
+    emit(state.copyWith(
+      photoPagination: state.photoPagination.toLoading(),
+    ));
+
+    final currentPage = state.photoPagination.page;
+    final pageSize = state.photoPagination.pageLimit;
 
     final result = await domain.photo.loadPhotos(
-      page: 0,
-      pageSize: 1000,
+      page: currentPage,
+      pageSize: pageSize,
     );
 
     if (isClosed) return;
 
     if (result.isSuccess) {
       final photos = result.data ?? [];
-      thumbnailFutures.clear();
+
+      final isLastPage = photos.length < pageSize;
+      final totalFetched = state.photoPagination.data.length + photos.length;
+
       for (final photo in photos) {
         final asset = photo.asset;
-        if (asset != null) {
+        if (asset != null && !thumbnailFutures.containsKey(photo.id)) {
           thumbnailFutures[photo.id] = asset.thumbnailDataWithSize(
             const ThumbnailSize.square(200),
             quality: 80,
@@ -87,11 +99,18 @@ class MakeVideoBloc extends Cubit<MakeVideoState> {
 
       emit(state.copyWith(
         status: MakeVideoStatus.loaded,
-        photos: photos,
+        photoPagination: state.photoPagination.addAll(
+          photos,
+          totalPage: isLastPage ? (currentPage + 1) : -1,
+          countData: isLastPage ? totalFetched : -1,
+        ),
       ));
     } else {
       emit(state.copyWith(
         status: MakeVideoStatus.error,
+        photoPagination: state.photoPagination.copyWith(
+          status: MStatus.failure,
+        ),
       ));
     }
   }
@@ -109,22 +128,53 @@ class MakeVideoBloc extends Cubit<MakeVideoState> {
     emit(state.copyWith(selectedPhotos: selectedPhotos));
   }
 
-  Future<void> loadAllAudioFromDevice() async {
-    emit(state.copyWith(status: MakeVideoStatus.audioLoading));
-    final result = await domain.video.loadAudios();
-    if (isClosed) return;
+  Future<void> loadAudioFromDevice() async {
+    if (!state.audioPagination.canLoad) return;
 
+    emit(state.copyWith(
+      audioPagination: state.audioPagination.toLoading(),
+    ));
+
+    final currentPage = state.audioPagination.page;
+    final pageSize = state.audioPagination.pageLimit;
+
+    final result = await domain.video.loadAudios(
+      page: currentPage,
+      pageSize: pageSize,
+    );
+
+    if (isClosed) return;
     if (result.isSuccess) {
+      final audios = result.data ?? [];
+
+      final isLastPage = audios.isEmpty || audios.length < pageSize;
+      final totalFetched = state.audioPagination.data.length + audios.length;
+
       emit(state.copyWith(
         status: MakeVideoStatus.audioLoaded,
-        audioFiles: result.data ?? [],
+        audioPagination: state.audioPagination.addAll(
+          audios,
+          totalPage: isLastPage ? (currentPage + 1) : -1,
+          countData: isLastPage ? totalFetched : -1,
+        ),
       ));
     } else {
       emit(state.copyWith(
         status: MakeVideoStatus.error,
         errorMessage: result.error,
+        audioPagination: state.audioPagination.copyWith(
+          status: MStatus.failure,
+        ),
       ));
     }
+  }
+
+  // Refresh audios (reset pagination and reload from page 0)
+  Future<void> refreshAudios() async {
+    emit(state.copyWith(
+      audioPagination: MPagination<MAudioItem>(pageLimit: 10),
+    ));
+    await loadAudioFromDevice();
   }
 
   void selectAudio(MAudioItem audio) {
@@ -213,6 +263,7 @@ class MakeVideoBloc extends Cubit<MakeVideoState> {
         ],
       );
       if (isSaveSuccess == 'ok') {
+        disposeVideo();
         AppCoordinator.pop();
         AppCoordinator.pop();
         AppCoordinator.pop();
@@ -224,9 +275,18 @@ class MakeVideoBloc extends Cubit<MakeVideoState> {
     }
   }
 
+  Future<void> disposeVideo() async {
+    await state.videoPlayerController?.pause();
+    await state.videoPlayerController?.dispose();
+    emit(state.copyWith(
+      videoPlayerController: null,
+      status: MakeVideoStatus.initial,
+    ));
+  }
+
   @override
   Future<void> close() {
-    state.videoPlayerController?.dispose();
+    disposeVideo();
     _subscription?.cancel();
     return super.close();
   }

@@ -46,7 +46,7 @@ class VideoRepositoryImpl extends VideoRepository {
   @override
   Future<MResult<List<MAudioItem>>> loadAudios({
     int page = 0,
-    int pageSize = 100,
+    int pageSize = 10,
   }) async {
     try {
       final PermissionState ps = await PhotoManager.requestPermissionExtend();
@@ -66,13 +66,15 @@ class VideoRepositoryImpl extends VideoRepository {
           ],
         ),
       );
-
       final List<MAudioItem> audioFiles = [];
 
       for (final assetPath in paths) {
+        final start = page * pageSize;
+        final end = start + pageSize;
+
         final assets = await assetPath.getAssetListRange(
-          start: 0,
-          end: 1000,
+          start: start,
+          end: end,
         );
 
         for (final asset in assets) {

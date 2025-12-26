@@ -8,6 +8,7 @@ import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/src/utils/date/duration.ext.dart';
 import 'package:myapp/widgets/loading/loading_clock.dart';
+import 'package:myapp/widgets/state/state_pagination_widget.dart';
 
 class SelectAudioView extends StatefulWidget {
   const SelectAudioView({super.key});
@@ -17,14 +18,6 @@ class SelectAudioView extends StatefulWidget {
 }
 
 class _SelectAudioViewState extends State<SelectAudioView> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<MakeVideoBloc>().loadAllAudioFromDevice();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -56,7 +49,7 @@ class _SelectAudioViewState extends State<SelectAudioView> {
               },
               buildWhen: (previous, current) {
                 return previous.status != current.status ||
-                    previous.audioFiles != current.audioFiles ||
+                    previous.audioPagination != current.audioPagination ||
                     previous.selectedAudio != current.selectedAudio;
               },
               listener: (context, state) {
@@ -65,7 +58,7 @@ class _SelectAudioViewState extends State<SelectAudioView> {
                 }
               },
               builder: (context, state) {
-                if (state.status == MakeVideoStatus.audioLoading) {
+                if (state.audioPagination.isFirstLoading) {
                   return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -84,7 +77,7 @@ class _SelectAudioViewState extends State<SelectAudioView> {
                   );
                 }
 
-                if (state.audioFiles.isEmpty) {
+                if (state.audios.isEmpty && state.audioPagination.page > 0) {
                   return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -120,28 +113,38 @@ class _SelectAudioViewState extends State<SelectAudioView> {
                   children: [
                     Expanded(
                       child: ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(),
                         padding: const EdgeInsets.all(16),
-                        itemCount: state.audioFiles.length,
+                        itemCount: state.audios.length,
                         itemBuilder: (context, index) {
-                          final audio = state.audioFiles[index];
-                          return BlocBuilder<MakeVideoBloc, MakeVideoState>(
-                            buildWhen: (prev, curr) =>
-                                prev.selectedAudio?.path !=
-                                curr.selectedAudio?.path,
-                            builder: (context, blocState) {
-                              final isSelected =
-                                  blocState.selectedAudio?.path == audio.path;
-                              return AudioItem(
-                                audio: audio,
-                                isSelected: isSelected,
-                                onTap: () => context
-                                    .read<MakeVideoBloc>()
-                                    .selectAudio(audio),
-                              );
-                            },
+                          final audio = state.audios[index];
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 12),
+                            child: BlocBuilder<MakeVideoBloc, MakeVideoState>(
+                              buildWhen: (prev, curr) =>
+                                  prev.selectedAudio?.path !=
+                                  curr.selectedAudio?.path,
+                              builder: (context, blocState) {
+                                final isSelected =
+                                    blocState.selectedAudio?.path == audio.path;
+                                return AudioItem(
+                                  audio: audio,
+                                  isSelected: isSelected,
+                                  onTap: () => context
+                                      .read<MakeVideoBloc>()
+                                      .selectAudio(audio),
+                                );
+                              },
+                            ),
                           );
                         },
                       ),
+                    ),
+                    XStatePaginationWidget(
+                      page: state.audioPagination,
+                      loadMore: () =>
+                          context.read<MakeVideoBloc>().loadAudioFromDevice(),
+                      autoLoad: true,
                     ),
                     _buildCreateVideoButton(context, state),
                   ],
@@ -253,11 +256,9 @@ class AudioItem extends StatelessWidget {
     required this.onTap,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: isSelected ? const Color(0xFF6C63FF) : Colors.white,
         borderRadius: BorderRadius.circular(12),
