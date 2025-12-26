@@ -55,14 +55,14 @@ class PlaceBloc extends Cubit<PlaceState> {
     }
 
     final List<MImageLocation> photosWithGPS = [];
-    final gpsCache = GpsCacheDb();
+    // final gpsCache = GpsCacheDb();
 
     for (final photo in photos) {
       if (isClosed) return;
       final asset = photo.asset;
       if (asset == null) continue;
       if (!forceReload) {
-        final cached = await gpsCache.get(asset.id);
+        final cached = await GpsCacheDb.I.get(asset.id);
         if (cached != null) {
           photosWithGPS.add(cached);
           continue;
@@ -74,7 +74,7 @@ class PlaceBloc extends Cubit<PlaceState> {
 
       if (result.isSuccess && gpsData != null) {
         photosWithGPS.add(gpsData);
-        await gpsCache.put(gpsData);
+        await GpsCacheDb.I.put(gpsData);
       }
     }
 
