@@ -2,94 +2,85 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
-class PhotoDatabaseHelper {
-  static const String _databaseName = 'photo_app.db';
-  static const int _databaseVersion = 1;
+// ignore: camel_case_types
+class _keys {
+  static const String databaseName = 'photo_app.db';
+  static const int databaseVersion = 1;
   static const String tableFavorites = 'favorites';
   static const String columnPhotoId = 'photo_id';
   static const String columnUserId = 'user_id';
   static const String columnCreatedAt = 'created_at';
+}
 
-  factory PhotoDatabaseHelper() => instance;
-  PhotoDatabaseHelper._internal();
+class PhotoLocalDatabase {
+  factory PhotoLocalDatabase() => instance;
+  PhotoLocalDatabase._internal();
 
-  static final PhotoDatabaseHelper instance = PhotoDatabaseHelper._internal();
-  static PhotoDatabaseHelper get I => instance;
+  static final PhotoLocalDatabase instance = PhotoLocalDatabase._internal();
+  static PhotoLocalDatabase get I => instance;
+  late Database _db;
 
-  static Database? _database;
-
-  Future<Database> get database async {
-    if (_database != null) return _database!;
-    _database = await _initDatabase();
-    return _database!;
-  }
-
-  Future<Database> _initDatabase() async {
+  Future<void> initialize() async {
     final documentsDirectory = await getApplicationDocumentsDirectory();
-    final path = join(documentsDirectory.path, _databaseName);
-    return await openDatabase(
+    final path = join(documentsDirectory.path, _keys.databaseName);
+    _db = await openDatabase(
       path,
-      version: _databaseVersion,
+      version: _keys.databaseVersion,
       onCreate: _onCreate,
     );
   }
 
   Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE $tableFavorites (
-        $columnPhotoId TEXT NOT NULL,
-        $columnUserId TEXT NOT NULL,
-        $columnCreatedAt INTEGER NOT NULL,
-        PRIMARY KEY ($columnPhotoId, $columnUserId)
+      CREATE TABLE ${_keys.tableFavorites} (
+        ${_keys.columnPhotoId} TEXT NOT NULL,
+        ${_keys.columnUserId} TEXT NOT NULL,
+        ${_keys.columnCreatedAt} INTEGER NOT NULL,
+        PRIMARY KEY (${_keys.columnPhotoId}, ${_keys.columnUserId})
       )
     ''');
   }
 
   Future<int> insertFavorite(String photoId, String userId) async {
-    final db = await database;
-    return await db.insert(
-      tableFavorites,
+    return await _db.insert(
+      _keys.tableFavorites,
       {
-        columnPhotoId: photoId,
-        columnUserId: userId,
-        columnCreatedAt: DateTime.now().millisecondsSinceEpoch,
+        _keys.columnPhotoId: photoId,
+        _keys.columnUserId: userId,
+        _keys.columnCreatedAt: DateTime.now().millisecondsSinceEpoch,
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
   Future<int> deleteFavorite(String photoId, String userId) async {
-    final db = await database;
-    return await db.delete(
-      tableFavorites,
-      where: '$columnPhotoId = ? AND $columnUserId = ?',
+    return await _db.delete(
+      _keys.tableFavorites,
+      where: '${_keys.columnPhotoId} = ? AND ${_keys.columnUserId} = ?',
       whereArgs: [photoId, userId],
     );
   }
 
   Future<bool> isFavorite(String photoId, String userId) async {
-    final db = await database;
-    final result = await db.query(
-      tableFavorites,
-      where: '$columnPhotoId = ? AND $columnUserId = ?',
+    final result = await _db.query(
+      _keys.tableFavorites,
+      where: '${_keys.columnPhotoId} = ? AND ${_keys.columnUserId} = ?',
       whereArgs: [photoId, userId],
     );
     return result.isNotEmpty;
   }
 
   Future<List<String>> getAllFavorites(String userId) async {
-    final db = await database;
-    final result = await db.query(
-      tableFavorites,
-      where: '$columnUserId = ?',
+    final result = await _db.query(
+      _keys.tableFavorites,
+      where: '${_keys.columnUserId} = ?',
       whereArgs: [userId],
-      orderBy: '$columnCreatedAt DESC',
+      orderBy: '${_keys.columnCreatedAt} DESC',
     );
-    return result.map((row) => row[columnPhotoId] as String).toList();
+    return result.map((row) => row[_keys.columnPhotoId] as String).toList();
   }
 
   Future<int> clearAllFavorites() async {
-    final db = await database;
-    return await db.delete(tableFavorites);
+    return await _db.delete(_keys.tableFavorites);
   }
 }
