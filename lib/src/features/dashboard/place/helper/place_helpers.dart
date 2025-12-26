@@ -3,7 +3,6 @@ import 'package:exif/exif.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:myapp/src/features/dashboard/place/model/map_bound.dart';
-
 import '../model/image_location.dart';
 import '../logic/place_bloc.dart';
 

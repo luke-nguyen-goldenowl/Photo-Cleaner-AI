@@ -3,11 +3,13 @@ import 'package:path/path.dart';
 import '../model/image_location.dart';
 
 class GpsCacheDb {
-  static final GpsCacheDb _instance = GpsCacheDb._internal();
-  factory GpsCacheDb() => _instance;
+  factory GpsCacheDb() => instance;
   GpsCacheDb._internal();
 
-  Database? _db;
+  static final GpsCacheDb instance = GpsCacheDb._internal();
+  static GpsCacheDb get I => instance;
+
+  static Database? _db;
 
   Future<Database> get db async {
     if (_db != null) return _db!;

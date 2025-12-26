@@ -13,7 +13,6 @@ import 'package:myapp/src/features/dashboard/logic/navigation_bar_item.dart';
 import 'package:myapp/src/features/dashboard/photo/model/photo_item.dart';
 import 'package:myapp/src/features/dashboard/photo/view/photo_detail_view.dart';
 import 'package:myapp/src/features/dashboard/photo/view/photo_view.dart';
-import 'package:myapp/src/features/dashboard/place/logic/place_bloc.dart';
 import 'package:myapp/src/features/dashboard/place/view/place_view.dart';
 import 'package:myapp/src/features/dashboard/view/dashboard_view.dart';
 import 'package:myapp/src/features/onboarding/view/on_boarding_view.dart';
