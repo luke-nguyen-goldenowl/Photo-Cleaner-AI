@@ -2,88 +2,92 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../model/image_location.dart';
 
+// ignore: camel_case_types
+class _keys {
+  static const String databaseName = 'gps_cache.db';
+  static const int databaseVersion = 1;
+  static const String tableGpsCache = 'gps_cache';
+  static const String columnImageId = 'imageId';
+  static const String columnLatitude = 'latitude';
+  static const String columnLongitude = 'longitude';
+  static const String columnImagePath = 'imagePath';
+  static const String columnDateTime = 'dateTime';
+}
+
 class GpsCacheDb {
   factory GpsCacheDb() => instance;
   GpsCacheDb._internal();
 
   static final GpsCacheDb instance = GpsCacheDb._internal();
   static GpsCacheDb get I => instance;
+  late Database _db;
 
-  static Database? _db;
-
-  Future<Database> get db async {
-    if (_db != null) return _db!;
-    _db = await _initDb();
-    return _db!;
-  }
-
-  Future<Database> _initDb() async {
+  Future<void> initialize() async {
     final dbPath = await getDatabasesPath();
-    final path = join(dbPath, 'gps_cache.db');
-    return openDatabase(
+    final path = join(dbPath, _keys.databaseName);
+    _db = await openDatabase(
       path,
-      version: 1,
-      onCreate: (db, version) async {
-        await db.execute('''
-          CREATE TABLE gps_cache (
-            imageId TEXT PRIMARY KEY,
-            latitude REAL,
-            longitude REAL,
-            imagePath TEXT,
-            dateTime TEXT
-          )
-        ''');
-      },
+      version: _keys.databaseVersion,
+      onCreate: _onCreate,
     );
   }
 
+  Future<void> _onCreate(Database db, int version) async {
+    await db.execute('''
+      CREATE TABLE ${_keys.tableGpsCache} (
+        ${_keys.columnImageId} TEXT PRIMARY KEY,
+        ${_keys.columnLatitude} REAL,
+        ${_keys.columnLongitude} REAL,
+        ${_keys.columnImagePath} TEXT,
+        ${_keys.columnDateTime} TEXT
+      )
+    ''');
+  }
+
   Future<MImageLocation?> get(String imageId) async {
-    final database = await db;
-    final maps = await database.query(
-      'gps_cache',
-      where: 'imageId = ?',
+    final maps = await _db.query(
+      _keys.tableGpsCache,
+      where: '${_keys.columnImageId} = ?',
       whereArgs: [imageId],
       limit: 1,
     );
     if (maps.isEmpty) return null;
+
     final map = maps.first;
     return MImageLocation(
-      latitude: map['latitude'] as double,
-      longitude: map['longitude'] as double,
-      imagePath: map['imagePath'] as String,
-      imageId: map['imageId'] as String,
-      dateTime: map['dateTime'] != null
-          ? DateTime.tryParse(map['dateTime'] as String)
+      latitude: map[_keys.columnLatitude] as double,
+      longitude: map[_keys.columnLongitude] as double,
+      imagePath: map[_keys.columnImagePath] as String,
+      imageId: map[_keys.columnImageId] as String,
+      dateTime: map[_keys.columnDateTime] != null
+          ? DateTime.tryParse(map[_keys.columnDateTime] as String)
           : null,
     );
   }
 
   Future<void> put(MImageLocation location) async {
-    final database = await db;
-    await database.insert(
-      'gps_cache',
+    await _db.insert(
+      _keys.tableGpsCache,
       {
-        'imageId': location.imageId,
-        'latitude': location.latitude,
-        'longitude': location.longitude,
-        'imagePath': location.imagePath,
-        'dateTime': location.dateTime?.toIso8601String(),
+        _keys.columnImageId: location.imageId,
+        _keys.columnLatitude: location.latitude,
+        _keys.columnLongitude: location.longitude,
+        _keys.columnImagePath: location.imagePath,
+        _keys.columnDateTime: location.dateTime?.toIso8601String(),
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
   Future<void> remove(String imageId) async {
-    final database = await db;
-    await database.delete(
-      'gps_cache',
-      where: 'imageId = ?',
+    await _db.delete(
+      _keys.tableGpsCache,
+      where: '${_keys.columnImageId} = ?',
       whereArgs: [imageId],
     );
   }
 
   Future<void> clear() async {
-    final database = await db;
-    await database.delete('gps_cache');
+    await _db.delete(_keys.tableGpsCache);
   }
 }
