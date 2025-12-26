@@ -262,6 +262,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get common_offline_mode => 'Bạn đang ở chế độ ngoại tuyến';
 
   @override
+  String get common_online_mode => 'Đã kết nối mạng trở lại';
+
+  @override
   String get common_all_chip_title => 'Tất cả';
 
   @override

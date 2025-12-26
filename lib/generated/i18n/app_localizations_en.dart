@@ -265,6 +265,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get common_offline_mode => 'You are in offline mode';
 
   @override
+  String get common_online_mode => 'Connected to the network';
+
+  @override
   String get common_all_chip_title => 'All';
 
   @override

@@ -572,6 +572,12 @@ abstract class AppLocalizations {
   /// **'You are in offline mode'**
   String get common_offline_mode;
 
+  /// No description provided for @common_online_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected to the network'**
+  String get common_online_mode;
+
   /// No description provided for @common_all_chip_title.
   ///
   /// In en, this message translates to:

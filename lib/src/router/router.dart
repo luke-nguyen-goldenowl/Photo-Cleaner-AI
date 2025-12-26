@@ -1,6 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myapp/src/features/account/profile/view/profile_edit_view.dart';
 import 'package:myapp/src/features/account/profile/view/profile_view.dart';
@@ -11,7 +10,6 @@ import 'package:myapp/src/features/authentication/view/signup_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/cleaner_view.dart';
 import 'package:myapp/src/features/dashboard/friend/view/friend_view.dart';
 import 'package:myapp/src/features/dashboard/logic/navigation_bar_item.dart';
-import 'package:myapp/src/features/dashboard/photo/logic/photo_bloc.dart';
 import 'package:myapp/src/features/dashboard/photo/model/photo_item.dart';
 import 'package:myapp/src/features/dashboard/photo/view/photo_detail_view.dart';
 import 'package:myapp/src/features/dashboard/photo/view/photo_view.dart';
@@ -22,7 +20,6 @@ import 'package:myapp/src/features/getting_started/view/getting_started_view.dar
 import 'package:myapp/src/features/splash/view/splash_view.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/src/router/route_name.dart';
-import 'package:myapp/src/services/network-connection/internet_connection_cubit.dart';
 
 class AppRouter {
   late final router = GoRouter(
@@ -69,14 +66,9 @@ class AppRouter {
       ),
       ShellRoute(
         navigatorKey: AppCoordinator.shellKey,
-        builder: (context, state, child) => MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (context) => InternetConnectionCubit()),
-          ],
-          child: DashBoardScreen(
-            currentItem: XNavigationBarItems.fromLocation(state.uri.toString()),
-            body: child,
-          ),
+        builder: (context, state, child) => DashBoardScreen(
+          currentItem: XNavigationBarItems.fromLocation(state.uri.toString()),
+          body: child,
         ),
         routes: <RouteBase>[
           GoRoute(
@@ -94,11 +86,9 @@ class AppRouter {
                     final extra = state.extra as Map<String, dynamic>;
                     final photos = extra['photos'] as List<MPhotoItem>;
                     final initialIndex = extra['initialIndex'];
-                    final bloc = extra['bloc'] as PhotoViewBloc;
-                    return BlocProvider.value(
-                      value: bloc,
-                      child: PhotoDetailView(
-                          photos: photos, initialIndex: initialIndex),
+                    return PhotoDetailView(
+                      photos: photos,
+                      initialIndex: initialIndex,
                     );
                   }
                   //builder: (_, __) => const PhotoDetailView(),
