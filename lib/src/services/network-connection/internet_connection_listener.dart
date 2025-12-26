@@ -19,7 +19,7 @@ class InternetListener extends StatelessWidget {
         if (state == InternetStatusState.disconnected) {
           XToast.error(S.of(context).common_offline_mode);
         } else {
-          XToast.error(S.of(context).common_online_mode);
+          XToast.success(S.of(context).common_online_mode);
         }
       },
       child: child,
