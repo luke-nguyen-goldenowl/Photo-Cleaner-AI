@@ -7,6 +7,7 @@ import 'package:myapp/src/features/dashboard/photo/model/photo_item.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/widgets/loading/erase_loading.dart';
+import 'package:myapp/widgets/state/state_pagination_widget.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:redacted/redacted.dart';
 
@@ -15,135 +16,132 @@ class SelectImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (context) => RemoveBgBloc()..loadPhotos(),
-        child: SafeArea(
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text(
-                S.of(context).common_remove_bg_title,
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: -0.5,
-                  color: Colors.white,
-                ),
-              ),
-              centerTitle: true,
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                    color: Colors.white),
-                onPressed: () => AppCoordinator.pop(),
-              ),
-              backgroundColor: const Color(0xFF6C63FF),
-              elevation: 0,
-            ),
-            body: Stack(
-              children: [
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Text(
-                        S.of(context).common_select_image_title,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey[800],
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: BlocBuilder<RemoveBgBloc, RemoveBgState>(
-                        buildWhen: (previous, current) {
-                          return previous.status != current.status ||
-                              previous.photos != current.photos ||
-                              previous.selectedPhoto != current.selectedPhoto;
-                        },
-                        builder: (context, state) {
-                          if (state.status == RemoveBgStatus.loading) {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          } else if (state.status == RemoveBgStatus.error) {
-                            return _buildErrorState(context,
-                                S.of(context).error_somethingWrongTryAgain);
-                          } else if (state.photos.isEmpty) {
-                            return _buildEmptyState(context);
-                          } else {
-                            return _buildImageGrid(context, state);
-                          }
-                        },
-                      ),
-                    ),
-                    BlocBuilder<RemoveBgBloc, RemoveBgState>(
-                      buildWhen: (previous, current) {
-                        return previous.selectedPhoto !=
-                                current.selectedPhoto ||
-                            previous.isProcessing != current.isProcessing;
-                      },
-                      builder: (context, state) {
-                        return Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.05),
-                                blurRadius: 10,
-                                offset: const Offset(0, -5),
-                              ),
-                            ],
-                          ),
-                          child: ElevatedButton(
-                            onPressed: state.selectedPhoto != null &&
-                                    !state.isProcessing
-                                ? () =>
-                                    context.read<RemoveBgBloc>().processImage()
-                                : null,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF6C63FF),
-                              foregroundColor: Colors.white,
-                              disabledBackgroundColor: Colors.grey[300],
-                              disabledForegroundColor: Colors.grey[500],
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              elevation: 0,
-                            ),
-                            child: state.isProcessing
-                                ? const SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                      strokeWidth: 2,
-                                    ),
-                                  )
-                                : Text(
-                                    S
-                                        .of(context)
-                                        .common_button_handle_remove_bg,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-                _buildLoadingOverlay(),
-              ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            S.of(context).common_remove_bg_title,
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              letterSpacing: -0.5,
+              color: Colors.white,
             ),
           ),
-        ));
+          centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_rounded,
+                color: Colors.white),
+            onPressed: () => AppCoordinator.pop(),
+          ),
+          backgroundColor: const Color(0xFF6C63FF),
+          elevation: 0,
+        ),
+        body: Stack(
+          children: [
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Text(
+                    S.of(context).common_select_image_title,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[800],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: BlocBuilder<RemoveBgBloc, RemoveBgState>(
+                    buildWhen: (previous, current) {
+                      return previous.photoPagination !=
+                              current.photoPagination ||
+                          previous.selectedPhoto != current.selectedPhoto;
+                    },
+                    builder: (context, state) {
+                      if (state.photoPagination.isFirstLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (state.photoPagination.isFirstError) {
+                        return _buildErrorState(context,
+                            S.of(context).error_somethingWrongTryAgain);
+                      } else if (state.photos.isEmpty &&
+                          state.photoPagination.page > 0) {
+                        return _buildEmptyState(context);
+                      } else {
+                        return _buildImageGrid(context, state);
+                      }
+                    },
+                  ),
+                ),
+                BlocBuilder<RemoveBgBloc, RemoveBgState>(
+                  buildWhen: (previous, current) {
+                    return previous.selectedPhoto != current.selectedPhoto ||
+                        previous.isProcessing != current.isProcessing;
+                  },
+                  builder: (context, state) {
+                    return Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 10,
+                            offset: const Offset(0, -5),
+                          ),
+                        ],
+                      ),
+                      child: ElevatedButton(
+                        onPressed: state.selectedPhoto != null &&
+                                !state.isProcessing
+                            ? () => context.read<RemoveBgBloc>().processImage()
+                            : null,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF6C63FF),
+                          foregroundColor: Colors.white,
+                          disabledBackgroundColor: Colors.grey[300],
+                          disabledForegroundColor: Colors.grey[500],
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          elevation: 0,
+                        ),
+                        child: state.isProcessing
+                            ? const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : Text(
+                                S.of(context).common_button_handle_remove_bg,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+            _buildLoadingOverlay(),
+          ],
+        ),
+      ),
+    );
   }
 }
 
 Widget _buildImageGrid(BuildContext context, RemoveBgState state) {
+  final totalItems = state.photoPagination.data.length +
+      (state.photoPagination.hasMore ? 1 : 0);
+
   return GridView.builder(
     padding: const EdgeInsets.all(16),
     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -151,9 +149,25 @@ Widget _buildImageGrid(BuildContext context, RemoveBgState state) {
       crossAxisSpacing: 6,
       mainAxisSpacing: 6,
     ),
-    itemCount: state.photos.length,
+    itemCount: totalItems,
     itemBuilder: (context, index) {
-      final photo = state.photos[index];
+      if (index == state.photoPagination.data.length) {
+        return XBoxLoadMore(
+          page: state.photoPagination,
+          loadMore: () => context.read<RemoveBgBloc>().loadPhotos(),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Center(
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
+          ),
+        );
+      }
+
+      final photo = state.photoPagination.data[index];
       final isSelected = state.selectedPhoto?.id == photo.id;
       return _buildPhotoTile(context, photo, isSelected);
     },
@@ -296,7 +310,7 @@ Widget _buildErrorState(BuildContext context, String? errorMessage) {
         const SizedBox(height: 16),
         ElevatedButton(
           onPressed: () {
-            context.read<RemoveBgBloc>().loadPhotos();
+            context.read<RemoveBgBloc>().refreshPhotos();
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF6C63FF),

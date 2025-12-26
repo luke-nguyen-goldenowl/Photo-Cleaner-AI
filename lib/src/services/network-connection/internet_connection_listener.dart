@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myapp/src/dialogs/toast_wrapper.dart';
+import 'package:myapp/src/localization/localization_utils.dart';
 import './internet_connection_cubit.dart';
 
 class InternetListener extends StatelessWidget {
@@ -15,21 +17,9 @@ class InternetListener extends StatelessWidget {
       },
       listener: (context, state) {
         if (state == InternetStatusState.disconnected) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Mất kết nối Internet"),
-              duration: Duration(seconds: 2),
-              backgroundColor: Colors.red,
-            ),
-          );
+          XToast.error(S.of(context).common_offline_mode);
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Đã kết nối mạng lại"),
-              duration: Duration(seconds: 2),
-              backgroundColor: Colors.green,
-            ),
-          );
+          XToast.success(S.of(context).common_online_mode);
         }
       },
       child: child,
