@@ -212,5 +212,20 @@
    "common_video_ready_title":"Video Ready",
    "common_save_video_success":"Video saved successfully",
    "common_discard_video_title":"Discard Video?",
-   "common_confirm_discard_video":"Are you sure you want to discard this video? This action cannot be undone."
+   "common_confirm_discard_video":"Are you sure you want to discard this video? This action cannot be undone.",
+
+
+   "common_enhance_image_title":"Enhance Photo",
+   "common_tap_to_upload_photo":"Tap to Upload Photo",
+   "common_supported_image_formats":"JPG, PNG supported",
+   "common_ready_to_enhance":"Ready to Enhance",
+   "common_ai_enhance_description":"AI will improve sharpness, lighting, and remove noise",
+   "common_start_enhancing":"Start Enhancing",
+   "common_before":"BEFORE",
+   "common_after":"AFTER",
+   "common_btn_discard":"Discard",
+   "common_discard_message":"Are you sure you want to discard this changes? This action cannot be undone."
+
+
+
 }

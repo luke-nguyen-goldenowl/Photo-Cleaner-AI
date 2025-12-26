@@ -22,6 +22,8 @@ enum AppRouteNames {
   selectImage(path: '/select-image'),
   resultRemoveBg(path: '/result-remove-bg'),
   selectMutipleImage(path: '/select-multiple-image'),
+  pickImageEnhance(path: '/pick-image-enhance'),
+  resultEnhanceImage(path: '/result-enhance-image'),
   selectAudio(path: '/select-audio'),
   resultVideo(path: '/result-video'),
   removeBg(path: '/remove-bg'),

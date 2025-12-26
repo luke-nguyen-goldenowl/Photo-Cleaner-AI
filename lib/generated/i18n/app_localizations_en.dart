@@ -583,4 +583,36 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get common_confirm_discard_video =>
       'Are you sure you want to discard this video? This action cannot be undone.';
+
+  @override
+  String get common_enhance_image_title => 'Enhance Photo';
+
+  @override
+  String get common_tap_to_upload_photo => 'Tap to Upload Photo';
+
+  @override
+  String get common_supported_image_formats => 'JPG, PNG supported';
+
+  @override
+  String get common_ready_to_enhance => 'Ready to Enhance';
+
+  @override
+  String get common_ai_enhance_description =>
+      'AI will improve sharpness, lighting, and remove noise';
+
+  @override
+  String get common_start_enhancing => 'Start Enhancing';
+
+  @override
+  String get common_before => 'BEFORE';
+
+  @override
+  String get common_after => 'AFTER';
+
+  @override
+  String get common_btn_discard => 'Discard';
+
+  @override
+  String get common_discard_message =>
+      'Are you sure you want to discard this changes? This action cannot be undone.';
 }

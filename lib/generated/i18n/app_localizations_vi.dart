@@ -581,4 +581,36 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get common_confirm_discard_video =>
       'Bạn có chắc chắn muốn huỷ video này không? Hành động này không thể hoàn tác.';
+
+  @override
+  String get common_enhance_image_title => 'Nâng cấp chất lượng ảnh';
+
+  @override
+  String get common_tap_to_upload_photo => 'Chạm để tải ảnh lên';
+
+  @override
+  String get common_supported_image_formats => 'Hỗ trợ định dạng JPG, PNG';
+
+  @override
+  String get common_ready_to_enhance => 'Sẵn sàng nâng cấp';
+
+  @override
+  String get common_ai_enhance_description =>
+      'AI sẽ cải thiện độ sắc nét, ánh sáng và loại bỏ nhiễu ảnh';
+
+  @override
+  String get common_start_enhancing => 'Bắt đầu nâng cấp';
+
+  @override
+  String get common_before => 'TRƯỚC';
+
+  @override
+  String get common_after => 'SAU';
+
+  @override
+  String get common_btn_discard => 'Huỷ';
+
+  @override
+  String get common_discard_message =>
+      'Bạn có chắc chắn muốn huỷ bỏ không? Hành động này không thể hoàn tác.';
 }

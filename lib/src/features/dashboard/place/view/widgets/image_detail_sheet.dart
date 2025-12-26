@@ -17,6 +17,25 @@ class XImageDetailSheet extends StatelessWidget {
     required this.onZoomTo,
   });
 
+  Widget _buildImagePreview(MImageLocation imageLocation) {
+    final imagePath = imageLocation.thumbnailPath;
+    return Image.file(
+      File(imagePath),
+      width: double.infinity,
+      fit: BoxFit.cover,
+      cacheWidth: 800,
+      errorBuilder: (context, error, stackTrace) {
+        return Container(
+          height: 300,
+          color: Colors.grey[300],
+          child: const Center(
+            child: Icon(Icons.broken_image, size: 64, color: Colors.grey),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
@@ -45,11 +64,7 @@ class XImageDetailSheet extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.file(
-                      File(imageLocation.imagePath),
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
+                    _buildImagePreview(imageLocation),
                     Padding(
                       padding: const EdgeInsets.all(16),
                       child: Column(

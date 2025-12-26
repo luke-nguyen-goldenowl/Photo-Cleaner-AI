@@ -3,11 +3,13 @@ import 'package:path/path.dart';
 import '../model/image_location.dart';
 
 class GpsCacheDb {
-  static final GpsCacheDb _instance = GpsCacheDb._internal();
-  factory GpsCacheDb() => _instance;
+  factory GpsCacheDb() => instance;
   GpsCacheDb._internal();
 
-  Database? _db;
+  static final GpsCacheDb instance = GpsCacheDb._internal();
+  static GpsCacheDb get I => instance;
+
+  static Database? _db;
 
   Future<Database> get db async {
     if (_db != null) return _db!;
@@ -28,6 +30,7 @@ class GpsCacheDb {
             latitude REAL,
             longitude REAL,
             imagePath TEXT,
+            thumbnailPath TEXT,
             dateTime TEXT
           )
         ''');
@@ -49,6 +52,7 @@ class GpsCacheDb {
       latitude: map['latitude'] as double,
       longitude: map['longitude'] as double,
       imagePath: map['imagePath'] as String,
+      thumbnailPath: map['thumbnailPath'] as String,
       imageId: map['imageId'] as String,
       dateTime: map['dateTime'] != null
           ? DateTime.tryParse(map['dateTime'] as String)
@@ -65,6 +69,7 @@ class GpsCacheDb {
         'latitude': location.latitude,
         'longitude': location.longitude,
         'imagePath': location.imagePath,
+        'thumbnailPath': location.thumbnailPath,
         'dateTime': location.dateTime?.toIso8601String(),
       },
       conflictAlgorithm: ConflictAlgorithm.replace,

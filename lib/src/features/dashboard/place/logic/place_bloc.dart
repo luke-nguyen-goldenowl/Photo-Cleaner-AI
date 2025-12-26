@@ -20,7 +20,6 @@ class PlaceBloc extends Cubit<PlaceState> {
   bool _hasLoaded = false;
 
   PlaceBloc() : super(const PlaceState());
-
   Future<void> loadPhotosWithGPS({
     bool forceReload = false,
   }) async {
@@ -28,7 +27,6 @@ class PlaceBloc extends Cubit<PlaceState> {
 
     if (_hasLoaded && !forceReload) return;
     _hasLoaded = true;
-
     emit(state.copyWith(status: PlaceStatus.loading));
 
     final result = await domain.photo.loadPhotos(
@@ -55,14 +53,12 @@ class PlaceBloc extends Cubit<PlaceState> {
     }
 
     final List<MImageLocation> photosWithGPS = [];
-    final gpsCache = GpsCacheDb();
-
     for (final photo in photos) {
       if (isClosed) return;
       final asset = photo.asset;
       if (asset == null) continue;
       if (!forceReload) {
-        final cached = await gpsCache.get(asset.id);
+        final cached = await GpsCacheDb.I.get(asset.id);
         if (cached != null) {
           photosWithGPS.add(cached);
           continue;
@@ -73,8 +69,14 @@ class PlaceBloc extends Cubit<PlaceState> {
       final gpsData = result.data;
 
       if (result.isSuccess && gpsData != null) {
-        photosWithGPS.add(gpsData);
-        await gpsCache.put(gpsData);
+        final isValid = PlaceHelpers.isValidCoordinate(
+          gpsData.latitude,
+          gpsData.longitude,
+        );
+        if (isValid) {
+          photosWithGPS.add(gpsData);
+          await GpsCacheDb.I.put(gpsData);
+        }
       }
     }
 

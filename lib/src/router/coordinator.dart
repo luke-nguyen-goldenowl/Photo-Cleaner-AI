@@ -89,4 +89,16 @@ class AppCoordinator {
         AppRouteNames.resultVideo.name,
         extra: {'videoPath': videoPath, 'bloc': bloc},
       );
+
+  static Future<T?> showPickImageEnhance<T extends Object?>() =>
+      context.pushNamed<T>(AppRouteNames.pickImageEnhance.name);
+
+  static Future<T?> showResultEnhanceImage<T extends Object?>({
+    required Uint8List originalImage,
+    required Uint8List enhancedImage,
+  }) =>
+      context.pushNamed<T>(
+        AppRouteNames.resultEnhanceImage.name,
+        extra: {'original': originalImage, 'enhanced': enhancedImage},
+      );
 }

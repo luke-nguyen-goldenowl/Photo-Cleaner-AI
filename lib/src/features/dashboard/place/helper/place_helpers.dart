@@ -1,8 +1,11 @@
+import 'dart:io';
 import 'dart:math' as math;
 import 'package:exif/exif.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:myapp/src/features/dashboard/place/model/map_bound.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../model/image_location.dart';
 import '../logic/place_bloc.dart';
@@ -156,5 +159,46 @@ class PlaceHelpers {
         largestGroup.map((l) => l.longitude).reduce((a, b) => a + b) /
             largestGroup.length;
     return LatLng(avgLat, avgLon);
+  }
+
+  static Future<String?> createThumbnail(String imagePath) async {
+    try {
+      final cacheDir = await getTemporaryDirectory();
+      final fileName = imagePath.split('/').last;
+      final thumbnailPath = '${cacheDir.path}/thumbnails/$fileName';
+
+      final thumbnailDir = Directory('${cacheDir.path}/thumbnails');
+      if (!await thumbnailDir.exists()) {
+        await thumbnailDir.create(recursive: true);
+      }
+
+      final result = await FlutterImageCompress.compressAndGetFile(
+        imagePath,
+        thumbnailPath,
+        quality: 80,
+        minWidth: 200,
+        minHeight: 200,
+        format: CompressFormat.jpeg,
+        keepExif: false,
+      );
+
+      if (result != null) {
+        return result.path;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static bool isValidCoordinate(double lat, double lon) {
+    return lat.isFinite &&
+        lon.isFinite &&
+        lat >= -90 &&
+        lat <= 90 &&
+        lon >= -180 &&
+        lon <= 180 &&
+        !(lat == 0 && lon == 0);
   }
 }

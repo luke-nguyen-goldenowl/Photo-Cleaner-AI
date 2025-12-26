@@ -9,6 +9,9 @@ import 'package:myapp/src/features/authentication/view/forgot_view.dart';
 import 'package:myapp/src/features/authentication/view/signin_view.dart';
 import 'package:myapp/src/features/authentication/view/signup_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/cleaner_view.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/enhance_image/logic/enhance_image_bloc.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/enhance_image/view/pick_image_view.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/enhance_image/view/result_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/make_video/logic/make_video_bloc.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/make_video/view/result_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/make_video/view/select_audio_view.dart';
@@ -183,6 +186,36 @@ class AppRouter {
                   return BlocProvider.value(
                     value: bloc,
                     child: ResultVideoView(videoPath: videoPath),
+                  );
+                },
+              ),
+              GoRoute(
+                parentNavigatorKey: AppCoordinator.navigatorKey,
+                path: AppRouteNames.pickImageEnhance.subPath,
+                name: AppRouteNames.pickImageEnhance.name,
+                builder: (_, __) => const PickImageView(),
+              ),
+              GoRoute(
+                parentNavigatorKey: AppCoordinator.navigatorKey,
+                path: AppRouteNames.resultEnhanceImage.subPath,
+                name: AppRouteNames.resultEnhanceImage.name,
+                builder: (context, state) {
+                  final extra = state.extra as Map<String, dynamic>?;
+                  if (extra == null) {
+                    return const NotFoundView();
+                  }
+                  final originalImage = extra['original'] as Uint8List?;
+                  final enhancedImage = extra['enhanced'] as Uint8List?;
+                  if (originalImage == null || enhancedImage == null) {
+                    return const NotFoundView();
+                  }
+                  return BlocProvider(
+                    create: (context) => EnhanceImageBloc()
+                      ..setProcessedImages(originalImage, enhancedImage),
+                    child: EnhanceResultView(
+                      originalImage: originalImage,
+                      enhancedImage: enhancedImage,
+                    ),
                   );
                 },
               ),

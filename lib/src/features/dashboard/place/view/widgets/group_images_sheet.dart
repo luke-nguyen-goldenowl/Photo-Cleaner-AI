@@ -13,6 +13,27 @@ class XGroupImagesSheet extends StatelessWidget {
     required this.onImageTap,
   });
 
+  Widget _buildThumbnail(MImageLocation location) {
+    return Image.file(
+      File(location.thumbnailPath),
+      fit: BoxFit.cover,
+      cacheWidth: 200,
+      cacheHeight: 200,
+      errorBuilder: (context, error, stackTrace) {
+        return _buildPlaceholder();
+      },
+    );
+  }
+
+  Widget _buildPlaceholder() {
+    return Container(
+      color: Colors.grey[300],
+      child: const Center(
+        child: Icon(Icons.photo_library, color: Colors.grey, size: 32),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
@@ -64,10 +85,7 @@ class XGroupImagesSheet extends StatelessWidget {
                     },
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: Image.file(
-                        File(location.imagePath),
-                        fit: BoxFit.cover,
-                      ),
+                      child: _buildThumbnail(location),
                     ),
                   );
                 },

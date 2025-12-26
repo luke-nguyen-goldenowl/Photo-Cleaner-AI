@@ -215,7 +215,19 @@
    "common_video_ready_title":"Video sẵn sàng",
    "common_save_video_success":"Lưu video thành công",
    "common_discard_video_title":"Huỷ video ?",
-   "common_confirm_discard_video":"Bạn có chắc chắn muốn huỷ video này không? Hành động này không thể hoàn tác."
+   "common_confirm_discard_video":"Bạn có chắc chắn muốn huỷ video này không? Hành động này không thể hoàn tác.",
+
+
+   "common_enhance_image_title":"Nâng cấp chất lượng ảnh",
+   "common_tap_to_upload_photo":"Chạm để tải ảnh lên",
+   "common_supported_image_formats":"Hỗ trợ định dạng JPG, PNG",
+   "common_ready_to_enhance":"Sẵn sàng nâng cấp",
+   "common_ai_enhance_description":"AI sẽ cải thiện độ sắc nét, ánh sáng và loại bỏ nhiễu ảnh",
+   "common_start_enhancing":"Bắt đầu nâng cấp",
+   "common_before":"TRƯỚC",
+   "common_after":"SAU",
+   "common_btn_discard":"Huỷ",
+   "common_discard_message":"Bạn có chắc chắn muốn huỷ bỏ không? Hành động này không thể hoàn tác."
 
 
 
