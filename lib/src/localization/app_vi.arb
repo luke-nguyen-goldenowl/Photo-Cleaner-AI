@@ -52,6 +52,8 @@
   "common_agreeButton_title": "Đồng ý",
   "common_cancelButton_title": "Huỷ",
 
+  "common_delete_title_alert":"Xác nhận xóa",
+  "common_delete_confirm_title":"Bạn có chắc muốn xóa ảnh này?",
   "common_yes": "Có",
   "common_no": "Không",
   "common_close": "Đóng",
@@ -92,6 +94,38 @@
   "common_newPass_hintText":"Mật khẩu mới",
   "common_confirmNewPass_hintText":"Xác nhận mật khẩu mới",
 
+
+"common_photo_tab_title":"Thư viện của tôi",
+"common_offline_mode":"Bạn đang ở chế độ ngoại tuyến",
+"common_online_mode":"Đã kết nối mạng trở lại",
+  "common_all_chip_title":"Tất cả",
+  "common_favourite_chip_title":"Yêu thích",
+  "common_image_count_title":"ảnh",
+  "common_floating_button_text":"Kỉ niệm",
+  "common_like_button_text":"Thích",
+  "common_secure_button_text":"Bảo mật",
+  "common_enhance_button_text":"Làm nét",
+  "common_share_button_text":"Chia sẻ",
+  "common_save_button_text":"Lưu",
+  "common_delete_button_text":"Xoá",
+  "common_text_share":"Chia sẻ ảnh từ Pixel Perfect",
+  "common_image_not_found_title":"Không có ảnh nào",
+  "common_image_not_found_subTitle":"Thư viện của bạn đang trống",
+  "common_image_liked_not_found_subTitle":"Danh sách ảnh yêu thích của bạn đang trống",
+  "common_try_again":"Thử lại",
+  "common_add_to_favorite":"Đã thêm vào yêu thích",
+  "common_remove_favorite":"Đã bỏ yêu thích",
+  "common_delete_success":"Đã xoá ảnh",
+
+
+  "common_detail_option_text":"Chi tiết",
+  "common_infor_image_title":"Thông tin ảnh",
+  "common_name_image_text":"Tên",
+  "common_height_text":"Chiều cao",
+  "common_width_text":"Chiều rộng",
+  "common_path_image_text":"Đường dẫn",
+
+  "common_created_text":"Ngày tạo",
   "common_image_text_profile": "ẢNH",
   "common_friend_text_profile": "BẠN BÈ",
   "common_helper_text_profile": "TIỆN ÍCH",
@@ -125,9 +159,7 @@
   "error_sendOTP":"Gửi OTP thất bại",
   "error_verifyOTP":"Xác thực thất bại",
   "error_OTP_invalid":"Mã OTP không hợp lệ",
-  "error_resetPass":"Đổi mật khẩu thất bại"
-
-
-
+  "error_resetPass":"Đổi mật khẩu thất bại",
+  "error_permission":"Không có quyền truy cập thư viện ảnh. Vui lòng cấp quyền trong cài đặt"
 
 }

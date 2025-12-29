@@ -344,6 +344,18 @@ abstract class AppLocalizations {
   /// **'Cancel'**
   String get common_cancelButton_title;
 
+  /// No description provided for @common_delete_title_alert.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Deletion'**
+  String get common_delete_title_alert;
+
+  /// No description provided for @common_delete_confirm_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this photo?'**
+  String get common_delete_confirm_title;
+
   /// No description provided for @common_yes.
   ///
   /// In en, this message translates to:
@@ -548,6 +560,174 @@ abstract class AppLocalizations {
   /// **'Confirm new password'**
   String get common_confirmNewPass_hintText;
 
+  /// No description provided for @common_photo_tab_title.
+  ///
+  /// In en, this message translates to:
+  /// **'My Gallery'**
+  String get common_photo_tab_title;
+
+  /// No description provided for @common_offline_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'You are in offline mode'**
+  String get common_offline_mode;
+
+  /// No description provided for @common_online_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected to the network'**
+  String get common_online_mode;
+
+  /// No description provided for @common_all_chip_title.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get common_all_chip_title;
+
+  /// No description provided for @common_favourite_chip_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Favourite'**
+  String get common_favourite_chip_title;
+
+  /// No description provided for @common_image_count_title.
+  ///
+  /// In en, this message translates to:
+  /// **'image'**
+  String get common_image_count_title;
+
+  /// No description provided for @common_floating_button_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Memory'**
+  String get common_floating_button_text;
+
+  /// No description provided for @common_like_button_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Like'**
+  String get common_like_button_text;
+
+  /// No description provided for @common_secure_button_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure'**
+  String get common_secure_button_text;
+
+  /// No description provided for @common_enhance_button_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Enhance'**
+  String get common_enhance_button_text;
+
+  /// No description provided for @common_share_button_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get common_share_button_text;
+
+  /// No description provided for @common_save_button_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get common_save_button_text;
+
+  /// No description provided for @common_delete_button_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get common_delete_button_text;
+
+  /// No description provided for @common_text_share.
+  ///
+  /// In en, this message translates to:
+  /// **'Share from Pixel Perfect'**
+  String get common_text_share;
+
+  /// No description provided for @common_image_not_found_title.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no photos available'**
+  String get common_image_not_found_title;
+
+  /// No description provided for @common_image_not_found_subTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your library is empty'**
+  String get common_image_not_found_subTitle;
+
+  /// No description provided for @common_image_liked_not_found_subTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your list of favorite photos is empty'**
+  String get common_image_liked_not_found_subTitle;
+
+  /// No description provided for @common_try_again.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get common_try_again;
+
+  /// No description provided for @common_add_to_favorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Liked'**
+  String get common_add_to_favorite;
+
+  /// No description provided for @common_remove_favorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlike'**
+  String get common_remove_favorite;
+
+  /// No description provided for @common_delete_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete successfully'**
+  String get common_delete_success;
+
+  /// No description provided for @common_detail_option_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Detail'**
+  String get common_detail_option_text;
+
+  /// No description provided for @common_infor_image_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Information'**
+  String get common_infor_image_title;
+
+  /// No description provided for @common_name_image_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get common_name_image_text;
+
+  /// No description provided for @common_height_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Height'**
+  String get common_height_text;
+
+  /// No description provided for @common_width_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Width'**
+  String get common_width_text;
+
+  /// No description provided for @common_path_image_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Path'**
+  String get common_path_image_text;
+
+  /// No description provided for @common_created_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get common_created_text;
+
   /// No description provided for @common_image_text_profile.
   ///
   /// In en, this message translates to:
@@ -715,6 +895,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Password change failed'**
   String get error_resetPass;
+
+  /// No description provided for @error_permission.
+  ///
+  /// In en, this message translates to:
+  /// **'No photo gallery access. Please grant permissions in settings'**
+  String get error_permission;
 }
 
 class _AppLocalizationsDelegate

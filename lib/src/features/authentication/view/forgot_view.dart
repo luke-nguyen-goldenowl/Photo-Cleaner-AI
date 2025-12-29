@@ -16,19 +16,7 @@ class ForgotPasswordView extends StatelessWidget {
       create: (_) => ForgotBloc(),
       child: BlocBuilder<ForgotBloc, ForgotState>(
         buildWhen: (previous, current) {
-          if (previous.currentStep != current.currentStep) {
-            return true;
-          }
-          switch (current.currentStep) {
-            case ForgotPasswordStep.enterEmail:
-              return previous.email != current.email;
-            case ForgotPasswordStep.enterOtp:
-              return previous.otp != current.otp ||
-                  previous.resendCountdown != current.resendCountdown;
-            case ForgotPasswordStep.resetPassword:
-              return previous.password != current.password ||
-                  previous.confirmPassword != current.confirmPassword;
-          }
+          return previous.currentStep != current.currentStep;
         },
         builder: (context, ForgotState state) {
           return Scaffold(
@@ -84,25 +72,34 @@ class ForgotPasswordView extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            XInput(
-              value: state.email.value,
-              hintText: S.of(context).common_emailTitle,
-              prefixIcon: Icons.email_outlined,
-              onChanged: (value) {
-                context.read<ForgotBloc>().onEmailChanged(value);
+            BlocBuilder<ForgotBloc, ForgotState>(
+              buildWhen: (previous, current) => previous.email != current.email,
+              builder: (context, state) {
+                return XInput(
+                  value: state.email.value,
+                  hintText: S.of(context).common_emailTitle,
+                  prefixIcon: Icons.email_outlined,
+                  onChanged: (value) {
+                    context.read<ForgotBloc>().onEmailChanged(value);
+                  },
+                  errorText: state.email.errorOf(context),
+                );
               },
-              errorText: state.email.errorOf(context),
             ),
           ],
         ),
         const SizedBox(height: 20),
-        XPrimaryButton(
-          text: S.of(context).common_button_senOTP,
-          onPressed: state.isValidated
-              ? () {
-                  context.read<ForgotBloc>().sendOtpToEmail();
-                }
-              : null,
+        BlocBuilder<ForgotBloc, ForgotState>(
+          buildWhen: (previous, current) =>
+              previous.isValidated != current.isValidated,
+          builder: (context, state) {
+            return XPrimaryButton(
+              text: S.of(context).common_button_senOTP,
+              onPressed: state.isValidated
+                  ? () => context.read<ForgotBloc>().sendOtpToEmail()
+                  : null,
+            );
+          },
         ),
         const SizedBox(height: 20),
         GestureDetector(
@@ -132,53 +129,62 @@ class ForgotPasswordView extends StatelessWidget {
           subtitle: S.of(context).common_sendOTP_subTitle,
         ),
         const SizedBox(height: 40),
-        XInput(
-          hintText: S.of(context).common_hintTextOTP,
-          prefixIcon: Icons.lock_outline,
-          keyboardType: TextInputType.number,
-          maxLength: 6,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-          ],
-          onChanged: (value) {
-            context.read<ForgotBloc>().onOtpChanged(value);
-            if (value.length == 6) {
-              context.read<ForgotBloc>().verifyOtp();
-            }
-          },
-          value: state.otp,
-        ),
-        const SizedBox(height: 20),
-        XPrimaryButton(
-          text: S.of(context).common_button_verify,
-          onPressed: state.isOtpValid
-              ? () {
+        BlocBuilder<ForgotBloc, ForgotState>(
+          buildWhen: (previous, current) => previous.otp != current.otp,
+          builder: (context, state) {
+            return XInput(
+              hintText: S.of(context).common_hintTextOTP,
+              prefixIcon: Icons.lock_outline,
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+              onChanged: (value) {
+                context.read<ForgotBloc>().onOtpChanged(value);
+                if (value.length == 6) {
                   context.read<ForgotBloc>().verifyOtp();
                 }
-              : null,
+              },
+              value: state.otp,
+            );
+          },
         ),
         const SizedBox(height: 20),
-        state.resendCountdown > 0
-            ? Text(
-                '${S.of(context).common_sendOTPAgain_s} ${state.resendCountdown} s',
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 16,
-                ),
-              )
-            : GestureDetector(
-                onTap: () {
-                  context.read<ForgotBloc>().resendOtp();
-                },
-                child: Text(
-                  S.of(context).common_sendOTPAgain,
-                  style: const TextStyle(
-                    color: Color(0xFF6C63FF),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
+        BlocBuilder<ForgotBloc, ForgotState>(
+          buildWhen: (previous, current) =>
+              previous.isOtpValid != current.isOtpValid,
+          builder: (context, state) {
+            return XPrimaryButton(
+              text: S.of(context).common_button_verify,
+              onPressed: state.isOtpValid
+                  ? () => context.read<ForgotBloc>().verifyOtp()
+                  : null,
+            );
+          },
+        ),
+        const SizedBox(height: 20),
+        BlocBuilder<ForgotBloc, ForgotState>(
+          buildWhen: (previous, current) =>
+              previous.resendCountdown != current.resendCountdown,
+          builder: (context, state) {
+            return state.resendCountdown > 0
+                ? Text(
+                    '${S.of(context).common_sendOTPAgain_s} ${state.resendCountdown} s',
+                    style: const TextStyle(color: Colors.grey, fontSize: 16),
+                  )
+                : GestureDetector(
+                    onTap: () => context.read<ForgotBloc>().resendOtp(),
+                    child: Text(
+                      S.of(context).common_sendOTPAgain,
+                      style: const TextStyle(
+                        color: Color(0xFF6C63FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  );
+          },
+        ),
       ],
     );
   }
@@ -196,15 +202,20 @@ class ForgotPasswordView extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            XInput(
-              value: state.password.value,
-              hintText: S.of(context).common_newPass_hintText,
-              prefixIcon: Icons.lock_outline,
-              obscureText: true,
-              onChanged: (value) {
-                context.read<ForgotBloc>().onPasswordChanged(value);
+            BlocBuilder<ForgotBloc, ForgotState>(
+              buildWhen: (previous, current) =>
+                  previous.password != current.password,
+              builder: (context, state) {
+                return XInput(
+                  value: state.password.value,
+                  hintText: S.of(context).common_newPass_hintText,
+                  prefixIcon: Icons.lock_outline,
+                  obscureText: true,
+                  onChanged: (value) =>
+                      context.read<ForgotBloc>().onPasswordChanged(value),
+                  errorText: state.password.errorOf(context),
+                );
               },
-              errorText: state.password.errorOf(context),
             ),
           ],
         ),
@@ -212,26 +223,36 @@ class ForgotPasswordView extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            XInput(
-              value: state.confirmPassword.value,
-              hintText: S.of(context).common_confirmNewPass_hintText,
-              prefixIcon: Icons.lock_outline,
-              obscureText: true,
-              onChanged: (value) {
-                context.read<ForgotBloc>().onConfirmPasswordChanged(value);
+            BlocBuilder<ForgotBloc, ForgotState>(
+              buildWhen: (previous, current) =>
+                  previous.confirmPassword != current.confirmPassword,
+              builder: (context, state) {
+                return XInput(
+                  value: state.confirmPassword.value,
+                  hintText: S.of(context).common_confirmNewPass_hintText,
+                  prefixIcon: Icons.lock_outline,
+                  obscureText: true,
+                  onChanged: (value) => context
+                      .read<ForgotBloc>()
+                      .onConfirmPasswordChanged(value),
+                  errorText: state.confirmPassword.errorOf(context),
+                );
               },
-              errorText: state.confirmPassword.errorOf(context),
             ),
           ],
         ),
         const SizedBox(height: 20),
-        XPrimaryButton(
-          text: S.of(context).common_recoverPass_title,
-          onPressed: state.isPasswordValid
-              ? () {
-                  context.read<ForgotBloc>().resetPassword();
-                }
-              : null,
+        BlocBuilder<ForgotBloc, ForgotState>(
+          buildWhen: (previous, current) =>
+              previous.isPasswordValid != current.isPasswordValid,
+          builder: (context, state) {
+            return XPrimaryButton(
+              text: S.of(context).common_recoverPass_title,
+              onPressed: state.isPasswordValid
+                  ? () => context.read<ForgotBloc>().resetPassword()
+                  : null,
+            );
+          },
         ),
       ],
     );

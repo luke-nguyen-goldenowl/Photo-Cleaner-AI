@@ -78,7 +78,11 @@ dependencies:
   supabase_flutter: ^2.10.3
   flutter_image_compress: ^2.4.0
   image_picker: ^1.2.1
-  
+  photo_manager: ^3.8.3
+  redacted: ^1.0.13
+  sqflite: ^2.4.2
+  path_provider: ^2.1.5
+  internet_connection_checker_plus: ^2.9.1+1
 
   # GOOGLE SIGN IN
   

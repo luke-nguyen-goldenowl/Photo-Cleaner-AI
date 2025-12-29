@@ -140,6 +140,12 @@ class AppLocalizationsVi extends AppLocalizations {
   String get common_cancelButton_title => 'Huỷ';
 
   @override
+  String get common_delete_title_alert => 'Xác nhận xóa';
+
+  @override
+  String get common_delete_confirm_title => 'Bạn có chắc muốn xóa ảnh này?';
+
+  @override
   String get common_yes => 'Có';
 
   @override
@@ -250,6 +256,91 @@ class AppLocalizationsVi extends AppLocalizations {
   String get common_confirmNewPass_hintText => 'Xác nhận mật khẩu mới';
 
   @override
+  String get common_photo_tab_title => 'Thư viện của tôi';
+
+  @override
+  String get common_offline_mode => 'Bạn đang ở chế độ ngoại tuyến';
+
+  @override
+  String get common_online_mode => 'Đã kết nối mạng trở lại';
+
+  @override
+  String get common_all_chip_title => 'Tất cả';
+
+  @override
+  String get common_favourite_chip_title => 'Yêu thích';
+
+  @override
+  String get common_image_count_title => 'ảnh';
+
+  @override
+  String get common_floating_button_text => 'Kỉ niệm';
+
+  @override
+  String get common_like_button_text => 'Thích';
+
+  @override
+  String get common_secure_button_text => 'Bảo mật';
+
+  @override
+  String get common_enhance_button_text => 'Làm nét';
+
+  @override
+  String get common_share_button_text => 'Chia sẻ';
+
+  @override
+  String get common_save_button_text => 'Lưu';
+
+  @override
+  String get common_delete_button_text => 'Xoá';
+
+  @override
+  String get common_text_share => 'Chia sẻ ảnh từ Pixel Perfect';
+
+  @override
+  String get common_image_not_found_title => 'Không có ảnh nào';
+
+  @override
+  String get common_image_not_found_subTitle => 'Thư viện của bạn đang trống';
+
+  @override
+  String get common_image_liked_not_found_subTitle =>
+      'Danh sách ảnh yêu thích của bạn đang trống';
+
+  @override
+  String get common_try_again => 'Thử lại';
+
+  @override
+  String get common_add_to_favorite => 'Đã thêm vào yêu thích';
+
+  @override
+  String get common_remove_favorite => 'Đã bỏ yêu thích';
+
+  @override
+  String get common_delete_success => 'Đã xoá ảnh';
+
+  @override
+  String get common_detail_option_text => 'Chi tiết';
+
+  @override
+  String get common_infor_image_title => 'Thông tin ảnh';
+
+  @override
+  String get common_name_image_text => 'Tên';
+
+  @override
+  String get common_height_text => 'Chiều cao';
+
+  @override
+  String get common_width_text => 'Chiều rộng';
+
+  @override
+  String get common_path_image_text => 'Đường dẫn';
+
+  @override
+  String get common_created_text => 'Ngày tạo';
+
+  @override
   String get common_image_text_profile => 'ẢNH';
 
   @override
@@ -334,4 +425,8 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get error_resetPass => 'Đổi mật khẩu thất bại';
+
+  @override
+  String get error_permission =>
+      'Không có quyền truy cập thư viện ảnh. Vui lòng cấp quyền trong cài đặt';
 }

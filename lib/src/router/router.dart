@@ -10,6 +10,8 @@ import 'package:myapp/src/features/authentication/view/signup_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/cleaner_view.dart';
 import 'package:myapp/src/features/dashboard/friend/view/friend_view.dart';
 import 'package:myapp/src/features/dashboard/logic/navigation_bar_item.dart';
+import 'package:myapp/src/features/dashboard/photo/model/photo_item.dart';
+import 'package:myapp/src/features/dashboard/photo/view/photo_detail_view.dart';
 import 'package:myapp/src/features/dashboard/photo/view/photo_view.dart';
 import 'package:myapp/src/features/dashboard/place/view/place_view.dart';
 import 'package:myapp/src/features/dashboard/view/dashboard_view.dart';
@@ -75,6 +77,23 @@ class AppRouter {
             pageBuilder: (context, state) => const NoTransitionPage(
               child: PhotoView(),
             ),
+            routes: <RouteBase>[
+              GoRoute(
+                  parentNavigatorKey: AppCoordinator.navigatorKey,
+                  path: AppRouteNames.photoDetail.subPath,
+                  name: AppRouteNames.photoDetail.name,
+                  builder: (context, state) {
+                    final extra = state.extra as Map<String, dynamic>;
+                    final photos = extra['photos'] as List<MPhotoItem>;
+                    final initialIndex = extra['initialIndex'];
+                    return PhotoDetailView(
+                      photos: photos,
+                      initialIndex: initialIndex,
+                    );
+                  }
+                  //builder: (_, __) => const PhotoDetailView(),
+                  ),
+            ],
           ),
           GoRoute(
             path: AppRouteNames.cleaner.path,

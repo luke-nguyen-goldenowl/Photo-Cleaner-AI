@@ -17,6 +17,7 @@ enum AppRouteNames {
   profileEdit(path: 'profile-edit'),
   settings(path: '/settings'),
   photo(path: '/photo'),
+  photoDetail(path: '/photo-detail'),
   cleaner(path: '/cleaner'),
   friend(path: '/friend'),
   places(path: '/places'),
