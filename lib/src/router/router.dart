@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
@@ -8,7 +10,6 @@ import 'package:myapp/src/features/authentication/view/forgot_view.dart';
 import 'package:myapp/src/features/authentication/view/signin_view.dart';
 import 'package:myapp/src/features/authentication/view/signup_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/cleaner_view.dart';
-import 'package:myapp/src/features/dashboard/cleaner/view/enhance_image/logic/enhance_image_bloc.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/enhance_image/view/pick_image_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/enhance_image/view/result_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/make_video/view/result_view.dart';
@@ -163,7 +164,10 @@ class AppRouter {
                 parentNavigatorKey: AppCoordinator.navigatorKey,
                 path: AppRouteNames.pickImageEnhance.subPath,
                 name: AppRouteNames.pickImageEnhance.name,
-                builder: (_, __) => const PickImageView(),
+                builder: (context, state) {
+                  final initialImage = state.extra as File?;
+                  return PickImageView(initialImage: initialImage);
+                },
               ),
               GoRoute(
                 parentNavigatorKey: AppCoordinator.navigatorKey,

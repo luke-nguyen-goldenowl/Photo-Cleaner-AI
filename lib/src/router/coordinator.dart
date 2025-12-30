@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -104,8 +105,12 @@ class AppCoordinator {
         extra: {'videoPath': videoPath, 'bloc': bloc},
       );
 
-  static Future<T?> showPickImageEnhance<T extends Object?>() =>
-      context.pushNamed<T>(AppRouteNames.pickImageEnhance.name);
+  static Future<T?> showPickImageEnhance<T extends Object?>(
+          {File? initialImage}) =>
+      context.pushNamed<T>(
+        AppRouteNames.pickImageEnhance.name,
+        extra: initialImage,
+      );
 
   static Future<T?> showResultEnhanceImage<T extends Object?>({
     required Uint8List originalImage,

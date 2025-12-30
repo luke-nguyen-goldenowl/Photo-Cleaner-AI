@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
+import 'package:myapp/src/router/coordinator.dart';
 import '../logic/photo_bloc.dart';
 import '../model/photo_item.dart';
 import 'package:myapp/src/dialogs/toast_wrapper.dart';
@@ -190,7 +191,17 @@ class _PhotoDetailViewState extends State<PhotoDetailView> {
           icon: Icons.auto_fix_high,
           label: S.of(context).common_enhance_button_text,
           color: Colors.white,
-          onTap: () {},
+          onTap: () async {
+            final asset = _currentPhoto.asset;
+            if (asset != null) {
+              final file = await asset.file;
+              if (file != null && await file.exists()) {
+                AppCoordinator.showPickImageEnhance(initialImage: file);
+              }
+            } else {
+              XToast.error(S.of(context).error_somethingWrongTryAgain);
+            }
+          },
         ),
 
         // Share

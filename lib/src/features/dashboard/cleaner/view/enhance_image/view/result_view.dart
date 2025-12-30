@@ -28,43 +28,36 @@ class _EnhanceResultViewState extends State<EnhanceResultView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<EnhanceImageBloc, EnhanceImageState>(
-        listenWhen: (previous, current) => previous.status != current.status,
-        listener: (context, state) {
-          if (state.status == EnhanceImageStatus.error) {
-            XToast.error(S.of(context).error_somethingWrongTryAgain);
-          }
-        },
-        child: SafeArea(
-            child: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              S.of(context).common_result_view_title,
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                letterSpacing: -0.5,
-                color: Colors.white,
-              ),
+    return SafeArea(
+        child: Scaffold(
+      appBar: AppBar(
+        title: Text(
+          S.of(context).common_result_view_title,
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            letterSpacing: -0.5,
+            color: Colors.white,
+          ),
+        ),
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        backgroundColor: const Color(0xFF6C63FF),
+        elevation: 0,
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              color: const Color(0xFF1A1F36),
+              child: _buildImageSection(),
             ),
-            automaticallyImplyLeading: false,
-            centerTitle: true,
-            backgroundColor: const Color(0xFF6C63FF),
-            elevation: 0,
           ),
-          body: Column(
-            children: [
-              Expanded(
-                child: Container(
-                  width: double.infinity,
-                  color: const Color(0xFF1A1F36),
-                  child: _buildImageSection(),
-                ),
-              ),
-              _buildBottomActions(),
-            ],
-          ),
-        )));
+          _buildBottomActions(),
+        ],
+      ),
+    ));
   }
 
   Widget _buildImageSection() {
@@ -267,7 +260,19 @@ class _EnhanceResultViewState extends State<EnhanceResultView> {
                 child: ElevatedButton(
                   onPressed: state.isSaving
                       ? null
-                      : () => context.read<EnhanceImageBloc>().saveImage(),
+                      : () {
+                          final imageToSave =
+                              widget.enhancedImage ?? state.processedImage;
+
+                          if (imageToSave == null) {
+                            XToast.error(
+                                S.of(context).error_somethingWrongTryAgain);
+                            return;
+                          }
+                          context
+                              .read<EnhanceImageBloc>()
+                              .saveImage(imageToSave);
+                        },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     backgroundColor: const Color(0xFF6C63FF),

@@ -10,7 +10,8 @@ import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/widgets/loading/image_scan_loading.dart';
 
 class PickImageView extends StatefulWidget {
-  const PickImageView({super.key});
+  final File? initialImage;
+  const PickImageView({super.key, this.initialImage});
 
   @override
   State<PickImageView> createState() => _PickImageViewState();
@@ -19,6 +20,12 @@ class PickImageView extends StatefulWidget {
 class _PickImageViewState extends State<PickImageView> {
   File? _selectedImage;
   final ImagePickerService _picker = ImagePickerService();
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedImage = widget.initialImage;
+  }
 
   void _handlePickImage() async {
     final result = await _picker.pickImageFromGallery();
@@ -31,17 +38,16 @@ class _PickImageViewState extends State<PickImageView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => EnhanceImageBloc(),
-      child: BlocListener<EnhanceImageBloc, EnhanceImageState>(
-        listenWhen: (previous, current) {
-          return previous.status != current.status;
-        },
-        listener: (context, state) {
-          if (state.status == EnhanceImageStatus.error) {
-            XToast.error(S.of(context).error_somethingWrongTryAgain);
-          }
-        },
+    return BlocListener<EnhanceImageBloc, EnhanceImageState>(
+      listenWhen: (previous, current) {
+        return previous.status != current.status;
+      },
+      listener: (context, state) {
+        if (state.status == EnhanceImageStatus.error) {
+          XToast.error(S.of(context).error_somethingWrongTryAgain);
+        }
+      },
+      child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
             title: Text(
