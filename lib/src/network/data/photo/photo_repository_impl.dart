@@ -2,6 +2,9 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:media_store_plus/media_store_plus.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/duplicate_image/model/duplicate_image_group.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/duplicate_image/model/duplicate_scan_progress.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/duplicate_image/service/duplicate_scanner_service.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/enhance_image/service/enhance_image_service.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/service/remove_bg_service.dart';
 import 'package:myapp/src/features/dashboard/photo/model/photo_item.dart';
@@ -445,6 +448,98 @@ class PhotoRepositoryImpl extends PhotoRepository {
       }
     } on SocketException {
       return MResult.error(S.text.error_noInternetConnection);
+    } catch (e) {
+      return MResult.exception(e);
+    }
+  }
+
+  @override
+  Future<MResult<int>> deleteImagesByPaths(List<String> paths) async {
+    try {
+      int deletedCount = 0;
+
+      for (final path in paths) {
+        try {
+          final file = File(path);
+          if (await file.exists()) {
+            await file.delete();
+            deletedCount++;
+          }
+        } catch (e) {
+          MResult.exception(e);
+        }
+      }
+
+      return MResult.success(deletedCount);
+    } catch (e) {
+      return MResult.exception(e);
+    }
+  }
+
+  @override
+  Future<MResult<List<String>>> getAllImagePaths() async {
+    try {
+      final permissionResult = await checkPermission();
+      if (permissionResult.isError) {
+        return MResult.error(permissionResult.error ?? 'Permission denied');
+      }
+
+      final List<String> paths = [];
+
+      final albums = await PhotoManager.getAssetPathList(
+        type: RequestType.image,
+        onlyAll: true,
+        filterOption: FilterOptionGroup(
+          orders: [
+            const OrderOption(type: OrderOptionType.updateDate, asc: false),
+          ],
+        ),
+      );
+
+      for (final album in albums) {
+        final assets = await album.getAssetListRange(
+          start: 0,
+          end: await album.assetCountAsync,
+        );
+
+        for (final asset in assets) {
+          final file = await asset.file;
+          if (file != null) {
+            paths.add(file.path);
+          }
+        }
+      }
+
+      return MResult.success(paths);
+    } catch (e) {
+      return MResult.exception(e);
+    }
+  }
+
+  @override
+  Future<MResult<List<MDuplicateImageGroup>>> scanForDuplicates({
+    Function(MDuplicateScanProgress)? onProgress,
+    double similarityThreshold = 0.85,
+  }) async {
+    try {
+      final imagePathsResult = await getAllImagePaths();
+      if (imagePathsResult.isError) {
+        return MResult.error(imagePathsResult.error ?? 'Failed to get images');
+      }
+
+      final imagePaths = imagePathsResult.data ?? [];
+      if (imagePaths.isEmpty) {
+        return MResult.success([]);
+      }
+
+      final scanner = DuplicateScannerService();
+      final groups = await scanner.scanForDuplicates(
+        imagePaths: imagePaths,
+        onProgress: onProgress,
+        similarityThreshold: similarityThreshold,
+      );
+
+      return groups;
     } catch (e) {
       return MResult.exception(e);
     }

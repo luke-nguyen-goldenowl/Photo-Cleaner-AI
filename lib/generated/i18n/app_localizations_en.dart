@@ -618,4 +618,52 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get common_discard_message =>
       'Are you sure you want to discard this changes? This action cannot be undone.';
+
+  @override
+  String get common_duplicate_image_main_description => 'Clean Up Duplicates';
+
+  @override
+  String get common_duplicate_image_sub_description =>
+      'Automatically find duplicate photos and bursts';
+
+  @override
+  String get common_btn_action_duplicate => 'Scan Device';
+
+  @override
+  String get common_scanning_device => 'Scanning device...';
+
+  @override
+  String get common_title_result_scan => 'Scan Results';
+
+  @override
+  String get common_group_found_text => 'group found';
+
+  @override
+  String get common_group_title => 'Group';
+
+  @override
+  String get common_you_can_free_up => 'You can free up';
+
+  @override
+  String get common_delete_selected_image_message =>
+      'Are you sure you want to delete the selected images?';
+
+  @override
+  String get common_no_duplicate_found => 'No duplicate images found';
+
+  @override
+  String get common_best_image_tag => 'Best';
+
+  @override
+  String get common_storage_tag => 'Storage';
+
+  @override
+  String get common_storage_almost_full =>
+      'Storage is almost full! Free up space to continue.';
+
+  @override
+  String get common_storage_free => 'free';
+
+  @override
+  String get common_similarity => 'Similarity';
 }

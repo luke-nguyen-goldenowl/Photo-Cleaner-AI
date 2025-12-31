@@ -616,4 +616,52 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get common_discard_message =>
       'Bạn có chắc chắn muốn huỷ bỏ không? Hành động này không thể hoàn tác.';
+
+  @override
+  String get common_duplicate_image_main_description => 'Dọn dẹp ảnh trùng lặp';
+
+  @override
+  String get common_duplicate_image_sub_description =>
+      'Tự động tìm ảnh trùng lặp và chụp liên tục';
+
+  @override
+  String get common_btn_action_duplicate => 'Quét thiết bị';
+
+  @override
+  String get common_scanning_device => 'Đang quét thiết bị...';
+
+  @override
+  String get common_title_result_scan => 'Kết quả quét';
+
+  @override
+  String get common_group_found_text => 'nhóm được tìm thấy';
+
+  @override
+  String get common_group_title => 'Nhóm';
+
+  @override
+  String get common_you_can_free_up => 'Bạn có thể giải phóng';
+
+  @override
+  String get common_delete_selected_image_message =>
+      'Bạn có chắc chắn muốn xóa các ảnh đã chọn?';
+
+  @override
+  String get common_no_duplicate_found => 'Không tìm thấy ảnh trùng lặp';
+
+  @override
+  String get common_best_image_tag => 'Tốt nhất';
+
+  @override
+  String get common_storage_tag => 'Bộ nhớ';
+
+  @override
+  String get common_storage_almost_full =>
+      'Bộ nhớ gần đầy! Vui lòng giải phóng bộ nhớ';
+
+  @override
+  String get common_storage_free => 'khả dụng';
+
+  @override
+  String get common_similarity => 'Tương đồng';
 }

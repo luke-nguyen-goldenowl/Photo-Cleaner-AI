@@ -120,4 +120,12 @@ class AppCoordinator {
         AppRouteNames.resultEnhanceImage.name,
         extra: {'original': originalImage, 'enhanced': enhancedImage},
       );
+
+  static Future<T?> showScanDevice<T extends Object?>() =>
+      context.pushNamed<T>(AppRouteNames.scanDevice.name);
+
+  static Future<T?> showDuplicateResults<T extends Object?>() =>
+      context.pushNamed<T>(
+        AppRouteNames.duplicateImageResults.name,
+      );
 }

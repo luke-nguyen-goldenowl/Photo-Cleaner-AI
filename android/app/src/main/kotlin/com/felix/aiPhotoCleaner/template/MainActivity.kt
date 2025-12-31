@@ -29,6 +29,10 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
+import android.os.StatFs
+import android.os.storage.StorageManager
+import android.content.Context
+import java.util.UUID
 
 @UnstableApi
 class MainActivity : FlutterActivity(), Transformer.Listener{
@@ -39,6 +43,7 @@ class MainActivity : FlutterActivity(), Transformer.Listener{
     private val progressHolder = ProgressHolder()
 
     private val eventChannel = "progress"
+    private val CHANNEL = "storage"
     private var attachEvent: EventChannel.EventSink? = null
 
     private lateinit var methodChannel: MethodChannel.Result
@@ -172,7 +177,47 @@ class MainActivity : FlutterActivity(), Transformer.Listener{
                 }
             }
         }
+
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
+            .setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "getStorageInfo" -> {
+                        try {
+                            val storageInfo = getStorageInfo()
+                            result.success(storageInfo)
+                        } catch (e: Exception) {
+                            result.error("STORAGE_ERROR", e.message, null)
+                        }
+                    }
+                    else -> result.notImplemented()
+                }
+            }
     }
+
+    private fun getStorageInfo(): Map<String, Long> {
+    val path = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        context.getExternalFilesDir(null)?.let {
+            File(it.absolutePath.split("/Android")[0])
+        } ?: Environment.getDataDirectory()
+    } else {
+        // Android 10 and below
+        Environment.getExternalStorageDirectory()
+    }
+    
+    val stat = StatFs(path.path)
+
+    val blockSize = stat.blockSizeLong
+    val totalBlocks = stat.blockCountLong
+    val availableBlocks = stat.availableBlocksLong
+
+    val totalBytes = blockSize * totalBlocks
+    val freeBytes = blockSize * availableBlocks
+
+    return mapOf(
+        "total" to totalBytes,
+        "free" to freeBytes
+    )
+}
 
     private fun createExternalFile():File?{
         return try{

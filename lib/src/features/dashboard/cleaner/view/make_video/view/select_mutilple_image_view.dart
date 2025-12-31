@@ -306,6 +306,20 @@ Widget _buildErrorState(BuildContext context, String errorMessage) {
           ),
         ),
         const SizedBox(height: 8),
+        ElevatedButton(
+          onPressed: () {
+            context.read<MakeVideoBloc>().refresh();
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF6C63FF),
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          ),
+          child: Text(S.of(context).common_try_again),
+        ),
       ],
     ),
   );

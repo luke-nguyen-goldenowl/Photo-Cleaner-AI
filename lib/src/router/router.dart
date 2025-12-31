@@ -10,6 +10,8 @@ import 'package:myapp/src/features/authentication/view/forgot_view.dart';
 import 'package:myapp/src/features/authentication/view/signin_view.dart';
 import 'package:myapp/src/features/authentication/view/signup_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/cleaner_view.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/duplicate_image/view/duplicate_image_results_view.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/duplicate_image/view/scan_device_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/enhance_image/view/pick_image_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/enhance_image/view/result_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/make_video/view/result_view.dart';
@@ -188,6 +190,18 @@ class AppRouter {
                     enhancedImage: enhancedImage,
                   );
                 },
+              ),
+              GoRoute(
+                parentNavigatorKey: AppCoordinator.navigatorKey,
+                path: AppRouteNames.scanDevice.subPath,
+                name: AppRouteNames.scanDevice.name,
+                builder: (_, __) => const ScanDeviceView(),
+              ),
+              GoRoute(
+                parentNavigatorKey: AppCoordinator.navigatorKey,
+                path: AppRouteNames.duplicateImageResults.subPath,
+                name: AppRouteNames.duplicateImageResults.name,
+                builder: (_, __) => const DuplicateImageResultsView(),
               ),
             ],
           ),

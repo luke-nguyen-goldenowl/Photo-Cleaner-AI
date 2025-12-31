@@ -225,7 +225,23 @@
    "common_before":"BEFORE",
    "common_after":"AFTER",
    "common_btn_discard":"Discard",
-   "common_discard_message":"Are you sure you want to discard this changes? This action cannot be undone."
+   "common_discard_message":"Are you sure you want to discard this changes? This action cannot be undone.",
+
+   "common_duplicate_image_main_description":"Clean Up Duplicates",
+   "common_duplicate_image_sub_description":"Automatically find duplicate photos and bursts",
+   "common_btn_action_duplicate":"Scan Device",
+   "common_scanning_device":"Scanning device...",
+   "common_title_result_scan":"Scan Results",
+   "common_group_found_text":"group found",
+   "common_group_title":"Group",
+   "common_you_can_free_up":"You can free up",
+   "common_delete_selected_image_message":"Are you sure you want to delete the selected images?",
+   "common_no_duplicate_found":"No duplicate images found",
+   "common_best_image_tag":"Best",
+   "common_storage_tag":"Storage",
+   "common_storage_almost_full":"Storage is almost full! Free up space to continue.",
+   "common_storage_free":"free",
+   "common_similarity":"Similarity"
 
 
 

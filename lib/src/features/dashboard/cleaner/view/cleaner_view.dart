@@ -203,6 +203,9 @@ class CleanerView extends StatelessWidget {
           if (title == S.of(context).common_enhance_image_grid_title) {
             AppCoordinator.showPickImageEnhance();
           }
+          if (title == S.of(context).common_duplicate_image_grid_title) {
+            AppCoordinator.showScanDevice();
+          }
         },
         borderRadius: BorderRadius.circular(20),
         splashColor: gradient.colors.first.withOpacity(0.1),

@@ -228,7 +228,24 @@
    "common_before":"TRƯỚC",
    "common_after":"SAU",
    "common_btn_discard":"Huỷ",
-   "common_discard_message":"Bạn có chắc chắn muốn huỷ bỏ không? Hành động này không thể hoàn tác."
+   "common_discard_message":"Bạn có chắc chắn muốn huỷ bỏ không? Hành động này không thể hoàn tác.",
+
+
+    "common_duplicate_image_main_description":"Dọn dẹp ảnh trùng lặp",
+   "common_duplicate_image_sub_description":"Tự động tìm ảnh trùng lặp và chụp liên tục",
+   "common_btn_action_duplicate":"Quét thiết bị",
+   "common_scanning_device":"Đang quét thiết bị...",
+   "common_title_result_scan":"Kết quả quét",
+   "common_group_found_text":"nhóm được tìm thấy",
+   "common_group_title":"Nhóm",
+   "common_you_can_free_up":"Bạn có thể giải phóng",
+   "common_delete_selected_image_message":"Bạn có chắc chắn muốn xóa các ảnh đã chọn?",
+   "common_no_duplicate_found":"Không tìm thấy ảnh trùng lặp",
+   "common_best_image_tag":"Tốt nhất",
+   "common_storage_tag":"Bộ nhớ",
+   "common_storage_almost_full":"Bộ nhớ gần đầy! Vui lòng giải phóng bộ nhớ",
+   "common_storage_free":"khả dụng",
+   "common_similarity":"Tương đồng"
 
 
 

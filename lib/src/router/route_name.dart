@@ -29,6 +29,8 @@ enum AppRouteNames {
   removeBg(path: '/remove-bg'),
   friend(path: '/friend'),
   places(path: '/places'),
+  scanDevice(path: '/scan-device'),
+  duplicateImageResults(path: '/duplicate-image-results'),
   ;
 
   const AppRouteNames({

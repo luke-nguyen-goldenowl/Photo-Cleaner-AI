@@ -1249,6 +1249,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to discard this changes? This action cannot be undone.'**
   String get common_discard_message;
+
+  /// No description provided for @common_duplicate_image_main_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean Up Duplicates'**
+  String get common_duplicate_image_main_description;
+
+  /// No description provided for @common_duplicate_image_sub_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically find duplicate photos and bursts'**
+  String get common_duplicate_image_sub_description;
+
+  /// No description provided for @common_btn_action_duplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Device'**
+  String get common_btn_action_duplicate;
+
+  /// No description provided for @common_scanning_device.
+  ///
+  /// In en, this message translates to:
+  /// **'Scanning device...'**
+  String get common_scanning_device;
+
+  /// No description provided for @common_title_result_scan.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Results'**
+  String get common_title_result_scan;
+
+  /// No description provided for @common_group_found_text.
+  ///
+  /// In en, this message translates to:
+  /// **'group found'**
+  String get common_group_found_text;
+
+  /// No description provided for @common_group_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Group'**
+  String get common_group_title;
+
+  /// No description provided for @common_you_can_free_up.
+  ///
+  /// In en, this message translates to:
+  /// **'You can free up'**
+  String get common_you_can_free_up;
+
+  /// No description provided for @common_delete_selected_image_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete the selected images?'**
+  String get common_delete_selected_image_message;
+
+  /// No description provided for @common_no_duplicate_found.
+  ///
+  /// In en, this message translates to:
+  /// **'No duplicate images found'**
+  String get common_no_duplicate_found;
+
+  /// No description provided for @common_best_image_tag.
+  ///
+  /// In en, this message translates to:
+  /// **'Best'**
+  String get common_best_image_tag;
+
+  /// No description provided for @common_storage_tag.
+  ///
+  /// In en, this message translates to:
+  /// **'Storage'**
+  String get common_storage_tag;
+
+  /// No description provided for @common_storage_almost_full.
+  ///
+  /// In en, this message translates to:
+  /// **'Storage is almost full! Free up space to continue.'**
+  String get common_storage_almost_full;
+
+  /// No description provided for @common_storage_free.
+  ///
+  /// In en, this message translates to:
+  /// **'free'**
+  String get common_storage_free;
+
+  /// No description provided for @common_similarity.
+  ///
+  /// In en, this message translates to:
+  /// **'Similarity'**
+  String get common_similarity;
 }
 
 class _AppLocalizationsDelegate
