@@ -1,4 +1,5 @@
 import 'package:myapp/src/features/dashboard/photo/model/photo_item.dart';
+import 'package:myapp/src/features/dashboard/place/model/image_location.dart';
 import 'package:myapp/src/network/model/common/result.dart';
 
 abstract class PhotoRepository {
@@ -33,4 +34,7 @@ abstract class PhotoRepository {
 
   /// Check permission to access photos
   Future<MResult<bool>> checkPermission();
+
+  /// Extract GPS data from photo
+  Future<MResult<MImageLocation?>> extractGpsFromPhoto(MPhotoItem photo);
 }

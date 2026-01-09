@@ -429,4 +429,59 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get error_permission =>
       'Không có quyền truy cập thư viện ảnh. Vui lòng cấp quyền trong cài đặt';
+
+  @override
+  String get common_tab_place_title => 'Địa điểm';
+
+  @override
+  String get common_touch_for_detail => 'Chạm vào ảnh để xem chi tiết';
+
+  @override
+  String get common_timeline_place => 'Lộ trình theo thời gian chụp';
+
+  @override
+  String get common_latitude => 'Vĩ độ';
+
+  @override
+  String get common_longtitude => 'Kinh độ';
+
+  @override
+  String get common_time => 'Thời gian';
+
+  @override
+  String get common_loading => 'Đang tải...';
+
+  @override
+  String get common_filter_by_time => 'Lọc theo thời gian';
+
+  @override
+  String get common_filter_all => 'Tất cả';
+
+  @override
+  String get common_filter_today => 'Hôm nay';
+
+  @override
+  String get common_filter_week => 'Tuần này';
+
+  @override
+  String get common_filter_month => 'Tháng này';
+
+  @override
+  String get common_filter_year => 'Năm này';
+
+  @override
+  String get common_filter_custom => 'Tuỳ chỉnh';
+
+  @override
+  String get common_not_found_gps_image => 'Không tìm thấy ảnh có GPS';
+
+  @override
+  String get common_please_take_gps_image =>
+      'Vui lòng chụp ảnh với GPS được bật';
+
+  @override
+  String get common_view_mode_maker => 'Điểm';
+
+  @override
+  String get common_view_mode_route => 'Lộ trình';
 }

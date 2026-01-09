@@ -22,4 +22,8 @@ class AppConstants {
 
   static String avatarLink = 'https://api.dicebear.com/9.x/fun-emoji/png?seed=';
   static const int pageSize = 100;
+  static const urlTemplate =
+      'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png';
+  static const userAgentPackageName = 'com.yourcompany.photo_map_app';
+  static const subdomains = ['a', 'b', 'c', 'd'];
 }

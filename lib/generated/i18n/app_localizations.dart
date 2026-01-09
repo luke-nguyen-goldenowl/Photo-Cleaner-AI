@@ -901,6 +901,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No photo gallery access. Please grant permissions in settings'**
   String get error_permission;
+
+  /// No description provided for @common_tab_place_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Check In'**
+  String get common_tab_place_title;
+
+  /// No description provided for @common_touch_for_detail.
+  ///
+  /// In en, this message translates to:
+  /// **'Touch the photo to see details'**
+  String get common_touch_for_detail;
+
+  /// No description provided for @common_timeline_place.
+  ///
+  /// In en, this message translates to:
+  /// **'Route according to shooting time'**
+  String get common_timeline_place;
+
+  /// No description provided for @common_latitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Latitude'**
+  String get common_latitude;
+
+  /// No description provided for @common_longtitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Longitude'**
+  String get common_longtitude;
+
+  /// No description provided for @common_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get common_time;
+
+  /// No description provided for @common_loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get common_loading;
+
+  /// No description provided for @common_filter_by_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by time'**
+  String get common_filter_by_time;
+
+  /// No description provided for @common_filter_all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get common_filter_all;
+
+  /// No description provided for @common_filter_today.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get common_filter_today;
+
+  /// No description provided for @common_filter_week.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get common_filter_week;
+
+  /// No description provided for @common_filter_month.
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get common_filter_month;
+
+  /// No description provided for @common_filter_year.
+  ///
+  /// In en, this message translates to:
+  /// **'This year'**
+  String get common_filter_year;
+
+  /// No description provided for @common_filter_custom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get common_filter_custom;
+
+  /// No description provided for @common_not_found_gps_image.
+  ///
+  /// In en, this message translates to:
+  /// **'No photos with GPS found'**
+  String get common_not_found_gps_image;
+
+  /// No description provided for @common_please_take_gps_image.
+  ///
+  /// In en, this message translates to:
+  /// **'Please take photos with GPS enabled'**
+  String get common_please_take_gps_image;
+
+  /// No description provided for @common_view_mode_maker.
+  ///
+  /// In en, this message translates to:
+  /// **'Markers'**
+  String get common_view_mode_maker;
+
+  /// No description provided for @common_view_mode_route.
+  ///
+  /// In en, this message translates to:
+  /// **'Route'**
+  String get common_view_mode_route;
 }
 
 class _AppLocalizationsDelegate

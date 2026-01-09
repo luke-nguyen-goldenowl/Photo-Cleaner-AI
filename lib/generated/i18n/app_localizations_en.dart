@@ -432,4 +432,59 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get error_permission =>
       'No photo gallery access. Please grant permissions in settings';
+
+  @override
+  String get common_tab_place_title => 'Check In';
+
+  @override
+  String get common_touch_for_detail => 'Touch the photo to see details';
+
+  @override
+  String get common_timeline_place => 'Route according to shooting time';
+
+  @override
+  String get common_latitude => 'Latitude';
+
+  @override
+  String get common_longtitude => 'Longitude';
+
+  @override
+  String get common_time => 'Time';
+
+  @override
+  String get common_loading => 'Loading...';
+
+  @override
+  String get common_filter_by_time => 'Filter by time';
+
+  @override
+  String get common_filter_all => 'All';
+
+  @override
+  String get common_filter_today => 'Today';
+
+  @override
+  String get common_filter_week => 'This week';
+
+  @override
+  String get common_filter_month => 'This month';
+
+  @override
+  String get common_filter_year => 'This year';
+
+  @override
+  String get common_filter_custom => 'Custom';
+
+  @override
+  String get common_not_found_gps_image => 'No photos with GPS found';
+
+  @override
+  String get common_please_take_gps_image =>
+      'Please take photos with GPS enabled';
+
+  @override
+  String get common_view_mode_maker => 'Markers';
+
+  @override
+  String get common_view_mode_route => 'Route';
 }

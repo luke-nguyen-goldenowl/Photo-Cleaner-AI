@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:myapp/src/features/dashboard/photo/model/photo_item.dart';
+import 'package:myapp/src/features/dashboard/place/model/image_location.dart';
+import 'package:myapp/src/features/dashboard/place/helper/place_helpers.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/network/data/photo/photo_local_db.dart';
 import 'package:myapp/src/network/data/photo/photo_repository.dart';
@@ -9,6 +11,7 @@ import 'package:myapp/src/services/user_prefs.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:exif/exif.dart';
 
 class PhotoRepositoryImpl extends PhotoRepository {
   //final PhotoDatabaseHelper _dbHelper = PhotoDatabaseHelper.instance;
@@ -272,6 +275,78 @@ class PhotoRepositoryImpl extends PhotoRepository {
           .toList();
 
       return MResult.success(photos);
+    } catch (e) {
+      return MResult.exception(e);
+    }
+  }
+
+  @override
+  Future<MResult<MImageLocation?>> extractGpsFromPhoto(MPhotoItem photo) async {
+    try {
+      final file = await photo.asset?.file;
+      if (file == null || !await file.exists()) {
+        return MResult.success(null);
+      }
+
+      final bytes = await file.readAsBytes();
+      final data = await readExifFromBytes(bytes);
+
+      if (data.isEmpty) {
+        return MResult.success(null);
+      }
+
+      final gpsLat = data['GPS GPSLatitude'];
+      final gpsLatRef = data['GPS GPSLatitudeRef'];
+
+      final gpsLon = data['GPS GPSLongitude'];
+      final gpsLonRef = data['GPS GPSLongitudeRef'];
+
+      if (gpsLat == null || gpsLon == null) {
+        return MResult.success(null);
+      }
+
+      double latitude =
+          PlaceHelpers.convertToDecimal(gpsLat.values.toList().cast<Ratio>());
+      double longitude =
+          PlaceHelpers.convertToDecimal(gpsLon.values.toList().cast<Ratio>());
+
+      if (gpsLatRef?.printable == 'S') latitude = -latitude;
+      if (gpsLonRef?.printable == 'W') longitude = -longitude;
+
+      if (latitude.abs() > 90 || longitude.abs() > 180) {
+        return MResult.success(null);
+      }
+
+      DateTime? dateTime;
+      final dateTimeOriginal = data['EXIF DateTimeOriginal'];
+      if (dateTimeOriginal != null) {
+        try {
+          final dateStr = dateTimeOriginal.printable;
+          final parts = dateStr.split(' ');
+          if (parts.length == 2) {
+            final dateParts = parts[0].split(':');
+            final timeParts = parts[1].split(':');
+            dateTime = DateTime(
+              int.parse(dateParts[0]),
+              int.parse(dateParts[1]),
+              int.parse(dateParts[2]),
+              int.parse(timeParts[0]),
+              int.parse(timeParts[1]),
+              int.parse(timeParts[2]),
+            );
+          }
+        } catch (e) {
+          MResult.exception(e);
+        }
+      }
+
+      return MResult.success(MImageLocation(
+        latitude: latitude,
+        longitude: longitude,
+        imagePath: file.path,
+        imageId: photo.asset!.id,
+        dateTime: dateTime,
+      ));
     } catch (e) {
       return MResult.exception(e);
     }

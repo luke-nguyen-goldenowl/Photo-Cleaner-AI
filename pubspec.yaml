@@ -83,6 +83,10 @@ dependencies:
   sqflite: ^2.4.2
   path_provider: ^2.1.5
   internet_connection_checker_plus: ^2.9.1+1
+  exif: ^3.3.0
+  flutter_map: ^8.2.2
+  latlong2: ^0.9.1
+  syncfusion_flutter_datepicker: ^32.1.19
 
   # GOOGLE SIGN IN
   
