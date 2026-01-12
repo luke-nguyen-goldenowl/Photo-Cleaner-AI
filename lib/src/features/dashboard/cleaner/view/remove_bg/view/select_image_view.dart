@@ -36,103 +36,101 @@ class SelectImageView extends StatelessWidget {
         backgroundColor: const Color(0xFF6C63FF),
         elevation: 0,
       ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Text(
-                    S.of(context).common_select_image_title,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[800],
-                    ),
+      body: Stack(
+        children: [
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  S.of(context).common_select_image_title,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey[800],
                   ),
                 ),
-                Expanded(
-                  child: BlocBuilder<RemoveBgBloc, RemoveBgState>(
-                    buildWhen: (previous, current) {
-                      return previous.photoPagination !=
-                              current.photoPagination ||
-                          previous.selectedPhoto != current.selectedPhoto;
-                    },
-                    builder: (context, state) {
-                      if (state.photoPagination.isFirstLoading) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (state.photoPagination.isFirstError) {
-                        return _buildErrorState(context,
-                            S.of(context).error_somethingWrongTryAgain);
-                      } else if (state.photos.isEmpty &&
-                          state.photoPagination.page > 0) {
-                        return _buildEmptyState(context);
-                      } else {
-                        return _buildImageGrid(context, state);
-                      }
-                    },
-                  ),
-                ),
-                BlocBuilder<RemoveBgBloc, RemoveBgState>(
+              ),
+              Expanded(
+                child: BlocBuilder<RemoveBgBloc, RemoveBgState>(
                   buildWhen: (previous, current) {
-                    return previous.selectedPhoto != current.selectedPhoto ||
-                        previous.isProcessing != current.isProcessing;
+                    return previous.photoPagination !=
+                            current.photoPagination ||
+                        previous.selectedPhoto != current.selectedPhoto;
                   },
                   builder: (context, state) {
-                    return Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
-                            blurRadius: 10,
-                            offset: const Offset(0, -5),
-                          ),
-                        ],
-                      ),
-                      child: ElevatedButton(
-                        onPressed: state.selectedPhoto != null &&
-                                !state.isProcessing
-                            ? () => context.read<RemoveBgBloc>().processImage()
-                            : null,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF6C63FF),
-                          foregroundColor: Colors.white,
-                          disabledBackgroundColor: Colors.grey[300],
-                          disabledForegroundColor: Colors.grey[500],
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          elevation: 0,
-                        ),
-                        child: state.isProcessing
-                            ? const SizedBox(
-                                height: 20,
-                                width: 20,
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                  strokeWidth: 2,
-                                ),
-                              )
-                            : Text(
-                                S.of(context).common_button_handle_remove_bg,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                      ),
-                    );
+                    if (state.photoPagination.isFirstLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state.photoPagination.isFirstError) {
+                      return _buildErrorState(
+                          context, S.of(context).error_somethingWrongTryAgain);
+                    } else if (state.photos.isEmpty &&
+                        state.photoPagination.page > 0) {
+                      return _buildEmptyState(context);
+                    } else {
+                      return _buildImageGrid(context, state);
+                    }
                   },
                 ),
-              ],
-            ),
-            _buildLoadingOverlay(),
-          ],
-        ),
+              ),
+              BlocBuilder<RemoveBgBloc, RemoveBgState>(
+                buildWhen: (previous, current) {
+                  return previous.selectedPhoto != current.selectedPhoto ||
+                      previous.isProcessing != current.isProcessing;
+                },
+                builder: (context, state) {
+                  return Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 10,
+                          offset: const Offset(0, -5),
+                        ),
+                      ],
+                    ),
+                    child: ElevatedButton(
+                      onPressed: state.selectedPhoto != null &&
+                              !state.isProcessing
+                          ? () => context.read<RemoveBgBloc>().processImage()
+                          : null,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF6C63FF),
+                        foregroundColor: Colors.white,
+                        disabledBackgroundColor: Colors.grey[300],
+                        disabledForegroundColor: Colors.grey[500],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        elevation: 0,
+                      ),
+                      child: state.isProcessing
+                          ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Text(
+                              S.of(context).common_button_handle_remove_bg,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+          _buildLoadingOverlay(),
+        ],
       ),
     );
   }
