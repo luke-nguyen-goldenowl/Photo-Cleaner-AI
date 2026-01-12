@@ -23,69 +23,67 @@ class ScanDeviceView extends StatelessWidget {
           XToast.error(S.of(context).error_somethingWrongTryAgain);
         }
       },
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            title: Text(
-              S.of(context).common_duplicate_image_grid_title,
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                letterSpacing: -0.5,
-                color: Colors.white,
-              ),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: Text(
+            S.of(context).common_duplicate_image_grid_title,
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              letterSpacing: -0.5,
+              color: Colors.white,
             ),
-            centerTitle: true,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                  color: Colors.white),
-              onPressed: () => AppCoordinator.pop(),
-            ),
-            backgroundColor: const Color(0xFF6C63FF),
-            elevation: 0,
           ),
-          body: Stack(
-            children: [
-              SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Spacer(),
-                      _buildIconStack(),
-                      const SizedBox(height: 48),
-                      Text(
-                        S.of(context).common_duplicate_image_main_description,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF1F2937),
-                          letterSpacing: -0.5,
-                        ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_rounded,
+                color: Colors.white),
+            onPressed: () => AppCoordinator.pop(),
+          ),
+          backgroundColor: const Color(0xFF6C63FF),
+          elevation: 0,
+        ),
+        body: Stack(
+          children: [
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Spacer(),
+                    _buildIconStack(),
+                    const SizedBox(height: 48),
+                    Text(
+                      S.of(context).common_duplicate_image_main_description,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1F2937),
+                        letterSpacing: -0.5,
                       ),
-                      const SizedBox(height: 16),
-                      Text(
-                        S.of(context).common_duplicate_image_sub_description,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Color(0xFF6B7280),
-                          height: 1.5,
-                        ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      S.of(context).common_duplicate_image_sub_description,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Color(0xFF6B7280),
+                        height: 1.5,
                       ),
-                      const Spacer(),
-                      _buildBottomButton(),
-                      const SizedBox(height: 32),
-                    ],
-                  ),
+                    ),
+                    const Spacer(),
+                    _buildBottomButton(),
+                    const SizedBox(height: 32),
+                  ],
                 ),
               ),
-              _buildLoadingOverlay(),
-            ],
-          ),
+            ),
+            _buildLoadingOverlay(),
+          ],
         ),
       ),
     );

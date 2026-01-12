@@ -27,39 +27,37 @@ class DuplicateImageResultsView extends StatelessWidget {
           XToast.error(S.of(context).error_somethingWrongTryAgain);
         }
       },
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: const Color(0xFFF8F9FA),
-          appBar: AppBar(
-            title: Text(
-              S.of(context).common_title_result_scan,
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                letterSpacing: -0.5,
-                color: Colors.white,
-              ),
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF8F9FA),
+        appBar: AppBar(
+          title: Text(
+            S.of(context).common_title_result_scan,
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              letterSpacing: -0.5,
+              color: Colors.white,
             ),
-            centerTitle: true,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                  color: Colors.white),
-              onPressed: () => AppCoordinator.pop(),
-            ),
-            backgroundColor: const Color(0xFF6C63FF),
-            elevation: 0,
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                _buildHeaderCard(),
-                const SizedBox(height: 16),
-                _buildDeleteActionBar(),
-                const SizedBox(height: 16),
-                _buildGroupsList(),
-              ],
-            ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_rounded,
+                color: Colors.white),
+            onPressed: () => AppCoordinator.pop(),
+          ),
+          backgroundColor: const Color(0xFF6C63FF),
+          elevation: 0,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              _buildHeaderCard(),
+              const SizedBox(height: 16),
+              _buildDeleteActionBar(),
+              const SizedBox(height: 16),
+              _buildGroupsList(),
+            ],
           ),
         ),
       ),
