@@ -16,28 +16,28 @@ class SelectImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            S.of(context).common_remove_bg_title,
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              letterSpacing: -0.5,
-              color: Colors.white,
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          S.of(context).common_remove_bg_title,
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            letterSpacing: -0.5,
+            color: Colors.white,
           ),
-          centerTitle: true,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                color: Colors.white),
-            onPressed: () => AppCoordinator.pop(),
-          ),
-          backgroundColor: const Color(0xFF6C63FF),
-          elevation: 0,
         ),
-        body: Stack(
+        centerTitle: true,
+        leading: IconButton(
+          icon:
+              const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+          onPressed: () => AppCoordinator.pop(),
+        ),
+        backgroundColor: const Color(0xFF6C63FF),
+        elevation: 0,
+      ),
+      body: SafeArea(
+        child: Stack(
           children: [
             Column(
               children: [
