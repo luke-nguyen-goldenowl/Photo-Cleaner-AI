@@ -28,8 +28,7 @@ class _EnhanceResultViewState extends State<EnhanceResultView> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text(
           S.of(context).common_result_view_title,
@@ -57,7 +56,7 @@ class _EnhanceResultViewState extends State<EnhanceResultView> {
           _buildBottomActions(),
         ],
       ),
-    ));
+    );
   }
 
   Widget _buildImageSection() {

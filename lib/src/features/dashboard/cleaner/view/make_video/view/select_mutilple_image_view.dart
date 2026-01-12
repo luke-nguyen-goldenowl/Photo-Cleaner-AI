@@ -15,67 +15,17 @@ class SelectMutilpleImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Column(
-            children: [
-              Text(
-                S.of(context).common_select_moments_title,
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: -0.5,
-                  color: Colors.white,
-                ),
-              ),
-              BlocBuilder<MakeVideoBloc, MakeVideoState>(
-                buildWhen: (previous, current) =>
-                    previous.selectedPhotos.length !=
-                    current.selectedPhotos.length,
-                builder: (context, state) {
-                  return Text(
-                    '${state.selectedPhotos.length} selected',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.white.withOpacity(0.9),
-                      fontWeight: FontWeight.normal,
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-          centerTitle: true,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                color: Colors.white),
-            onPressed: () => AppCoordinator.pop(),
-          ),
-          backgroundColor: const Color(0xFF6C63FF),
-          elevation: 0,
-        ),
-        body: Column(
+    return Scaffold(
+      appBar: AppBar(
+        title: Column(
           children: [
-            Expanded(
-              child: BlocBuilder<MakeVideoBloc, MakeVideoState>(
-                buildWhen: (previous, current) {
-                  return previous.status != current.status ||
-                      previous.photos != current.photos ||
-                      previous.selectedPhotos != current.selectedPhotos;
-                },
-                builder: (context, state) {
-                  if (state.status == MakeVideoStatus.loading) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (state.status == MakeVideoStatus.error) {
-                    return _buildErrorState(
-                        context, S.of(context).error_somethingWrongTryAgain);
-                  } else if (state.photos.isEmpty) {
-                    return _buildEmptyState(context);
-                  } else {
-                    return _buildImageGrid(context, state);
-                  }
-                },
+            Text(
+              S.of(context).common_select_moments_title,
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                letterSpacing: -0.5,
+                color: Colors.white,
               ),
             ),
             BlocBuilder<MakeVideoBloc, MakeVideoState>(
@@ -83,49 +33,96 @@ class SelectMutilpleImageView extends StatelessWidget {
                   previous.selectedPhotos.length !=
                   current.selectedPhotos.length,
               builder: (context, state) {
-                return Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 10,
-                        offset: const Offset(0, -5),
-                      ),
-                    ],
-                  ),
-                  child: ElevatedButton(
-                    onPressed: state.selectedPhotos.isNotEmpty
-                        ? () => AppCoordinator.showSelectAudioView(
-                              bloc: context.read<MakeVideoBloc>(),
-                            )
-                        : null,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF6C63FF),
-                      foregroundColor: Colors.white,
-                      disabledBackgroundColor: Colors.grey[300],
-                      disabledForegroundColor: Colors.grey[500],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      elevation: 0,
-                    ),
-                    child: Text(
-                      S.of(context).common_buttonContinue,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                return Text(
+                  '${state.selectedPhotos.length} selected',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white.withOpacity(0.9),
+                    fontWeight: FontWeight.normal,
                   ),
                 );
               },
             ),
           ],
         ),
+        centerTitle: true,
+        leading: IconButton(
+          icon:
+              const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+          onPressed: () => AppCoordinator.pop(),
+        ),
+        backgroundColor: const Color(0xFF6C63FF),
+        elevation: 0,
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: BlocBuilder<MakeVideoBloc, MakeVideoState>(
+              buildWhen: (previous, current) {
+                return previous.status != current.status ||
+                    previous.photos != current.photos ||
+                    previous.selectedPhotos != current.selectedPhotos;
+              },
+              builder: (context, state) {
+                if (state.status == MakeVideoStatus.loading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state.status == MakeVideoStatus.error) {
+                  return _buildErrorState(
+                      context, S.of(context).error_somethingWrongTryAgain);
+                } else if (state.photos.isEmpty) {
+                  return _buildEmptyState(context);
+                } else {
+                  return _buildImageGrid(context, state);
+                }
+              },
+            ),
+          ),
+          BlocBuilder<MakeVideoBloc, MakeVideoState>(
+            buildWhen: (previous, current) =>
+                previous.selectedPhotos.length != current.selectedPhotos.length,
+            builder: (context, state) {
+              return Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, -5),
+                    ),
+                  ],
+                ),
+                child: ElevatedButton(
+                  onPressed: state.selectedPhotos.isNotEmpty
+                      ? () => AppCoordinator.showSelectAudioView(
+                            bloc: context.read<MakeVideoBloc>(),
+                          )
+                      : null,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF6C63FF),
+                    foregroundColor: Colors.white,
+                    disabledBackgroundColor: Colors.grey[300],
+                    disabledForegroundColor: Colors.grey[500],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    elevation: 0,
+                  ),
+                  child: Text(
+                    S.of(context).common_buttonContinue,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

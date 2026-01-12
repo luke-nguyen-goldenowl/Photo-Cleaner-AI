@@ -14,24 +14,24 @@ class ResultView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            S.of(context).common_result_view_title,
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              letterSpacing: -0.5,
-              color: Colors.white,
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          S.of(context).common_result_view_title,
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            letterSpacing: -0.5,
+            color: Colors.white,
           ),
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          backgroundColor: const Color(0xFF6C63FF),
-          elevation: 0,
         ),
-        body: Column(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        backgroundColor: const Color(0xFF6C63FF),
+        elevation: 0,
+      ),
+      body: SafeArea(
+        child: Column(
           children: [
             BlocBuilder<RemoveBgBloc, RemoveBgState>(
               buildWhen: (previous, current) {

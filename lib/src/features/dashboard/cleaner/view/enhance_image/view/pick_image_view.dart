@@ -47,44 +47,42 @@ class _PickImageViewState extends State<PickImageView> {
           XToast.error(S.of(context).error_somethingWrongTryAgain);
         }
       },
-      child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              S.of(context).common_enhance_image_title,
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                letterSpacing: -0.5,
-                color: Colors.white,
-              ),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            S.of(context).common_enhance_image_title,
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              letterSpacing: -0.5,
+              color: Colors.white,
             ),
-            centerTitle: true,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                  color: Colors.white),
-              onPressed: () => AppCoordinator.pop(),
-            ),
-            backgroundColor: const Color(0xFF6C63FF),
-            elevation: 0,
           ),
-          body: Stack(
-            children: [
-              Column(
-                children: [
-                  Expanded(
-                    child: Center(
-                      child: _selectedImage == null
-                          ? _buildUploadArea()
-                          : _buildImagePreview(),
-                    ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_rounded,
+                color: Colors.white),
+            onPressed: () => AppCoordinator.pop(),
+          ),
+          backgroundColor: const Color(0xFF6C63FF),
+          elevation: 0,
+        ),
+        body: Stack(
+          children: [
+            Column(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: _selectedImage == null
+                        ? _buildUploadArea()
+                        : _buildImagePreview(),
                   ),
-                  _buildBottomButton(),
-                ],
-              ),
-              _buildLoadingOverlay(),
-            ],
-          ),
+                ),
+                _buildBottomButton(),
+              ],
+            ),
+            _buildLoadingOverlay(),
+          ],
         ),
       ),
     );

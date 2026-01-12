@@ -20,140 +20,138 @@ class SelectAudioView extends StatefulWidget {
 class _SelectAudioViewState extends State<SelectAudioView> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            S.of(context).common_select_audio_title,
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              letterSpacing: -0.5,
-              color: Colors.white,
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          S.of(context).common_select_audio_title,
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            letterSpacing: -0.5,
+            color: Colors.white,
           ),
-          centerTitle: true,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                color: Colors.white),
-            onPressed: () => AppCoordinator.pop(),
-          ),
-          backgroundColor: Color(0xFF6C63FF),
-          elevation: 0,
         ),
-        body: Stack(
-          children: [
-            BlocConsumer<MakeVideoBloc, MakeVideoState>(
-              listenWhen: (previous, current) {
-                return previous.status != current.status;
-              },
-              buildWhen: (previous, current) {
-                return previous.status != current.status ||
-                    previous.audioPagination != current.audioPagination ||
-                    previous.selectedAudio != current.selectedAudio;
-              },
-              listener: (context, state) {
-                if (state.status == MakeVideoStatus.error) {
-                  XToast.show(S.of(context).error_somethingWrongTryAgain);
-                }
-              },
-              builder: (context, state) {
-                if (state.audioPagination.isFirstLoading) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ClockLoadingIndicator(),
-                        const SizedBox(height: 16),
-                        Text(
-                          S.of(context).common_loading,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey[600],
-                          ),
+        centerTitle: true,
+        leading: IconButton(
+          icon:
+              const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+          onPressed: () => AppCoordinator.pop(),
+        ),
+        backgroundColor: Color(0xFF6C63FF),
+        elevation: 0,
+      ),
+      body: Stack(
+        children: [
+          BlocConsumer<MakeVideoBloc, MakeVideoState>(
+            listenWhen: (previous, current) {
+              return previous.status != current.status;
+            },
+            buildWhen: (previous, current) {
+              return previous.status != current.status ||
+                  previous.audioPagination != current.audioPagination ||
+                  previous.selectedAudio != current.selectedAudio;
+            },
+            listener: (context, state) {
+              if (state.status == MakeVideoStatus.error) {
+                XToast.show(S.of(context).error_somethingWrongTryAgain);
+              }
+            },
+            builder: (context, state) {
+              if (state.audioPagination.isFirstLoading) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ClockLoadingIndicator(),
+                      const SizedBox(height: 16),
+                      Text(
+                        S.of(context).common_loading,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey[600],
                         ),
-                      ],
-                    ),
-                  );
-                }
-
-                if (state.audios.isEmpty && state.audioPagination.page > 0) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.music_note_outlined,
-                          size: 80,
-                          color: Colors.grey[300],
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          S.of(context).common_no_audio_file_selected,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          S.of(context).common_tap_to_select_audio,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[500],
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  );
-                }
-                return Column(
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        padding: const EdgeInsets.all(16),
-                        itemCount: state.audios.length,
-                        itemBuilder: (context, index) {
-                          final audio = state.audios[index];
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
-                            child: BlocBuilder<MakeVideoBloc, MakeVideoState>(
-                              buildWhen: (prev, curr) =>
-                                  prev.selectedAudio?.path !=
-                                  curr.selectedAudio?.path,
-                              builder: (context, blocState) {
-                                final isSelected =
-                                    blocState.selectedAudio?.path == audio.path;
-                                return AudioItem(
-                                  audio: audio,
-                                  isSelected: isSelected,
-                                  onTap: () => context
-                                      .read<MakeVideoBloc>()
-                                      .selectAudio(audio),
-                                );
-                              },
-                            ),
-                          );
-                        },
                       ),
-                    ),
-                    XStatePaginationWidget(
-                      page: state.audioPagination,
-                      loadMore: () =>
-                          context.read<MakeVideoBloc>().loadAudioFromDevice(),
-                      autoLoad: true,
-                    ),
-                    _buildCreateVideoButton(context, state),
-                  ],
+                    ],
+                  ),
                 );
-              },
-            ),
-            _buildLoadingOverlay(),
-          ],
-        ),
+              }
+
+              if (state.audios.isEmpty && state.audioPagination.page > 0) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.music_note_outlined,
+                        size: 80,
+                        color: Colors.grey[300],
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        S.of(context).common_no_audio_file_selected,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        S.of(context).common_tap_to_select_audio,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey[500],
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                );
+              }
+              return Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      padding: const EdgeInsets.all(16),
+                      itemCount: state.audios.length,
+                      itemBuilder: (context, index) {
+                        final audio = state.audios[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: BlocBuilder<MakeVideoBloc, MakeVideoState>(
+                            buildWhen: (prev, curr) =>
+                                prev.selectedAudio?.path !=
+                                curr.selectedAudio?.path,
+                            builder: (context, blocState) {
+                              final isSelected =
+                                  blocState.selectedAudio?.path == audio.path;
+                              return AudioItem(
+                                audio: audio,
+                                isSelected: isSelected,
+                                onTap: () => context
+                                    .read<MakeVideoBloc>()
+                                    .selectAudio(audio),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  XStatePaginationWidget(
+                    page: state.audioPagination,
+                    loadMore: () =>
+                        context.read<MakeVideoBloc>().loadAudioFromDevice(),
+                    autoLoad: true,
+                  ),
+                  _buildCreateVideoButton(context, state),
+                ],
+              );
+            },
+          ),
+          _buildLoadingOverlay(),
+        ],
       ),
     );
   }
