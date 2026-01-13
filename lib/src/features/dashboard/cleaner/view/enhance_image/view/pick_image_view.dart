@@ -147,7 +147,6 @@ class _PickImageViewState extends State<PickImageView> {
       margin: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        color: const Color(0xFF1E2440),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -157,57 +156,59 @@ class _PickImageViewState extends State<PickImageView> {
           ),
         ],
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(24),
-              topRight: Radius.circular(24),
-            ),
-            child: Image.file(
-              _selectedImage!,
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: 400,
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(24),
-            decoration: const BoxDecoration(
-              color: Colors.white,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ClipRRect(
               borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(24),
-                bottomRight: Radius.circular(24),
+                topLeft: Radius.circular(24),
+                topRight: Radius.circular(24),
+              ),
+              child: Image.file(
+                _selectedImage!,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: 400,
               ),
             ),
-            child: Column(
-              children: [
-                Text(
-                  S.of(context).common_ready_to_enhance,
-                  style: TextStyle(
-                    fontSize: 19,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.grey[900],
-                    letterSpacing: 0,
-                  ),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(24),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(24),
+                  bottomRight: Radius.circular(24),
                 ),
-                const SizedBox(height: 10),
-                Text(
-                  S.of(context).common_ai_enhance_description,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[600],
-                    height: 1.5,
-                    letterSpacing: 0,
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    S.of(context).common_ready_to_enhance,
+                    style: TextStyle(
+                      fontSize: 19,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey[900],
+                      letterSpacing: 0,
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 10),
+                  Text(
+                    S.of(context).common_ai_enhance_description,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600],
+                      height: 1.5,
+                      letterSpacing: 0,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
