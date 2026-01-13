@@ -521,7 +521,7 @@ class AppLocalizationsVi extends AppLocalizations {
       'Tăng độ sắc nét và cải thiện chi tiết ảnh';
 
   @override
-  String get common_make_video_grid_title => 'Tạo video khoảnh khắc';
+  String get common_make_video_grid_title => 'Video Khoảnh Khắc';
 
   @override
   String get common_make_video_grid_subTitle =>

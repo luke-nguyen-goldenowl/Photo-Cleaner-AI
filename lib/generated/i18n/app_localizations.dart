@@ -1073,7 +1073,7 @@ abstract class AppLocalizations {
   /// No description provided for @common_make_video_grid_title.
   ///
   /// In en, this message translates to:
-  /// **'Create Moment Video'**
+  /// **'Moment Video'**
   String get common_make_video_grid_title;
 
   /// No description provided for @common_make_video_grid_subTitle.

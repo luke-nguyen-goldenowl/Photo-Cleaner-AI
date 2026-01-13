@@ -523,7 +523,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Sharpen images and enhance photo details';
 
   @override
-  String get common_make_video_grid_title => 'Create Moment Video';
+  String get common_make_video_grid_title => 'Moment Video';
 
   @override
   String get common_make_video_grid_subTitle =>
