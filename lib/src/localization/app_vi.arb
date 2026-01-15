@@ -245,12 +245,38 @@
    "common_storage_tag":"Bộ nhớ",
    "common_storage_almost_full":"Bộ nhớ gần đầy! Vui lòng giải phóng bộ nhớ",
    "common_storage_free":"khả dụng",
-   "common_similarity":"Tương đồng"
+   "common_similarity":"Tương đồng",
 
-
-
-
-
+    "common_friends_title":"Bạn bè",
+    "common_friend_count":"bạn bè",
+    "common_friends_empty":"Chưa có bạn bè nào",
+    "common_friends_connect":"Kết nối với bạn bè để chia sẻ ảnh cùng nhau",
+    "common_search":"Tìm kiếm",
+    "common_friends_search_hint":"Tìm kiếm theo tên người dùng hoặc email",
+    "common_friends_search_description":"Tìm kiếm bạn bè",
+    "common_friends_search_sub_description":"Nhập tên hoặc email để tìm kiếm và kết nối với bạn bè",
+    "common_friends_search_no_result":"Không tìm thấy kết quả",
+    "common_friends_try_search_again":"Thử tìm kiếm với từ khóa khác",
+    "common_friends_connected":"Bạn bè",
+    "common_friends_unfriend":"Huỷ kết bạn",
+    "common_unfriend_message":"Bạn có chắc chắn muốn huỷ kết bạn? Bạn sẽ cần gửi lời mời lại nếu muốn kết nối.",
+    "common_unfriend_success":"Bạn đã huỷ kết bạn với người dùng này.",
+    "common_add_friend":"Thêm bạn bè",
+    "common_cancel_friend_request":"Huỷ yêu cầu",
+    "common_pending_friend_request":"Đã gửi lời mời",
+    "common_cancel_friend_request_success":"Huỷ thành công",
+    "common_share_folder":"Thư mục chia sẻ",
+    "common_friend_invitation":"Lời mời kết bạn",
+    "common_no_friend_invitation":"Không có lời mời kết bạn nào",
+    "common_friend_invitation_message":"Bạn sẽ nhận được thông báo khi có người gửi lời mời kết bạn",
+    "common_btn_accept":"Chấp nhận",
+    "common_btn_reject":"Từ chối",
+    "common_accept_success":"Đã chấp nhận lời mời",
+    "common_reject_invitation_title":"Từ chối lời mời",
+    "common_reject_invitation_message":"Bạn có chắc chắn muốn từ chối lời mời kết bạn từ",
+    "common_reject_success":"Đã từ chối lời mời",
+    "common_this_user":"người dùng này",
+    "common_delete_friend":"Huỷ kết bạn"
 
 
 

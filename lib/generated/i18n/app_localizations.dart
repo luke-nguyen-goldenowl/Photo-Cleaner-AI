@@ -1339,6 +1339,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Similarity'**
   String get common_similarity;
+
+  /// No description provided for @common_friends_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Friends'**
+  String get common_friends_title;
+
+  /// No description provided for @common_friend_count.
+  ///
+  /// In en, this message translates to:
+  /// **'friend(s)'**
+  String get common_friend_count;
+
+  /// No description provided for @common_friends_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No friends found'**
+  String get common_friends_empty;
+
+  /// No description provided for @common_friends_connect.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect with friends to share photos together'**
+  String get common_friends_connect;
+
+  /// No description provided for @common_search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get common_search;
+
+  /// No description provided for @common_friends_search_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by username or email'**
+  String get common_friends_search_hint;
+
+  /// No description provided for @common_friends_search_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for friends'**
+  String get common_friends_search_description;
+
+  /// No description provided for @common_friends_search_sub_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name or email to search for and connect with friends'**
+  String get common_friends_search_sub_description;
+
+  /// No description provided for @common_friends_search_no_result.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get common_friends_search_no_result;
+
+  /// No description provided for @common_friends_try_search_again.
+  ///
+  /// In en, this message translates to:
+  /// **'Try searching with a different keyword'**
+  String get common_friends_try_search_again;
+
+  /// No description provided for @common_friends_connected.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected'**
+  String get common_friends_connected;
+
+  /// No description provided for @common_friends_unfriend.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfriend'**
+  String get common_friends_unfriend;
+
+  /// No description provided for @common_unfriend_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to unfriend? You\'ll need to send an invitation again if you want to connect.'**
+  String get common_unfriend_message;
+
+  /// No description provided for @common_unfriend_success.
+  ///
+  /// In en, this message translates to:
+  /// **'You have unfriended this user.'**
+  String get common_unfriend_success;
+
+  /// No description provided for @common_add_friend.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Friend'**
+  String get common_add_friend;
+
+  /// No description provided for @common_cancel_friend_request.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Request'**
+  String get common_cancel_friend_request;
+
+  /// No description provided for @common_pending_friend_request.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Request'**
+  String get common_pending_friend_request;
+
+  /// No description provided for @common_cancel_friend_request_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel successfully'**
+  String get common_cancel_friend_request_success;
+
+  /// No description provided for @common_share_folder.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Folder'**
+  String get common_share_folder;
+
+  /// No description provided for @common_friend_invitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Friend Invitation'**
+  String get common_friend_invitation;
+
+  /// No description provided for @common_no_friend_invitation.
+  ///
+  /// In en, this message translates to:
+  /// **'No friend invitations'**
+  String get common_no_friend_invitation;
+
+  /// No description provided for @common_friend_invitation_message.
+  ///
+  /// In en, this message translates to:
+  /// **'You will be notified when someone sends you a friend request'**
+  String get common_friend_invitation_message;
+
+  /// No description provided for @common_btn_accept.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get common_btn_accept;
+
+  /// No description provided for @common_btn_reject.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get common_btn_reject;
+
+  /// No description provided for @common_accept_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Friend request accepted'**
+  String get common_accept_success;
+
+  /// No description provided for @common_reject_invitation_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject Invitation'**
+  String get common_reject_invitation_title;
+
+  /// No description provided for @common_reject_invitation_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to reject the friend invitation from '**
+  String get common_reject_invitation_message;
+
+  /// No description provided for @common_reject_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Friend invitation rejected'**
+  String get common_reject_success;
+
+  /// No description provided for @common_this_user.
+  ///
+  /// In en, this message translates to:
+  /// **'this user'**
+  String get common_this_user;
+
+  /// No description provided for @common_delete_friend.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfriend'**
+  String get common_delete_friend;
 }
 
 class _AppLocalizationsDelegate

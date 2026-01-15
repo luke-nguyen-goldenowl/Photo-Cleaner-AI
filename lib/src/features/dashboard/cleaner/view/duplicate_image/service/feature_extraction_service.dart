@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:image/image.dart' as img;
+import 'package:myapp/generated/assets/assets.gen.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/duplicate_image/helper/scan_helper.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/network/model/common/result.dart';
@@ -31,7 +32,7 @@ class FeatureExtractionService {
       }
 
       final modelData = await rootBundle.load(
-        'assets/models/small-100-224-feature-vector-metadata.tflite',
+        Assets.models.small100224FeatureVectorMetadata,
       );
       final bytes = modelData.buffer.asUint8List();
       await modelFile.writeAsBytes(bytes);

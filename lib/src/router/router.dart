@@ -19,7 +19,10 @@ import 'package:myapp/src/features/dashboard/cleaner/view/make_video/view/select
 import 'package:myapp/src/features/dashboard/cleaner/view/make_video/view/select_mutilple_image_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/view/result_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/view/select_image_view.dart';
+import 'package:myapp/src/features/dashboard/friend/view/friend_profile_view.dart';
+import 'package:myapp/src/features/dashboard/friend/view/friend_request_view.dart';
 import 'package:myapp/src/features/dashboard/friend/view/friend_view.dart';
+import 'package:myapp/src/features/dashboard/friend/view/search_user_view.dart';
 import 'package:myapp/src/features/dashboard/logic/navigation_bar_item.dart';
 import 'package:myapp/src/features/dashboard/photo/model/photo_item.dart';
 import 'package:myapp/src/features/dashboard/photo/view/photo_detail_view.dart';
@@ -211,6 +214,33 @@ class AppRouter {
             pageBuilder: (context, state) => const NoTransitionPage(
               child: FriendView(),
             ),
+            routes: <RouteBase>[
+              GoRoute(
+                parentNavigatorKey: AppCoordinator.navigatorKey,
+                path: AppRouteNames.searchUser.subPath,
+                name: AppRouteNames.searchUser.name,
+                builder: (_, __) => const SearchUserView(),
+              ),
+              GoRoute(
+                parentNavigatorKey: AppCoordinator.navigatorKey,
+                path: AppRouteNames.friendProfile.subPath,
+                name: AppRouteNames.friendProfile.name,
+                builder: (context, state) {
+                  final extra = state.extra as Map<String, dynamic>?;
+                  final userId = extra?['userId'] as String?;
+                  if (userId == null || userId.isEmpty) {
+                    return const NotFoundView();
+                  }
+                  return FriendProfileView(userId: userId);
+                },
+              ),
+              GoRoute(
+                parentNavigatorKey: AppCoordinator.navigatorKey,
+                path: AppRouteNames.friendRequests.subPath,
+                name: AppRouteNames.friendRequests.name,
+                builder: (_, __) => const FriendRequestView(),
+              ),
+            ],
           ),
           GoRoute(
             path: AppRouteNames.places.path,

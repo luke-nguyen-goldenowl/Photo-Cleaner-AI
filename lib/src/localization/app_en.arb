@@ -241,7 +241,40 @@
    "common_storage_tag":"Storage",
    "common_storage_almost_full":"Storage is almost full! Free up space to continue.",
    "common_storage_free":"free",
-   "common_similarity":"Similarity"
+   "common_similarity":"Similarity",
+
+
+    "common_friends_title":"Friends",
+    "common_friend_count":"friend(s)",
+    "common_friends_empty":"No friends found",
+    "common_friends_connect":"Connect with friends to share photos together",
+    "common_search":"Search",
+    "common_friends_search_hint":"Search by username or email",
+    "common_friends_search_description":"Search for friends",
+    "common_friends_search_sub_description":"Enter a name or email to search for and connect with friends",
+    "common_friends_search_no_result":"No results found",
+    "common_friends_try_search_again":"Try searching with a different keyword",
+    "common_friends_connected":"Connected",
+    "common_friends_unfriend":"Unfriend",
+    "common_unfriend_message":"Are you sure you want to unfriend? You'll need to send an invitation again if you want to connect.",
+    "common_unfriend_success":"You have unfriended this user.",
+    "common_add_friend":"Add Friend",
+    "common_cancel_friend_request":"Cancel Request",
+    "common_pending_friend_request":"Pending Request",
+    "common_cancel_friend_request_success":"Cancel successfully",
+    "common_share_folder":"Share Folder",
+    "common_friend_invitation":"Friend Invitation",
+    "common_no_friend_invitation":"No friend invitations",
+    "common_friend_invitation_message":"You will be notified when someone sends you a friend request",
+    "common_btn_accept":"Accept",
+    "common_btn_reject":"Reject",
+    "common_accept_success":"Friend request accepted",
+    "common_reject_invitation_title":"Reject Invitation",
+    "common_reject_invitation_message":"Are you sure you want to reject the friend invitation from ",
+    "common_reject_success":"Friend invitation rejected",
+    "common_this_user":"this user",
+    "common_delete_friend":"Unfriend"
+
 
 
 

@@ -666,4 +666,100 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get common_similarity => 'Similarity';
+
+  @override
+  String get common_friends_title => 'Friends';
+
+  @override
+  String get common_friend_count => 'friend(s)';
+
+  @override
+  String get common_friends_empty => 'No friends found';
+
+  @override
+  String get common_friends_connect =>
+      'Connect with friends to share photos together';
+
+  @override
+  String get common_search => 'Search';
+
+  @override
+  String get common_friends_search_hint => 'Search by username or email';
+
+  @override
+  String get common_friends_search_description => 'Search for friends';
+
+  @override
+  String get common_friends_search_sub_description =>
+      'Enter a name or email to search for and connect with friends';
+
+  @override
+  String get common_friends_search_no_result => 'No results found';
+
+  @override
+  String get common_friends_try_search_again =>
+      'Try searching with a different keyword';
+
+  @override
+  String get common_friends_connected => 'Connected';
+
+  @override
+  String get common_friends_unfriend => 'Unfriend';
+
+  @override
+  String get common_unfriend_message =>
+      'Are you sure you want to unfriend? You\'ll need to send an invitation again if you want to connect.';
+
+  @override
+  String get common_unfriend_success => 'You have unfriended this user.';
+
+  @override
+  String get common_add_friend => 'Add Friend';
+
+  @override
+  String get common_cancel_friend_request => 'Cancel Request';
+
+  @override
+  String get common_pending_friend_request => 'Pending Request';
+
+  @override
+  String get common_cancel_friend_request_success => 'Cancel successfully';
+
+  @override
+  String get common_share_folder => 'Share Folder';
+
+  @override
+  String get common_friend_invitation => 'Friend Invitation';
+
+  @override
+  String get common_no_friend_invitation => 'No friend invitations';
+
+  @override
+  String get common_friend_invitation_message =>
+      'You will be notified when someone sends you a friend request';
+
+  @override
+  String get common_btn_accept => 'Accept';
+
+  @override
+  String get common_btn_reject => 'Reject';
+
+  @override
+  String get common_accept_success => 'Friend request accepted';
+
+  @override
+  String get common_reject_invitation_title => 'Reject Invitation';
+
+  @override
+  String get common_reject_invitation_message =>
+      'Are you sure you want to reject the friend invitation from ';
+
+  @override
+  String get common_reject_success => 'Friend invitation rejected';
+
+  @override
+  String get common_this_user => 'this user';
+
+  @override
+  String get common_delete_friend => 'Unfriend';
 }

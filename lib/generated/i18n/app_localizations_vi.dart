@@ -664,4 +664,101 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get common_similarity => 'Tương đồng';
+
+  @override
+  String get common_friends_title => 'Bạn bè';
+
+  @override
+  String get common_friend_count => 'bạn bè';
+
+  @override
+  String get common_friends_empty => 'Chưa có bạn bè nào';
+
+  @override
+  String get common_friends_connect =>
+      'Kết nối với bạn bè để chia sẻ ảnh cùng nhau';
+
+  @override
+  String get common_search => 'Tìm kiếm';
+
+  @override
+  String get common_friends_search_hint =>
+      'Tìm kiếm theo tên người dùng hoặc email';
+
+  @override
+  String get common_friends_search_description => 'Tìm kiếm bạn bè';
+
+  @override
+  String get common_friends_search_sub_description =>
+      'Nhập tên hoặc email để tìm kiếm và kết nối với bạn bè';
+
+  @override
+  String get common_friends_search_no_result => 'Không tìm thấy kết quả';
+
+  @override
+  String get common_friends_try_search_again => 'Thử tìm kiếm với từ khóa khác';
+
+  @override
+  String get common_friends_connected => 'Bạn bè';
+
+  @override
+  String get common_friends_unfriend => 'Huỷ kết bạn';
+
+  @override
+  String get common_unfriend_message =>
+      'Bạn có chắc chắn muốn huỷ kết bạn? Bạn sẽ cần gửi lời mời lại nếu muốn kết nối.';
+
+  @override
+  String get common_unfriend_success =>
+      'Bạn đã huỷ kết bạn với người dùng này.';
+
+  @override
+  String get common_add_friend => 'Thêm bạn bè';
+
+  @override
+  String get common_cancel_friend_request => 'Huỷ yêu cầu';
+
+  @override
+  String get common_pending_friend_request => 'Đã gửi lời mời';
+
+  @override
+  String get common_cancel_friend_request_success => 'Huỷ thành công';
+
+  @override
+  String get common_share_folder => 'Thư mục chia sẻ';
+
+  @override
+  String get common_friend_invitation => 'Lời mời kết bạn';
+
+  @override
+  String get common_no_friend_invitation => 'Không có lời mời kết bạn nào';
+
+  @override
+  String get common_friend_invitation_message =>
+      'Bạn sẽ nhận được thông báo khi có người gửi lời mời kết bạn';
+
+  @override
+  String get common_btn_accept => 'Chấp nhận';
+
+  @override
+  String get common_btn_reject => 'Từ chối';
+
+  @override
+  String get common_accept_success => 'Đã chấp nhận lời mời';
+
+  @override
+  String get common_reject_invitation_title => 'Từ chối lời mời';
+
+  @override
+  String get common_reject_invitation_message =>
+      'Bạn có chắc chắn muốn từ chối lời mời kết bạn từ';
+
+  @override
+  String get common_reject_success => 'Đã từ chối lời mời';
+
+  @override
+  String get common_this_user => 'người dùng này';
+
+  @override
+  String get common_delete_friend => 'Huỷ kết bạn';
 }

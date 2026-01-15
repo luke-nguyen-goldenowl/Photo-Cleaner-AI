@@ -1,3 +1,4 @@
+import 'package:diacritic/diacritic.dart';
 import 'package:myapp/src/utils/logger.dart';
 
 /// Utility class containing common helper methods for data manipulation,
@@ -44,6 +45,16 @@ class Utils {
 
     final normalizedName = name.toLowerCase();
     final normalizedQuery = query.toLowerCase();
+    return normalizedName.contains(normalizedQuery);
+  }
+
+  /// Check if a name matches a search query (case-insensitive, accent-insensitive)
+  /// Returns true if the name contains the query string
+  static bool isMatchSearchAccent(String name, String query) {
+    if (query.isEmpty) return true;
+
+    final normalizedName = removeDiacritics(name.toLowerCase());
+    final normalizedQuery = removeDiacritics(query.toLowerCase());
     return normalizedName.contains(normalizedQuery);
   }
 

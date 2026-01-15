@@ -7,6 +7,7 @@ import 'package:myapp/src/network/domain_manager.dart';
 import 'package:myapp/src/network/model/common/result.dart';
 import 'package:myapp/src/network/model/user/user.dart';
 import 'package:myapp/src/network/model/social_user/social_user.dart';
+import 'package:myapp/src/services/supabase/init_supabase.dart';
 import 'package:myapp/src/services/user_prefs.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -70,32 +71,57 @@ class SignRepositoryImpl extends SignRepository {
       final UserCredential result =
           await FirebaseAuth.instance.signInWithCredential(credential);
       final firebaseUser = result.user;
-      final newUser = MUser(
+
+      // Check if user exists
+      final existingUserResponse = await supabaseClient
+          .from('users')
+          .select()
+          .eq('email', user.email ?? '')
+          .maybeSingle();
+
+      MUser finalUser;
+
+      if (existingUserResponse == null) {
+        final insertResponse = await supabaseClient
+            .from('users')
+            .insert({
+              'email': user.email,
+              'name': user.fullName,
+              'avatarUrl': user.avatar,
+              'createdAt': DateTime.now().toIso8601String(),
+            })
+            .select()
+            .single();
+
+        finalUser = MUser(
+          id: insertResponse['id'] as String,
+          email: user.email,
+          name: user.fullName,
+          avatarUrl: user.avatar,
+          createdAt: DateTime.now(),
+        );
+      } else {
+        finalUser = MUser(
+          id: existingUserResponse['id'] as String,
+          name: existingUserResponse['name'] as String?,
+          email: existingUserResponse['email'] as String?,
+          bio: existingUserResponse['bio'] as String?,
+          avatarUrl: existingUserResponse['avatarUrl'] as String?,
+          createdAt: existingUserResponse['createdAt'] != null
+              ? DateTime.parse(existingUserResponse['createdAt'] as String)
+              : null,
+        );
+      }
+
+      final firebaseUser2 = MUser(
         id: firebaseUser?.uid ?? '',
         email: user.email,
         name: user.fullName,
         avatarUrl: user.avatar,
         createdAt: DateTime.now(),
       );
-
-      // Check if user exists
-      final supabase = Supabase.instance.client;
-      final existingUserResponse = await supabase
-          .from('users')
-          .select()
-          .eq('email', user.email ?? '')
-          .maybeSingle();
-
-      if (existingUserResponse == null) {
-        await supabase.from('users').insert(newUser.toSupabaseTable());
-        debugPrint('New Google user created in Supabase: ${user.email}');
-      } else {
-        debugPrint('Google user already exists in Supabase: ${user.email}');
-      }
-
-      final userResult = await DomainManager().user.getOrAddUser(newUser);
-
-      return MResult.success(userResult.data ?? newUser);
+      await DomainManager().user.getOrAddUser(firebaseUser2);
+      return MResult.success(finalUser);
     } catch (e) {
       return MResult.exception(e);
     }
@@ -115,7 +141,7 @@ class SignRepositoryImpl extends SignRepository {
         await FirebaseAuth.instance.signOut();
         await _googleSignIn.signOut();
       } else {
-        await Supabase.instance.client.auth.signOut();
+        await supabaseClient.auth.signOut();
       }
 
       UserPrefs.I.clearLoginProvider();
@@ -135,7 +161,7 @@ class SignRepositoryImpl extends SignRepository {
   Future<MResult<MUser>> loginWithEmail(
       {required String email, required String password}) async {
     try {
-      final response = await Supabase.instance.client.auth.signInWithPassword(
+      final response = await supabaseClient.auth.signInWithPassword(
         email: email,
         password: password,
       );
@@ -200,7 +226,7 @@ class SignRepositoryImpl extends SignRepository {
       required String name}) async {
     try {
       // Check if email exists
-      final rows = await Supabase.instance.client
+      final rows = await supabaseClient
           .rpc('email_exists', params: {'email_input': email}).select();
 
       final existing = rows.isEmpty ? null : rows.first;
@@ -216,7 +242,7 @@ class SignRepositoryImpl extends SignRepository {
         ));
       }
 
-      final response = await Supabase.instance.client.auth.signUp(
+      final response = await supabaseClient.auth.signUp(
         email: email,
         password: password,
         data: {'name': name},
@@ -236,11 +262,7 @@ class SignRepositoryImpl extends SignRepository {
         createdAt: DateTime.now(),
       );
 
-      // Insert user to users table
-      await Supabase.instance.client
-          .from('users')
-          .insert(mUser.toSupabaseTable());
-
+      await supabaseClient.from('users').insert(mUser.toSupabaseTable());
       return MResult.success(mUser);
     } catch (e) {
       return MResult.exception(e);
@@ -250,7 +272,7 @@ class SignRepositoryImpl extends SignRepository {
   @override
   Future<MResult<void>> resetPassword(String newPassword) async {
     try {
-      await Supabase.instance.client.auth.updateUser(
+      await supabaseClient.auth.updateUser(
         UserAttributes(password: newPassword),
       );
       return MResult.success(null);
@@ -269,7 +291,7 @@ class SignRepositoryImpl extends SignRepository {
   @override
   Future<MResult<String>> sendOtpToEmail(String email) async {
     try {
-      await Supabase.instance.client.auth.signInWithOtp(email: email);
+      await supabaseClient.auth.signInWithOtp(email: email);
       return MResult.success('${S.text.success_sendOTP} $email');
     } catch (e) {
       return MResult.exception(S.text.error_somethingWrongTryAgain);
@@ -280,7 +302,7 @@ class SignRepositoryImpl extends SignRepository {
   Future<MResult<void>> verifyOtp(
       {required String email, required String otp}) async {
     try {
-      final response = await Supabase.instance.client.auth.verifyOTP(
+      final response = await supabaseClient.auth.verifyOTP(
         email: email,
         token: otp,
         type: OtpType.email,

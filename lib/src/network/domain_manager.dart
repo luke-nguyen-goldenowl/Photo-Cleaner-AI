@@ -1,3 +1,4 @@
+import 'package:myapp/src/network/data/friend/friend_repository_impl.dart';
 import 'package:myapp/src/network/data/photo/photo_repository_impl.dart';
 import 'package:myapp/src/network/data/sign/sign_repository_impl.dart';
 import 'package:myapp/src/network/data/video/video_repository_impl.dart';
@@ -17,4 +18,5 @@ class DomainManager {
   final sign = SignRepositoryImpl();
   final photo = PhotoRepositoryImpl();
   final video = VideoRepositoryImpl();
+  final friend = FriendRepositoryImpl();
 }
