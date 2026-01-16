@@ -140,7 +140,7 @@ class ProfileView extends StatelessWidget {
     final avatarUrl = user?.avatarUrl ?? '${AppConstants.avatarLink}$uid';
     final name = user?.name ?? 'User';
     final email = user?.email ?? '';
-    final bio = user?.bio ?? 'Hi there! I am using Pixel Perfect.';
+    final bio = user?.bio ?? 'Hi there! I am using SnapLife.';
 
     return Column(
       children: [

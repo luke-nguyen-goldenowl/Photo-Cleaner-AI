@@ -72,7 +72,6 @@ class SignRepositoryImpl extends SignRepository {
           await FirebaseAuth.instance.signInWithCredential(credential);
       final firebaseUser = result.user;
 
-      // Check if user exists
       final existingUserResponse = await supabaseClient
           .from('users')
           .select()
@@ -121,6 +120,7 @@ class SignRepositoryImpl extends SignRepository {
         createdAt: DateTime.now(),
       );
       await DomainManager().user.getOrAddUser(firebaseUser2);
+
       return MResult.success(finalUser);
     } catch (e) {
       return MResult.exception(e);

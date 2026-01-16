@@ -1,5 +1,5 @@
 {
-  "common_appTitle": "Pixel Perfect",
+  "common_appTitle": "SnapLife",
   "common_appVersion": "Version {value}",
   "@common_appVersion": {
     "description": "Version number of app",
@@ -19,7 +19,7 @@
   "common_onBoarding_3_subTitle": "Store your private moments with absolute safety using high-level encryption and smart management",
   "common_buttonDiscover": "Discover Now",
   "common_buttonContinue": "Continue",
-  "common_getStarted_Title": "Welcome to Pixel Perfect",
+  "common_getStarted_Title": "Welcome to SnapLife",
   "common_getStarted_subTitle": "Optimize your image library with the power of artificial intelligence",
   "common_buttonStarted": "Start",
   "common_subTitle_Signin": "Log in to manage your image library",
@@ -34,7 +34,7 @@
   "common_dontHaveAccount_title": "Don't have an account?",
   "common_SignupNow_title": "Sign up now",
 
-  "common_signUp_subTitle": "Create an account to join the Pixel Perfect community to optimize your image library",
+  "common_signUp_subTitle": "Create an account to join the SnapLife community to optimize your image library",
   "common_userName_signUp": "Username",
   "common_confirmPass_signUp": "Confirm password",
   "common_buttonSignUp_title": "Sign Up",
@@ -108,7 +108,7 @@
   "common_share_button_text":"Share",
   "common_save_button_text":"Save",
   "common_delete_button_text":"Delete",
-  "common_text_share":"Share from Pixel Perfect",
+  "common_text_share":"Share from SnapLife",
   "common_image_not_found_title":"There are no photos available",
   "common_image_not_found_subTitle":"Your library is empty",
   "common_image_liked_not_found_subTitle":"Your list of favorite photos is empty",
@@ -273,7 +273,30 @@
     "common_reject_invitation_message":"Are you sure you want to reject the friend invitation from ",
     "common_reject_success":"Friend invitation rejected",
     "common_this_user":"this user",
-    "common_delete_friend":"Unfriend"
+
+    "common_secure_storage":"Secure Storage",
+    "common_password_incorrect":"Wrong Password",
+    "common_secure_photo_vault_title":"Secure Photo",
+    "common_secure_photo_vault_description":"Set a password to protect your photos",
+    "common_secure_photo_vault_authentication_description":"Authenticate to access the secure photo vault",
+    "common_secure_photo_vault_change_password_title":"Change Password",
+    "common_secure_photo_vault_biometric_title":"Biometrics Settings",
+    "common_secure_photo_vault_remove_security_title":"Unlock",
+    "common_secure_photo_vault_remove_security_success":"Unlock successfully",
+    "common_downloaded":"Downloaded successfully",
+    "common_storage_secure_empty":"No Secure Photos",
+    "common_storage_secure_empty_subTitle":"Your secure photos will appear here",
+    "common_not_created_secure_photo_vault":"You have not created a secure photo vault yet.",
+    "common_change_password_title":"Change Password",
+    "common_change_password_description":"Enter your old password and new password to change",
+    "common_old_password":"Old Password",
+    "common_new_password":"New Password",
+    "common_confirm_new_password":"Confirm New Password",
+    "common_change_password_success":"Password changed successfully",
+    "common_old_password_incorrect":"Old password is incorrect",
+    "common_fingerprint_authentication":"Fingerprint authentication to unlock",
+    "common_fingerprint_authentication_error":"Please register fingerprint in device before using this feature",
+    "common_add_to_secure_photo_vault":"Added to security vault" 
 
 
 

@@ -34,6 +34,7 @@ enum AppRouteNames {
   places(path: '/places'),
   scanDevice(path: '/scan-device'),
   duplicateImageResults(path: '/duplicate-image-results'),
+  securePhoto(path: '/secure-photo'),
   ;
 
   const AppRouteNames({

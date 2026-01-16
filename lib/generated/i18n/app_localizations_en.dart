@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get common_appTitle => 'Pixel Perfect';
+  String get common_appTitle => 'SnapLife';
 
   @override
   String common_appVersion(String value) {
@@ -50,7 +50,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get common_buttonContinue => 'Continue';
 
   @override
-  String get common_getStarted_Title => 'Welcome to Pixel Perfect';
+  String get common_getStarted_Title => 'Welcome to SnapLife';
 
   @override
   String get common_getStarted_subTitle =>
@@ -94,7 +94,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get common_signUp_subTitle =>
-      'Create an account to join the Pixel Perfect community to optimize your image library';
+      'Create an account to join the SnapLife community to optimize your image library';
 
   @override
   String get common_userName_signUp => 'Username';
@@ -298,7 +298,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get common_delete_button_text => 'Delete';
 
   @override
-  String get common_text_share => 'Share from Pixel Perfect';
+  String get common_text_share => 'Share from SnapLife';
 
   @override
   String get common_image_not_found_title => 'There are no photos available';
@@ -761,5 +761,80 @@ class AppLocalizationsEn extends AppLocalizations {
   String get common_this_user => 'this user';
 
   @override
-  String get common_delete_friend => 'Unfriend';
+  String get common_secure_storage => 'Secure Storage';
+
+  @override
+  String get common_password_incorrect => 'Wrong Password';
+
+  @override
+  String get common_secure_photo_vault_title => 'Secure Photo';
+
+  @override
+  String get common_secure_photo_vault_description =>
+      'Set a password to protect your photos';
+
+  @override
+  String get common_secure_photo_vault_authentication_description =>
+      'Authenticate to access the secure photo vault';
+
+  @override
+  String get common_secure_photo_vault_change_password_title =>
+      'Change Password';
+
+  @override
+  String get common_secure_photo_vault_biometric_title => 'Biometrics Settings';
+
+  @override
+  String get common_secure_photo_vault_remove_security_title => 'Unlock';
+
+  @override
+  String get common_secure_photo_vault_remove_security_success =>
+      'Unlock successfully';
+
+  @override
+  String get common_downloaded => 'Downloaded successfully';
+
+  @override
+  String get common_storage_secure_empty => 'No Secure Photos';
+
+  @override
+  String get common_storage_secure_empty_subTitle =>
+      'Your secure photos will appear here';
+
+  @override
+  String get common_not_created_secure_photo_vault =>
+      'You have not created a secure photo vault yet.';
+
+  @override
+  String get common_change_password_title => 'Change Password';
+
+  @override
+  String get common_change_password_description =>
+      'Enter your old password and new password to change';
+
+  @override
+  String get common_old_password => 'Old Password';
+
+  @override
+  String get common_new_password => 'New Password';
+
+  @override
+  String get common_confirm_new_password => 'Confirm New Password';
+
+  @override
+  String get common_change_password_success => 'Password changed successfully';
+
+  @override
+  String get common_old_password_incorrect => 'Old password is incorrect';
+
+  @override
+  String get common_fingerprint_authentication =>
+      'Fingerprint authentication to unlock';
+
+  @override
+  String get common_fingerprint_authentication_error =>
+      'Please register fingerprint in device before using this feature';
+
+  @override
+  String get common_add_to_secure_photo_vault => 'Added to security vault';
 }

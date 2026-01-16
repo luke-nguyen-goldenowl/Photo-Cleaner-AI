@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MResult<T> {
@@ -9,7 +10,7 @@ class MResult<T> {
     if (e is AuthApiException) {
       error = _handleAuthSupabase(e);
     } else if (e is AuthRetryableFetchException) {
-      error = 'Lỗi kết nối! Vui lòng kiểm tra lại Internet';
+      error = S.text.error_noInternetConnection;
     } else if (e is PostgrestException) {
       error = _handlePostgrestException(e);
     } else if (e is StorageException) {
@@ -22,6 +23,8 @@ class MResult<T> {
       error = _handleFormatException(e);
     } else if (e is PlatformException) {
       error = _handlePlatformException(e);
+    } else if (e is FunctionException) {
+      error = _handleFunctionException(e);
     } else if (e is AssertionError) {
       error = e.message?.toString() ?? 'Lỗi xác thực dữ liệu';
     } else if (e is FlutterError) {
@@ -472,6 +475,20 @@ class MResult<T> {
 
       default:
         return e.message ?? 'Đã xảy ra lỗi hệ thống';
+    }
+  }
+
+  String _handleFunctionException(FunctionException e) {
+    switch (e.status) {
+      case 401:
+        return S.text.common_password_incorrect;
+      case 400:
+      case 404:
+      case 409:
+      case 500:
+        return S.text.error_somethingWrongTryAgain;
+      default:
+        return S.text.error_somethingWrongTryAgain;
     }
   }
 }
