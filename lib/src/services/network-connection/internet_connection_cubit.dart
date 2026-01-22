@@ -18,6 +18,10 @@ class InternetConnectionCubit extends Cubit<InternetStatusState> {
     });
   }
 
+  Future<bool> hasInternet() async {
+    return await _internetConnection.hasInternetAccess;
+  }
+
   @override
   Future<void> close() {
     _subscription.cancel();

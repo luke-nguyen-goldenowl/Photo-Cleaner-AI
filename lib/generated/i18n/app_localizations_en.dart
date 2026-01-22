@@ -837,4 +837,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get common_add_to_secure_photo_vault => 'Added to security vault';
+
+  @override
+  String get common_user => 'User';
+
+  @override
+  String get common_bio => 'Hi there! I am using SnapLife.';
 }

@@ -32,6 +32,13 @@ abstract class SecurePhotoRepository {
   /// Download from secure storage
   Future<MResult<File>> downloadSecurePhoto(String photoId);
 
+  /// Add secure photo from URL (for favorite photos synced from Supabase)
+  Future<MResult<MSecurePhoto>> addSecurePhotoFromUrl({
+    required String userId,
+    required String imageUrl,
+    required String photoId,
+  });
+
   /// Unsecure photo
   Future<MResult<File>> unsecurePhoto(String photoId);
 }

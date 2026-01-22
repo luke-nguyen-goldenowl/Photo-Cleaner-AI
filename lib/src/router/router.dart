@@ -171,8 +171,13 @@ class AppRouter {
                 path: AppRouteNames.pickImageEnhance.subPath,
                 name: AppRouteNames.pickImageEnhance.name,
                 builder: (context, state) {
-                  final initialImage = state.extra as File?;
-                  return PickImageView(initialImage: initialImage);
+                  final extra = state.extra as Map<String, dynamic>?;
+                  final initialImage = extra?['initialImage'] as File?;
+                  final initialImageUrl = extra?['initialImageUrl'] as String?;
+                  return PickImageView(
+                    initialImage: initialImage,
+                    initialImageUrl: initialImageUrl,
+                  );
                 },
               ),
               GoRoute(

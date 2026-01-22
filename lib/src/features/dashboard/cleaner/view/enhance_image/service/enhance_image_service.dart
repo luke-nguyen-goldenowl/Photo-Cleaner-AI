@@ -4,21 +4,35 @@ import 'package:http/http.dart' as http;
 import 'package:myapp/src/config/env/env.dart';
 
 class EnhanceImageService {
-  Future<Uint8List?> upscaleImage(String filePath) async {
+  Future<Uint8List?> upscaleImage({String? filePath, String? imageUrl}) async {
     try {
-      final request = http.MultipartRequest(
-        'POST',
-        Uri.parse(ENV.rapidApiUrlEnhanceImage),
-      );
+      http.BaseRequest request;
 
-      request.headers.addAll({
-        'X-RapidAPI-Key': ENV.rapidApiKey,
-        'X-RapidAPI-Host': ENV.rapidApiHostEnhanceImage,
-      });
-
-      request.files.add(
-        await http.MultipartFile.fromPath('image', filePath),
-      );
+      if (filePath != null) {
+        request = http.MultipartRequest(
+          'POST',
+          Uri.parse(ENV.rapidApiUrlEnhanceImage),
+        );
+        request.headers.addAll({
+          'X-RapidAPI-Key': ENV.rapidApiKey,
+          'X-RapidAPI-Host': ENV.rapidApiHostEnhanceImage,
+        });
+        (request as http.MultipartRequest).files.add(
+              await http.MultipartFile.fromPath('image', filePath),
+            );
+      } else if (imageUrl != null) {
+        request = http.Request(
+          'POST',
+          Uri.parse(ENV.rapidApiUrlEnhanceImage),
+        );
+        request.headers.addAll({
+          'X-RapidAPI-Key': ENV.rapidApiKey,
+          'X-RapidAPI-Host': ENV.rapidApiHostEnhanceImage,
+        });
+        (request as http.Request).body = jsonEncode({'image_url': imageUrl});
+      } else {
+        return null;
+      }
 
       final response = await request.send();
 

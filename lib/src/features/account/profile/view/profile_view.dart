@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/src/config/constants/constants.dart';
+import 'package:myapp/src/dialogs/toast_wrapper.dart';
 import 'package:myapp/src/features/account/logic/account_bloc.dart';
 import 'package:myapp/src/features/account/profile/logic/profile_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:myapp/src/features/secure_photo/logic/secure_photo_bloc.dart';
+import 'package:myapp/src/features/secure_photo/widgets/secure_photo_password_dialog.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/src/router/route_name.dart';
@@ -64,15 +67,10 @@ class ProfileView extends StatelessWidget {
                             iconColor: const Color(0xFFFF4D80),
                             iconBgColor: const Color(0xFFFFEEF3),
                             title: S.of(context).common_favourite_text_profile,
-                            onTap: () {},
-                          ),
-                          _buildMenuItem(
-                            icon: Icons.share,
-                            iconColor: const Color(0xFF37E663),
-                            iconBgColor: const Color(0xFFE8F9E7),
-                            title:
-                                S.of(context).common_share_folder_text_profile,
-                            onTap: () {},
+                            onTap: () {
+                              AppCoordinator.showHomeScreen(
+                                  isFavoriteMode: true);
+                            },
                           ),
                           _buildMenuItem(
                             icon: Icons.lock_outline,
@@ -80,7 +78,9 @@ class ProfileView extends StatelessWidget {
                             iconBgColor: const Color(0xFFF3E5F5),
                             title:
                                 S.of(context).common_secure_folder_text_profile,
-                            onTap: () {},
+                            onTap: () {
+                              _showSecurePhotoVaultDialog(context);
+                            },
                           ),
                           _buildMenuItem(
                             icon: Icons.logout,
@@ -138,9 +138,9 @@ class ProfileView extends StatelessWidget {
     final user = state.user;
     final uid = user?.id;
     final avatarUrl = user?.avatarUrl ?? '${AppConstants.avatarLink}$uid';
-    final name = user?.name ?? 'User';
+    final name = user?.name ?? S.text.common_user;
     final email = user?.email ?? '';
-    final bio = user?.bio ?? 'Hi there! I am using SnapLife.';
+    final bio = user?.bio ?? S.text.common_bio;
 
     return Column(
       children: [
@@ -236,21 +236,10 @@ class ProfileView extends StatelessWidget {
   }
 
   Widget _buildStatsRow(ProfileState state, BuildContext context) {
-    final photoCount = state.photoCount;
     final friendCount = state.friendCount;
 
     return Row(
       children: [
-        Expanded(
-          child: _buildStatCard(
-            count: photoCount.toString(),
-            label: S.of(context).common_image_text_profile,
-            icon: Icons.image_outlined,
-            iconColor: const Color(0xFF4834D4),
-            iconBg: const Color(0xFFF0EFFF),
-          ),
-        ),
-        const SizedBox(width: 20),
         Expanded(
           child: _buildStatCard(
             count: friendCount.toString(),
@@ -394,5 +383,26 @@ class ProfileView extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future<void> _showSecurePhotoVaultDialog(BuildContext context) async {
+    await context.read<SecurePhotoBloc>().syncCurrentUser();
+    await context.read<SecurePhotoBloc>().checkVaultStatus();
+    final hasVault = context.read<SecurePhotoBloc>().state.hasVault;
+    if (!hasVault) {
+      XToast.show(S.of(context).common_not_created_secure_photo_vault);
+      return;
+    }
+    final password = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => BlocProvider<SecurePhotoBloc>(
+        create: (_) => SecurePhotoBloc()..setCreateMode(false),
+        child: const SecurePhotoPasswordDialog(),
+      ),
+    );
+    if (password == null) {
+      return;
+    }
+    await context.read<SecurePhotoBloc>().verifyPassword(password);
   }
 }

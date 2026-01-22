@@ -11,7 +11,8 @@ import 'package:myapp/widgets/loading/image_scan_loading.dart';
 
 class PickImageView extends StatefulWidget {
   final File? initialImage;
-  const PickImageView({super.key, this.initialImage});
+  final String? initialImageUrl;
+  const PickImageView({super.key, this.initialImage, this.initialImageUrl});
 
   @override
   State<PickImageView> createState() => _PickImageViewState();
@@ -19,12 +20,14 @@ class PickImageView extends StatefulWidget {
 
 class _PickImageViewState extends State<PickImageView> {
   File? _selectedImage;
+  String? _selectedImageUrl;
   final ImagePickerService _picker = ImagePickerService();
 
   @override
   void initState() {
     super.initState();
     _selectedImage = widget.initialImage;
+    _selectedImageUrl = widget.initialImageUrl;
   }
 
   void _handlePickImage() async {
@@ -32,6 +35,7 @@ class _PickImageViewState extends State<PickImageView> {
     if (result.isSuccess && result.data != null) {
       setState(() {
         _selectedImage = File(result.data!);
+        _selectedImageUrl = null;
       });
     }
   }
@@ -73,9 +77,9 @@ class _PickImageViewState extends State<PickImageView> {
               children: [
                 Expanded(
                   child: Center(
-                    child: _selectedImage == null
-                        ? _buildUploadArea()
-                        : _buildImagePreview(),
+                    child: (_selectedImage != null || _selectedImageUrl != null)
+                        ? _buildImagePreview()
+                        : _buildUploadArea(),
                   ),
                 ),
                 _buildBottomButton(),
@@ -165,12 +169,44 @@ class _PickImageViewState extends State<PickImageView> {
                 topLeft: Radius.circular(24),
                 topRight: Radius.circular(24),
               ),
-              child: Image.file(
-                _selectedImage!,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: 400,
-              ),
+              child: _selectedImage != null
+                  ? Image.file(
+                      _selectedImage!,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: 400,
+                    )
+                  : _selectedImageUrl != null
+                      ? Image.network(
+                          _selectedImageUrl!,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: 400,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return SizedBox(
+                              height: 400,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              height: 400,
+                              color: Colors.grey[200],
+                              child: Icon(Icons.error,
+                                  size: 50, color: Colors.red),
+                            );
+                          },
+                        )
+                      : const SizedBox.shrink(),
             ),
             Container(
               width: double.infinity,
@@ -232,12 +268,17 @@ class _PickImageViewState extends State<PickImageView> {
             previous.isProcessing != current.isProcessing,
         builder: (context, state) {
           return ElevatedButton(
-            onPressed: _selectedImage != null && !state.isProcessing
+            onPressed: (_selectedImage != null || _selectedImageUrl != null) &&
+                    !state.isProcessing
                 ? () {
                     if (_selectedImage != null) {
                       context
                           .read<EnhanceImageBloc>()
                           .processImageFromFile(_selectedImage!);
+                    } else if (_selectedImageUrl != null) {
+                      context
+                          .read<EnhanceImageBloc>()
+                          .processImageFromUrl(_selectedImageUrl!);
                     }
                   }
                 : null,

@@ -7,16 +7,18 @@ class MPhotoItem extends Equatable {
     this.isFavorite = false,
     this.storageUrl,
     this.securePhotoId,
+    this.localFilePath,
   });
 
   final AssetEntity? asset;
   final bool isFavorite;
   final String? storageUrl;
   final String? securePhotoId;
+  final String? localFilePath;
 
   String get id => asset?.id ?? securePhotoId ?? '';
   String get title => asset?.title ?? 'No Title';
-  String get filePath => asset?.relativePath ?? 'Unknown';
+  String get filePath => asset?.relativePath ?? localFilePath ?? 'Unknown';
   DateTime? get createDate => asset?.createDateTime;
   String get lat => asset?.latitude.toString() ?? 'Unknown';
   String get lon => asset?.longitude.toString() ?? 'Unknown';
@@ -29,12 +31,14 @@ class MPhotoItem extends Equatable {
     bool? isFavorite,
     String? storageUrl,
     String? securePhotoId,
+    String? localFilePath,
   }) {
     return MPhotoItem(
       asset: asset ?? this.asset,
       isFavorite: isFavorite ?? this.isFavorite,
       storageUrl: storageUrl ?? this.storageUrl,
       securePhotoId: securePhotoId ?? this.securePhotoId,
+      localFilePath: localFilePath ?? this.localFilePath,
     );
   }
 

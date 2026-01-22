@@ -13,6 +13,7 @@ import 'package:myapp/src/features/dashboard/place/helper/place_helpers.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/network/data/photo/photo_local_db.dart';
 import 'package:myapp/src/network/data/photo/photo_repository.dart';
+import 'package:myapp/src/network/domain_manager.dart';
 import 'package:myapp/src/network/model/common/result.dart';
 import 'package:myapp/src/services/user_prefs.dart';
 import 'package:path/path.dart' as path;
@@ -25,6 +26,7 @@ import 'package:exif/exif.dart';
 class PhotoRepositoryImpl extends PhotoRepository {
   final RemoveBgService _removeBgService = RemoveBgService();
   final EnhanceImageService _enhanceImageService = EnhanceImageService();
+  DomainManager get domain => DomainManager();
   String? get _userId => UserPrefs.I.getUser()?.id;
 
   @override
@@ -236,8 +238,8 @@ class PhotoRepositoryImpl extends PhotoRepository {
   @override
   Future<MResult<List<String>>> getFavoriteIds(String userId) async {
     try {
-      final ids = await PhotoLocalDatabase.I.getAllFavorites(userId);
-      return MResult.success(ids);
+      final result = await domain.favoritePhoto.getFavoriteIds(userId);
+      return result;
     } catch (e) {
       return MResult.exception(e);
     }
@@ -440,7 +442,8 @@ class PhotoRepositoryImpl extends PhotoRepository {
   @override
   Future<MResult<Uint8List>> enhanceImage(File imageFile) async {
     try {
-      final result = await _enhanceImageService.upscaleImage(imageFile.path);
+      final result =
+          await _enhanceImageService.upscaleImage(filePath: imageFile.path);
       if (result != null) {
         return MResult.success(result);
       } else {
@@ -540,6 +543,23 @@ class PhotoRepositoryImpl extends PhotoRepository {
       );
 
       return groups;
+    } catch (e) {
+      return MResult.exception(e);
+    }
+  }
+
+  @override
+  Future<MResult<Uint8List>> enhanceImageFromUrl(String imageUrl) async {
+    try {
+      final result =
+          await _enhanceImageService.upscaleImage(imageUrl: imageUrl);
+      if (result != null) {
+        return MResult.success(result);
+      } else {
+        return MResult.error(S.text.error_somethingWrongTryAgain);
+      }
+    } on SocketException {
+      return MResult.error(S.text.error_noInternetConnection);
     } catch (e) {
       return MResult.exception(e);
     }

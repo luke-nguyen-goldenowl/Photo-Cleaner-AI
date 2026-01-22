@@ -9,7 +9,9 @@ import 'package:myapp/src/features/dashboard/place/db/gps_local_db.dart';
 import 'package:myapp/src/network/data/photo/photo_local_db.dart';
 import 'package:myapp/src/network/domain_manager.dart';
 import 'package:myapp/src/router/router.dart';
+import 'package:myapp/src/services/network-connection/internet_connection_cubit.dart';
 import 'package:myapp/src/services/remote_config/remote_config_service.dart';
+import 'package:myapp/src/services/sync/favorite_photo_sync_service.dart';
 import 'package:myapp/src/services/user_prefs.dart';
 import 'package:myapp/src/services/supabase/init_supabase.dart';
 import 'features/common/app_bloc/bloc_observer.dart';
@@ -23,6 +25,7 @@ Future initializeApp({String? name, FirebaseOptions? firebaseOptions}) async {
   _locator();
   await initializeSupabase();
   await Firebase.initializeApp(name: name, options: firebaseOptions);
+  FavoritePhotoSyncService.instance.initialize(InternetConnectionCubit());
   await Future.wait([
     AppInfo.initialize(),
     UserPrefs.instance.initialize(),

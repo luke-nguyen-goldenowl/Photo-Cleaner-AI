@@ -835,4 +835,10 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get common_add_to_secure_photo_vault => 'Đã thêm vào kho bảo mật';
+
+  @override
+  String get common_user => 'Người dùng';
+
+  @override
+  String get common_bio => 'Xin chào! Tôi đang sử dụng SnapLife.';
 }

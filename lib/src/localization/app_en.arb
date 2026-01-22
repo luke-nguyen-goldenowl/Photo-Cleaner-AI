@@ -296,7 +296,10 @@
     "common_old_password_incorrect":"Old password is incorrect",
     "common_fingerprint_authentication":"Fingerprint authentication to unlock",
     "common_fingerprint_authentication_error":"Please register fingerprint in device before using this feature",
-    "common_add_to_secure_photo_vault":"Added to security vault" 
+    "common_add_to_secure_photo_vault":"Added to security vault",
+    "common_user": "User",
+    "common_bio":"Hi there! I am using SnapLife."
+
 
 
 

@@ -141,7 +141,7 @@ class SecurePhotoService {
       final fileName = '${DateTime.now().millisecondsSinceEpoch}$fileExtension';
       final filePath = '$userId/$fileName';
 
-      await supabaseClient.storage.from(AppConstants.bucketName).upload(
+      await supabaseClient.storage.from(AppConstants.securePhotoBucket).upload(
             filePath,
             compressedFile,
             fileOptions: const FileOptions(
@@ -152,7 +152,7 @@ class SecurePhotoService {
           );
 
       final publicUrl = supabaseClient.storage
-          .from(AppConstants.bucketName)
+          .from(AppConstants.securePhotoBucket)
           .getPublicUrl(filePath);
 
       return MResult.success(publicUrl);
@@ -168,7 +168,7 @@ class SecurePhotoService {
       final uri = Uri.parse(fileUrl);
       final pathSegments = uri.pathSegments;
 
-      final bucketIndex = pathSegments.indexOf(AppConstants.bucketName);
+      final bucketIndex = pathSegments.indexOf(AppConstants.securePhotoBucket);
       if (bucketIndex == -1 || bucketIndex >= pathSegments.length - 1) {
         return MResult.error(S.text.error_somethingWrongTryAgain);
       }
@@ -176,7 +176,32 @@ class SecurePhotoService {
       final filePath = pathSegments.sublist(bucketIndex + 1).join('/');
 
       await supabaseClient.storage
-          .from(AppConstants.bucketName)
+          .from(AppConstants.securePhotoBucket)
+          .remove([filePath]);
+
+      return MResult.success(true);
+    } catch (e) {
+      return MResult.exception(e);
+    }
+  }
+
+  Future<MResult<bool>> deleteFavoritePhoto({
+    required String fileUrl,
+  }) async {
+    try {
+      final uri = Uri.parse(fileUrl);
+      final pathSegments = uri.pathSegments;
+
+      final bucketIndex =
+          pathSegments.indexOf(AppConstants.favoritePhotoBucket);
+      if (bucketIndex == -1 || bucketIndex >= pathSegments.length - 1) {
+        return MResult.error(S.text.error_somethingWrongTryAgain);
+      }
+
+      final filePath = pathSegments.sublist(bucketIndex + 1).join('/');
+
+      await supabaseClient.storage
+          .from(AppConstants.favoritePhotoBucket)
           .remove([filePath]);
 
       return MResult.success(true);

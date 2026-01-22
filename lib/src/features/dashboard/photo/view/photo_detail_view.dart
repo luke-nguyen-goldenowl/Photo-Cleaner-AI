@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +8,6 @@ import 'package:myapp/src/features/secure_photo/widgets/secure_photo_password_di
 import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import '../logic/photo_bloc.dart';
-import '../logic/photo_state.dart';
 import '../model/photo_item.dart';
 import 'package:myapp/src/dialogs/toast_wrapper.dart';
 import 'package:photo_view/photo_view.dart';
@@ -28,6 +28,7 @@ class _PhotoDetailViewState extends State<PhotoDetailView> {
   late PageController _pageController;
   late int _currentIndex;
   late List<MPhotoItem> _photos;
+  late ValueNotifier<bool> _isFavoriteNotifier;
 
   @override
   void initState() {
@@ -36,11 +37,13 @@ class _PhotoDetailViewState extends State<PhotoDetailView> {
     final validatedIndex = widget.initialIndex.clamp(0, _photos.length - 1);
     _currentIndex = validatedIndex;
     _pageController = PageController(initialPage: validatedIndex);
+    _isFavoriteNotifier = ValueNotifier(_photos[_currentIndex].isFavorite);
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+    _isFavoriteNotifier.dispose();
     super.dispose();
   }
 
@@ -59,9 +62,45 @@ class _PhotoDetailViewState extends State<PhotoDetailView> {
               setState(() {
                 _currentIndex = index;
               });
+              _isFavoriteNotifier.value = _photos[index].isFavorite;
             },
             itemBuilder: (context, index) {
               final photo = widget.photos[index];
+
+              if (photo.asset == null && photo.storageUrl != null) {
+                return PhotoView(
+                  imageProvider: NetworkImage(photo.storageUrl!),
+                  minScale: PhotoViewComputedScale.contained,
+                  maxScale: PhotoViewComputedScale.covered * 30,
+                  initialScale: PhotoViewComputedScale.contained,
+                  backgroundDecoration: const BoxDecoration(
+                    color: Colors.black,
+                  ),
+                  loadingBuilder: (context, event) => const Center(
+                    child: CircularProgressIndicator(color: Colors.white),
+                  ),
+                  errorBuilder: (context, error, stackTrace) => const Center(
+                    child:
+                        Icon(Icons.broken_image, color: Colors.white, size: 48),
+                  ),
+                );
+              }
+
+              if (photo.asset == null && photo.localFilePath != null) {
+                return PhotoView(
+                  imageProvider: FileImage(File(photo.localFilePath!)),
+                  minScale: PhotoViewComputedScale.contained,
+                  maxScale: PhotoViewComputedScale.covered * 30,
+                  initialScale: PhotoViewComputedScale.contained,
+                  backgroundDecoration: const BoxDecoration(
+                    color: Colors.black,
+                  ),
+                  errorBuilder: (context, error, stackTrace) => const Center(
+                    child:
+                        Icon(Icons.broken_image, color: Colors.white, size: 48),
+                  ),
+                );
+              }
               return FutureBuilder<Uint8List?>(
                 future: photo.asset?.originBytes,
                 builder: (context, snapshot) {
@@ -104,24 +143,33 @@ class _PhotoDetailViewState extends State<PhotoDetailView> {
                 ),
                 child: Row(
                   children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back, color: Colors.white),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                    const Spacer(),
-                    Text(
-                      '${_currentIndex + 1}/${widget.photos.length}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                    Expanded(
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back, color: Colors.white),
+                        onPressed: () => Navigator.pop(context),
                       ),
                     ),
                     const Spacer(),
-                    IconButton(
-                      icon: const Icon(Icons.more_vert, color: Colors.white),
-                      onPressed: () => _showMoreOptions(context),
+                    Expanded(
+                      child: Text(
+                        '${_currentIndex + 1}/${widget.photos.length}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ),
+                    const Spacer(),
+                    _currentPhoto.asset != null
+                        ? Expanded(
+                            child: IconButton(
+                              icon: const Icon(Icons.more_vert,
+                                  color: Colors.white),
+                              onPressed: () => _showMoreOptions(context),
+                            ),
+                          )
+                        : Container(),
                   ],
                 ),
               ),
@@ -154,110 +202,130 @@ class _PhotoDetailViewState extends State<PhotoDetailView> {
   }
 
   Widget _buildActionButtons() {
+    final photoBloc = context.read<PhotoViewBloc>();
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         // Like
-        BlocBuilder<PhotoViewBloc, PhotoViewState>(
-          buildWhen: (previous, current) {
-            return current.lastToggledFavoritePhotoId == _currentPhoto.id;
-          },
-          builder: (context, state) {
-            return _buildActionButton(
-              icon: _currentPhoto.isFavorite
-                  ? Icons.favorite
-                  : Icons.favorite_border,
-              label: S.of(context).common_like_button_text,
-              color: _currentPhoto.isFavorite ? Colors.red : Colors.white,
-              onTap: () async {
-                final newFavoriteStatus = !_currentPhoto.isFavorite;
-                final success =
-                    await context.read<PhotoViewBloc>().toggleFavorite(
-                          _currentPhoto.id,
-                          newFavoriteStatus,
-                        );
-                if (success) {
+        Expanded(
+          child: ValueListenableBuilder<bool>(
+            valueListenable: _isFavoriteNotifier,
+            builder: (context, isFavorite, child) {
+              return _buildActionButton(
+                icon: isFavorite ? Icons.favorite : Icons.favorite_border,
+                label: S.of(context).common_like_button_text,
+                color: isFavorite ? Colors.red : Colors.white,
+                onTap: () async {
+                  final newFavoriteStatus = !isFavorite;
+                  final photoId = _currentPhoto.id;
+
+                  _isFavoriteNotifier.value = newFavoriteStatus;
                   _photos[_currentIndex] = _currentPhoto.copyWith(
                     isFavorite: newFavoriteStatus,
                   );
-                }
-              },
-            );
-          },
+
+                  await photoBloc.toggleFavorite(
+                    photoId,
+                    newFavoriteStatus,
+                  );
+                },
+              );
+            },
+          ),
         ),
 
         // Secure
-        BlocBuilder<SecurePhotoBloc, SecurePhotoState>(
-          buildWhen: (previous, current) {
-            return previous.isLoading != current.isLoading;
-          },
-          builder: (context, state) {
-            if (state.isLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
+        Expanded(
+          child: BlocBuilder<SecurePhotoBloc, SecurePhotoState>(
+            buildWhen: (previous, current) {
+              return previous.isLoading != current.isLoading;
+            },
+            builder: (context, state) {
+              if (state.isLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return _buildActionButton(
+                icon: Icons.lock,
+                label: S.of(context).common_secure_button_text,
+                color: Colors.white,
+                onTap: () async {
+                  await context.read<SecurePhotoBloc>().addSecurePhoto(
+                        _currentPhoto,
+                        onNeedPassword: () => _showPasswordDialog(context),
+                        onSuccess: () async {
+                          if (_currentPhoto.asset == null &&
+                              _currentPhoto.storageUrl != null) {
+                            if (mounted) {
+                              photoBloc.refreshFavoritePhotos();
+                              Navigator.pop(context);
+                            }
+                          } else {
+                            await photoBloc
+                                .deletePhotoWithoutAlert(_currentPhoto.id);
+                          }
+                        },
+                      );
+                },
               );
-            }
-            return _buildActionButton(
-              icon: Icons.lock,
-              label: S.of(context).common_secure_button_text,
-              color: Colors.white,
-              onTap: () async {
-                await context.read<SecurePhotoBloc>().addSecurePhoto(
-                      _currentPhoto,
-                      onNeedPassword: () => _showPasswordDialog(context),
-                      onSuccess: () async {
-                        await context
-                            .read<PhotoViewBloc>()
-                            .deletePhotoWithoutAlert(_currentPhoto.id);
-                      },
-                    );
-              },
-            );
-          },
+            },
+          ),
         ),
 
         // Enhance
-        _buildActionButton(
-          icon: Icons.auto_fix_high,
-          label: S.of(context).common_enhance_button_text,
-          color: Colors.white,
-          onTap: () async {
-            final asset = _currentPhoto.asset;
-            if (asset != null) {
-              final file = await asset.file;
-              if (file != null && await file.exists()) {
-                AppCoordinator.showPickImageEnhance(initialImage: file);
+        Expanded(
+          child: _buildActionButton(
+            icon: Icons.auto_fix_high,
+            label: S.of(context).common_enhance_button_text,
+            color: Colors.white,
+            onTap: () async {
+              final asset = _currentPhoto.asset;
+              if (asset != null) {
+                final file = await asset.file;
+                if (file != null && await file.exists()) {
+                  AppCoordinator.showPickImageEnhance(initialImage: file);
+                }
+              } else if (_currentPhoto.storageUrl != null) {
+                AppCoordinator.showPickImageEnhance(
+                  initialImageUrl: _currentPhoto.storageUrl,
+                );
+              } else {
+                XToast.error(S.of(context).error_somethingWrongTryAgain);
               }
-            } else {
-              XToast.error(S.of(context).error_somethingWrongTryAgain);
-            }
-          },
+            },
+          ),
         ),
 
         // Share
-        _buildActionButton(
-          icon: Icons.share,
-          label: S.of(context).common_share_button_text,
-          color: Colors.white,
-          onTap: () async {
-            await context.read<PhotoViewBloc>().sharePhoto(_currentPhoto.id);
-          },
+        Expanded(
+          child: _buildActionButton(
+            icon: Icons.share,
+            label: S.of(context).common_share_button_text,
+            color: Colors.white,
+            onTap: () async {
+              await photoBloc.sharePhoto(_currentPhoto.id);
+            },
+          ),
         ),
 
         // Delete
-        _buildActionButton(
-          icon: Icons.delete_outline,
-          label: S.of(context).common_delete_button_text,
-          color: Colors.red,
-          onTap: () async {
-            final success = await context
-                .read<PhotoViewBloc>()
-                .deletePhoto(_currentPhoto.id);
-            if (success && mounted) {
-              Navigator.pop(context);
-            }
-          },
-        ),
+        _currentPhoto.asset != null
+            ? Expanded(
+                child: _buildActionButton(
+                  icon: Icons.delete_outline,
+                  label: S.of(context).common_delete_button_text,
+                  color: Colors.red,
+                  onTap: () async {
+                    final success =
+                        await photoBloc.deletePhoto(_currentPhoto.id);
+                    if (success && mounted) {
+                      Navigator.pop(context);
+                    }
+                  },
+                ),
+              )
+            : const SizedBox.shrink(),
       ],
     );
   }

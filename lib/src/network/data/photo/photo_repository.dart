@@ -64,4 +64,7 @@ abstract class PhotoRepository {
 
   /// Delete images by paths
   Future<MResult<int>> deleteImagesByPaths(List<String> paths);
+
+  /// Enhance image from URL
+  Future<MResult<Uint8List>> enhanceImageFromUrl(String imageUrl);
 }

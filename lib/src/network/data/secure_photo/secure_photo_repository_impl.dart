@@ -117,6 +117,44 @@ class SecurePhotoRepositoryImpl extends SecurePhotoRepository {
   }
 
   @override
+  Future<MResult<MSecurePhoto>> addSecurePhotoFromUrl({
+    required String userId,
+    required String imageUrl,
+    required String photoId,
+  }) async {
+    try {
+      final vaultResponse = await supabaseClient
+          .from('secure_vaults')
+          .select('id')
+          .eq('userId', userId)
+          .single();
+
+      final vaultId = vaultResponse['id'] as int;
+
+      final photoResponse = await supabaseClient
+          .from('secure_photos')
+          .insert({
+            'vaultId': vaultId,
+            'fileUrl': imageUrl,
+          })
+          .select()
+          .single();
+
+      final securePhoto = MSecurePhoto.fromJson(photoResponse);
+
+      await supabaseClient
+          .from('favorite_photos')
+          .delete()
+          .eq('user_id', userId)
+          .eq('photo_id', photoId);
+
+      return MResult.success(securePhoto);
+    } catch (e) {
+      return MResult.exception(e);
+    }
+  }
+
+  @override
   Future<MResult<List<MPhotoItem>>> getSecurePhotos(String userId) async {
     try {
       final vaultResponse = await supabaseClient

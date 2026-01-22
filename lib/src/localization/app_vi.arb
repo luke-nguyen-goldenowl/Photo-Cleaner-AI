@@ -299,7 +299,9 @@
     "common_old_password_incorrect":"Mật khẩu cũ không đúng",
     "common_fingerprint_authentication":"Xác thực vân tay để mở khoá",
     "common_fingerprint_authentication_error":"Cần đăng ký vân tay trong thiết bị trước khi sử dụng tính năng này",
-    "common_add_to_secure_photo_vault":"Đã thêm vào kho bảo mật"
+    "common_add_to_secure_photo_vault":"Đã thêm vào kho bảo mật",
+    "common_user": "Người dùng",
+    "common_bio":"Xin chào! Tôi đang sử dụng SnapLife."
 
 
 

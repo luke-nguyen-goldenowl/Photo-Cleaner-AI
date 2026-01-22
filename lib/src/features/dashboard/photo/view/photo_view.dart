@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:myapp/src/dialogs/toast_wrapper.dart';
 import 'package:myapp/src/features/secure_photo/logic/secure_photo_bloc.dart';
@@ -31,6 +33,16 @@ class _PhotoViewState extends State<PhotoView> {
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final extra = GoRouterState.of(context).extra as Map<String, dynamic>?;
+    if (extra != null && extra['isFavoriteMode'] == true) {
+      context.read<PhotoViewBloc>().setFavoriteMode(true);
+      context.read<PhotoViewBloc>().refreshFavoritePhotos();
+    }
   }
 
   void _onScroll() {
@@ -153,7 +165,8 @@ class _PhotoViewState extends State<PhotoView> {
                         previous.isFavoriteMode != current.isFavoriteMode ||
                         previous.timelinePagination !=
                             current.timelinePagination ||
-                        previous.favoritePhotos != current.favoritePhotos;
+                        previous.favoritePagination !=
+                            current.favoritePagination;
                   },
                   builder: (context, state) {
                     if (state.status == PhotoViewStatus.loading) {
@@ -206,9 +219,13 @@ class _PhotoViewState extends State<PhotoView> {
   }
 
   Widget _buildTimelineContent(PhotoViewState state, BuildContext context) {
+    final photoViewBloc = context.read<PhotoViewBloc>();
     if (state.isFavoriteMode) {
+      final totalItems = state.favoritePhotos.length +
+          (state.favoritePagination.hasMore ? 1 : 0);
+
       return RefreshIndicator(
-        onRefresh: () => context.read<PhotoViewBloc>().loadFavoritePhotos(),
+        onRefresh: () => context.read<PhotoViewBloc>().refreshFavoritePhotos(),
         child: GridView.builder(
           controller: _scrollController,
           padding: const EdgeInsets.all(4),
@@ -218,8 +235,26 @@ class _PhotoViewState extends State<PhotoView> {
             crossAxisSpacing: 4,
             mainAxisSpacing: 4,
           ),
-          itemCount: state.favoritePhotos.length,
+          itemCount: totalItems,
           itemBuilder: (context, index) {
+            if (index == state.favoritePhotos.length) {
+              return XBoxLoadMore(
+                page: state.favoritePagination,
+                loadMore: () => photoViewBloc.loadFavoritePhotos(),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Color(0xFF6C63FF),
+                    ),
+                  ),
+                ),
+              );
+            }
             final photo = state.favoritePhotos[index];
             return _buildPhotoTile(photo);
           },
@@ -333,6 +368,151 @@ Widget _buildTimelineGroup(MPhotoTimelineGroup group, BuildContext context) {
 }
 
 Widget _buildPhotoTile(MPhotoItem photo) {
+  if (photo.asset == null && photo.storageUrl != null) {
+    return Builder(
+      builder: (context) {
+        return GestureDetector(
+          onTap: () {
+            final state = context.read<PhotoViewBloc>().state;
+            final photos = state.isFavoriteMode
+                ? state.favoritePhotos
+                : state.timelinePagination.data
+                    .expand((group) => group.photos)
+                    .toList();
+            final index = photos.indexWhere((p) => p.id == photo.id);
+            AppCoordinator.showPhotoDetailScreen(
+              photos: photos,
+              initialIndex: index,
+            );
+          },
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    photo.storageUrl!,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ).redacted(context: context, redact: true);
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Center(
+                          child: Icon(Icons.broken_image, color: Colors.grey),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              if (photo.isFavorite)
+                const Positioned(
+                  top: 4,
+                  right: 4,
+                  child: Icon(
+                    Icons.favorite,
+                    color: Colors.red,
+                    size: 20,
+                  ),
+                ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  if (photo.asset == null && photo.localFilePath != null) {
+    return Builder(
+      builder: (context) {
+        return GestureDetector(
+          onTap: () {
+            final state = context.read<PhotoViewBloc>().state;
+            final photos = state.isFavoriteMode
+                ? state.favoritePhotos
+                : state.timelinePagination.data
+                    .expand((group) => group.photos)
+                    .toList();
+            final index = photos.indexWhere((p) => p.id == photo.id);
+            AppCoordinator.showPhotoDetailScreen(
+              photos: photos,
+              initialIndex: index,
+            );
+          },
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.file(
+                    File(photo.localFilePath!),
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Center(
+                          child: Icon(Icons.broken_image, color: Colors.grey),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              if (photo.isFavorite)
+                const Positioned(
+                  top: 4,
+                  right: 4,
+                  child: Icon(
+                    Icons.favorite,
+                    color: Colors.red,
+                    size: 20,
+                  ),
+                ),
+              Positioned(
+                bottom: 4,
+                right: 4,
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: Colors.orange.withOpacity(0.8),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: const Icon(
+                    Icons.sync,
+                    color: Colors.white,
+                    size: 12,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
   return FutureBuilder<Uint8List?>(
     future: photo.asset?.thumbnailDataWithSize(
       const ThumbnailSize.square(200),
@@ -533,7 +713,7 @@ Widget _buildFilterChips() {
             label: S.of(context).common_favourite_chip_title,
             isSelected: state.isFavoriteMode,
             onTap: () {
-              context.read<PhotoViewBloc>().loadFavoritePhotos();
+              context.read<PhotoViewBloc>().refreshFavoritePhotos();
             },
           ),
         ],

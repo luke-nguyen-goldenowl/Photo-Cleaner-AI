@@ -116,7 +116,7 @@ class SecurePhotoBloc extends Cubit<SecurePhotoState> {
     required Future<String?> Function() onNeedPassword,
     required Future<void> Function() onSuccess,
   }) async {
-    if (photo.asset == null) {
+    if (photo.asset == null && photo.storageUrl == null) {
       XToast.error(S.text.error_somethingWrongTryAgain);
       return;
     }
@@ -157,6 +157,24 @@ class SecurePhotoBloc extends Cubit<SecurePhotoState> {
       }
 
       emit(state.copyWith(hasVault: true));
+    }
+
+    if (photo.asset == null && photo.storageUrl != null) {
+      final result = await domain.securePhoto.addSecurePhotoFromUrl(
+        userId: _currentUserId!,
+        imageUrl: photo.storageUrl!,
+        photoId: photo.id,
+      );
+
+      if (result.isSuccess) {
+        XToast.success(S.text.common_add_to_secure_photo_vault);
+        emit(state.copyWith(status: SecurePhotoStatus.success));
+        await onSuccess();
+      } else {
+        XToast.error(S.text.error_somethingWrongTryAgain);
+        emit(state.copyWith(status: SecurePhotoStatus.error));
+      }
+      return;
     }
 
     final imageFile = await photo.asset!.file;

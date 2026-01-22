@@ -8,21 +8,23 @@ class PhotoViewState extends Equatable {
   const PhotoViewState({
     this.status = PhotoViewStatus.initial,
     required this.timelinePagination,
-    this.favoritePhotos = const [],
+    required this.favoritePagination,
     this.isFavoriteMode = false,
     this.lastToggledFavoritePhotoId,
   });
 
   final PhotoViewStatus status;
   final MPagination<MPhotoTimelineGroup> timelinePagination;
-  final List<MPhotoItem> favoritePhotos;
+  final MPagination<MPhotoItem> favoritePagination;
   final bool isFavoriteMode;
   final String? lastToggledFavoritePhotoId;
+
+  List<MPhotoItem> get favoritePhotos => favoritePagination.data;
 
   PhotoViewState copyWith({
     PhotoViewStatus? status,
     MPagination<MPhotoTimelineGroup>? timelinePagination,
-    List<MPhotoItem>? favoritePhotos,
+    MPagination<MPhotoItem>? favoritePagination,
     bool? isFavoriteMode,
     String? lastToggledFavoritePhotoId,
     bool clearLastToggledFavoritePhotoId = false,
@@ -30,7 +32,7 @@ class PhotoViewState extends Equatable {
     return PhotoViewState(
       status: status ?? this.status,
       timelinePagination: timelinePagination ?? this.timelinePagination,
-      favoritePhotos: favoritePhotos ?? this.favoritePhotos,
+      favoritePagination: favoritePagination ?? this.favoritePagination,
       isFavoriteMode: isFavoriteMode ?? this.isFavoriteMode,
       lastToggledFavoritePhotoId: clearLastToggledFavoritePhotoId
           ? null
@@ -42,7 +44,7 @@ class PhotoViewState extends Equatable {
   List<Object?> get props => [
         status,
         timelinePagination,
-        favoritePhotos,
+        favoritePagination,
         isFavoriteMode,
         lastToggledFavoritePhotoId,
       ];

@@ -8,15 +8,18 @@ import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/network/domain_manager.dart';
 import 'package:myapp/src/network/model/common/pagination/pagination.dart';
 import 'package:myapp/src/services/user_prefs.dart';
+import 'package:photo_manager/photo_manager.dart';
 import 'photo_state.dart';
 
 class PhotoViewBloc extends Cubit<PhotoViewState> {
-  //final PhotoRepository photoRepository;
   DomainManager get domain => DomainManager();
   String? get _userId => UserPrefs.I.getUser()?.id;
+  List<MPhotoItem> _allFavoritePhotos = [];
+
   PhotoViewBloc()
       : super(PhotoViewState(
           timelinePagination: MPagination<MPhotoTimelineGroup>(),
+          favoritePagination: MPagination<MPhotoItem>(pageLimit: 20),
         )) {
     loadPhotos();
   }
@@ -119,11 +122,12 @@ class PhotoViewBloc extends Cubit<PhotoViewState> {
 
       if (isClosed) return true;
       emit(state.copyWith(
-        // timelineGroups: updatedGroups,
         timelinePagination: state.timelinePagination.copyWith(
           data: updatedGroups,
         ),
-        favoritePhotos: updatedFavorites,
+        favoritePagination: state.favoritePagination.copyWith(
+          data: updatedFavorites,
+        ),
       ));
       XToast.success(S.text.common_delete_success);
       return true;
@@ -158,7 +162,9 @@ class PhotoViewBloc extends Cubit<PhotoViewState> {
         timelinePagination: state.timelinePagination.copyWith(
           data: updatedGroups,
         ),
-        favoritePhotos: updatedFavorites,
+        favoritePagination: state.favoritePagination.copyWith(
+          data: updatedFavorites,
+        ),
       ));
       XToast.success(S.text.common_add_to_secure_photo_vault);
       return true;
@@ -168,34 +174,167 @@ class PhotoViewBloc extends Cubit<PhotoViewState> {
   }
 
   Future<void> loadFavoritePhotos() async {
+    final List<MPhotoItem> photoItems = [];
+    Map<String, AssetEntity> assetMap = {};
     if (isClosed) return;
     final uid = _userId;
     if (uid == null || uid.isEmpty) {
       emit(state.copyWith(
         status: PhotoViewStatus.error,
       ));
-
       return;
     }
-    emit(state.copyWith(status: PhotoViewStatus.loading, isFavoriteMode: true));
 
-    final result = await domain.photo.loadFavoritePhotos(uid);
+    if (!state.favoritePagination.canLoad) {
+      return;
+    }
+
+    final currentPage = state.favoritePagination.page;
+    final isFirstPage = currentPage == 0;
+
+    emit(state.copyWith(
+      favoritePagination: state.favoritePagination.toLoading(),
+      status: isFirstPage ? PhotoViewStatus.loading : state.status,
+      isFavoriteMode: true,
+    ));
+
+    if (isFirstPage) {
+      final favoriteResult = await domain.favoritePhoto.getFavoritePhotos(uid);
+
+      if (isClosed) return;
+
+      if (!favoriteResult.isSuccess) {
+        emit(state.copyWith(
+          status: PhotoViewStatus.error,
+          isFavoriteMode: true,
+        ));
+        return;
+      }
+
+      final favoritePhotos = favoriteResult.data ?? [];
+
+      if (favoritePhotos.isEmpty) {
+        emit(state.copyWith(
+          status: PhotoViewStatus.success,
+          favoritePagination: state.favoritePagination.addAll(
+            [],
+            totalPage: 1,
+            countData: 0,
+          ),
+          isFavoriteMode: true,
+        ));
+        return;
+      }
+
+      final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
+        type: RequestType.image,
+        onlyAll: true,
+        filterOption: FilterOptionGroup(
+          orders: [
+            const OrderOption(
+              type: OrderOptionType.updateDate,
+              asc: false,
+            ),
+          ],
+        ),
+      );
+
+      if (albums.isNotEmpty) {
+        final assets =
+            await albums.first.getAssetListPaged(page: 0, size: 10000);
+        assetMap = {for (var asset in assets) asset.id: asset};
+      }
+
+      for (final fav in favoritePhotos) {
+        final asset = assetMap[fav.photoId];
+        if (asset != null) {
+          photoItems.add(MPhotoItem(
+            asset: asset,
+            isFavorite: true,
+            storageUrl: fav.imageUrl,
+          ));
+        } else if (fav.imageUrl != null) {
+          photoItems.add(MPhotoItem(
+            asset: null,
+            isFavorite: true,
+            storageUrl: fav.imageUrl,
+            securePhotoId: fav.photoId,
+          ));
+        } else if (fav.localPath != null) {
+          AssetEntity? foundAsset;
+          for (final entry in assetMap.entries) {
+            final assetFile = await entry.value.file;
+            if (assetFile?.path == fav.localPath) {
+              foundAsset = entry.value;
+              break;
+            }
+          }
+          if (foundAsset != null) {
+            photoItems.add(MPhotoItem(
+              asset: foundAsset,
+              isFavorite: true,
+              storageUrl: null,
+            ));
+          } else {
+            photoItems.add(MPhotoItem(
+              asset: null,
+              isFavorite: true,
+              storageUrl: null,
+              securePhotoId: fav.photoId,
+              localFilePath: fav.localPath,
+            ));
+          }
+        }
+      }
+
+      _allFavoritePhotos = photoItems;
+    }
 
     if (isClosed) return;
 
-    if (!result.isSuccess) {
+    if (_allFavoritePhotos.isEmpty && isFirstPage) {
       emit(state.copyWith(
-        status: PhotoViewStatus.error,
+        status: PhotoViewStatus.success,
+        favoritePagination: state.favoritePagination.addAll(
+          [],
+          totalPage: 1,
+          countData: 0,
+        ),
         isFavoriteMode: true,
       ));
       return;
     }
 
+    final pageSize = state.favoritePagination.pageLimit;
+    final start = currentPage * pageSize;
+    final paginatedPhotos =
+        _allFavoritePhotos.skip(start).take(pageSize).toList();
+
+    final isLastPage = (start + pageSize) >= _allFavoritePhotos.length;
+    final totalPage = isLastPage ? (currentPage + 1) : -1;
+    final countData = isLastPage ? _allFavoritePhotos.length : -1;
+
     emit(state.copyWith(
       status: PhotoViewStatus.success,
-      favoritePhotos: result.data ?? [],
+      favoritePagination: state.favoritePagination.addAll(
+        paginatedPhotos,
+        totalPage: totalPage,
+        countData: countData,
+      ),
       isFavoriteMode: true,
     ));
+  }
+
+  Future<void> refreshFavoritePhotos() async {
+    _allFavoritePhotos = [];
+    emit(state.copyWith(
+      favoritePagination: MPagination<MPhotoItem>(pageLimit: 20),
+    ));
+    await loadFavoritePhotos();
+  }
+
+  void setFavoriteMode(bool isFavoriteMode) {
+    emit(state.copyWith(isFavoriteMode: isFavoriteMode));
   }
 
   Future<bool> toggleFavorite(String photoId, bool isFavorite) async {
@@ -203,33 +342,85 @@ class PhotoViewBloc extends Cubit<PhotoViewState> {
     if (uid == null || uid.isEmpty) {
       return false;
     }
-    final result = await domain.photo.toggleFavorite(photoId, isFavorite, uid);
 
-    if (result.isSuccess) {
-      _updatePhotoInGroups(
-          photoId, (photo) => photo.copyWith(isFavorite: isFavorite));
+    _updatePhotoInGroups(
+        photoId, (photo) => photo.copyWith(isFavorite: isFavorite));
 
-      if (state.isFavoriteMode) {
-        final updatedFavorites = state.favoritePhotos
-            .map((photo) {
-              if (photo.id == photoId) {
-                return photo.copyWith(isFavorite: isFavorite);
-              }
-              return photo;
-            })
-            .where((photo) => photo.isFavorite)
-            .toList();
-
+    if (state.isFavoriteMode) {
+      if (isFavorite) {
+        final photo = _findPhotoById(photoId);
+        if (photo != null) {
+          final updatedFavorites = [
+            ...state.favoritePhotos,
+            photo.copyWith(isFavorite: true),
+          ];
+          emit(state.copyWith(
+            favoritePagination: state.favoritePagination.copyWith(
+              data: updatedFavorites,
+            ),
+            lastToggledFavoritePhotoId: photoId,
+          ));
+        }
+      } else {
+        final updatedFavorites =
+            state.favoritePhotos.where((photo) => photo.id != photoId).toList();
+        _allFavoritePhotos =
+            _allFavoritePhotos.where((photo) => photo.id != photoId).toList();
         emit(state.copyWith(
-          favoritePhotos: updatedFavorites,
+          favoritePagination: state.favoritePagination.copyWith(
+            data: updatedFavorites,
+          ),
           lastToggledFavoritePhotoId: photoId,
         ));
+      }
+    } else {
+      emit(state.copyWith(lastToggledFavoritePhotoId: photoId));
+    }
+
+    bool success = false;
+
+    if (isFavorite) {
+      final photo = _findPhotoById(photoId);
+      if (photo == null) {
+        _updatePhotoInGroups(photoId, (p) => p.copyWith(isFavorite: false));
+        emit(state.copyWith(lastToggledFavoritePhotoId: photoId));
+        return false;
+      }
+      final result = await domain.favoritePhoto.likePhoto(photo, uid);
+      success = result.isSuccess && result.data == true;
+    } else {
+      final result = await domain.favoritePhoto.unlikePhoto(photoId, uid);
+      success = result.isSuccess && result.data == true;
+    }
+    if (!success) {
+      _updatePhotoInGroups(
+          photoId, (photo) => photo.copyWith(isFavorite: !isFavorite));
+
+      if (state.isFavoriteMode) {
+        await refreshFavoritePhotos();
       } else {
         emit(state.copyWith(lastToggledFavoritePhotoId: photoId));
       }
-      return true;
+      return false;
     }
-    return false;
+
+    return true;
+  }
+
+  MPhotoItem? _findPhotoById(String photoId) {
+    for (final group in state.timelinePagination.data) {
+      for (final photo in group.photos) {
+        if (photo.id == photoId) {
+          return photo;
+        }
+      }
+    }
+    for (final photo in state.favoritePhotos) {
+      if (photo.id == photoId) {
+        return photo;
+      }
+    }
+    return null;
   }
 
   void _updatePhotoInGroups(

@@ -1651,6 +1651,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Added to security vault'**
   String get common_add_to_secure_photo_vault;
+
+  /// No description provided for @common_user.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get common_user;
+
+  /// No description provided for @common_bio.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi there! I am using SnapLife.'**
+  String get common_bio;
 }
 
 class _AppLocalizationsDelegate

@@ -30,7 +30,10 @@ class AppCoordinator {
         extra: extra,
       );
 
-  static void showHomeScreen() => context.goNamed(AppRouteNames.photo.name);
+  static void showHomeScreen({bool isFavoriteMode = false}) => context.goNamed(
+        AppRouteNames.photo.name,
+        extra: isFavoriteMode ? {'isFavoriteMode': true} : null,
+      );
 
   static void showPhotoDetailScreen({
     required List<MPhotoItem> photos,
@@ -107,10 +110,13 @@ class AppCoordinator {
       );
 
   static Future<T?> showPickImageEnhance<T extends Object?>(
-          {File? initialImage}) =>
+          {File? initialImage, String? initialImageUrl}) =>
       context.pushNamed<T>(
         AppRouteNames.pickImageEnhance.name,
-        extra: initialImage,
+        extra: {
+          'initialImage': initialImage,
+          'initialImageUrl': initialImageUrl,
+        },
       );
 
   static Future<T?> showResultEnhanceImage<T extends Object?>({
