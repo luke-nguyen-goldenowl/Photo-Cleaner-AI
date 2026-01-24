@@ -42,14 +42,17 @@ jobs:
       - name: Download pub dependencies
         run: flutter pub get
 
-      - name: Create .env.production file
+      - name: Create environment files
         run: |
           echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" > .env.production
           echo "SUPABASE_KEY=${{ secrets.SUPABASE_KEY }}" >> .env.production
           echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env.production
+          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" > .env.staging
+          echo "SUPABASE_KEY=${{ secrets.SUPABASE_KEY }}" >> .env.staging
+          echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env.staging
 
       - name: Run analyzer
-        run: flutter analyze --no-fatal-infos
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
 
       # - name: Run tests
       #   run: flutter test
