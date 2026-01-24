@@ -92,4 +92,4 @@ jobs:
           packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
           releaseFiles: build/app/outputs/bundle/productionRelease/app-production-release.aab
           track: internal
-          status: completed
+          status: draft
