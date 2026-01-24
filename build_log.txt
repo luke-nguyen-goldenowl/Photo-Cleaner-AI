@@ -1,0 +1,20 @@
+﻿Running Gradle task 'bundleProductionRelease'...                   18.0s
+flutter : Release app bundle failed to strip 
+debug symbols from native libraries.
+At line:1 char:1
++ flutter build appbundle --flavor 
+production -t lib/main.dart 2>&1 | O ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified:  
+   (Release app bun...tive libraries.:Strin  
+  g) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandE 
+   rror
+ 
+Please run flutter doctor and ensure that 
+the Android toolchain does not
+report any issues.
+
+Otherwise, file an issue at 
+https://github.com/flutter/flutter/issues.

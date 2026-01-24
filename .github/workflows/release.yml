@@ -82,19 +82,7 @@ jobs:
           name: app-bundle
           path: build/app/outputs/bundle/productionRelease/app-production-release.aab
 
-      - name: Deploy to Play Store (Internal Testing)
-        uses: r0adkll/upload-google-play@v1.1.3
-        with:
-          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
-          packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
-          releaseFiles: build/app/outputs/bundle/productionRelease/app-production-release.aab
-          track: internal
-          status: completed
-          whatsNewDirectory: distribution/whatsnew
-        continue-on-error: true
-
-      - name: Deploy to Play Store (Fallback without whatsnew)
-        if: failure()
+      - name: Deploy to Play Store
         uses: r0adkll/upload-google-play@v1.1.3
         with:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
