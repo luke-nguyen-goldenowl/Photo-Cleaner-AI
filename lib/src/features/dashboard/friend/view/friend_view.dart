@@ -54,8 +54,12 @@ class FriendView extends StatelessWidget {
                             IconButton(
                               icon: const Icon(Icons.group, size: 28),
                               color: Colors.grey[700],
-                              onPressed: () {
-                                AppCoordinator.showFriendRequestsScreen();
+                              onPressed: () async {
+                                final result = await AppCoordinator
+                                    .showFriendRequestsScreen<bool>();
+                                if (result == true && context.mounted) {
+                                  context.read<FriendListBloc>().refresh();
+                                }
                               },
                             ),
                             if (state.pendingRequestsCount > 0)
@@ -393,8 +397,13 @@ class FriendView extends StatelessWidget {
         ],
       ),
       child: ListTile(
-        onTap: () {
-          AppCoordinator.showFriendProfileScreen(userId: user.id);
+        onTap: () async {
+          final result = await AppCoordinator.showFriendProfileScreen<bool>(
+            userId: user.id,
+          );
+          if (result == true && context.mounted) {
+            context.read<FriendListBloc>().refresh();
+          }
         },
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
@@ -430,7 +439,13 @@ class FriendView extends StatelessWidget {
           onSelected: (value) async {
             switch (value) {
               case 'profile':
-                AppCoordinator.showFriendProfileScreen(userId: user.id);
+                final result =
+                    await AppCoordinator.showFriendProfileScreen<bool>(
+                  userId: user.id,
+                );
+                if (result == true && context.mounted) {
+                  context.read<FriendListBloc>().refresh();
+                }
                 break;
               case 'share':
                 context.read<FriendListBloc>().shareFriend(user);

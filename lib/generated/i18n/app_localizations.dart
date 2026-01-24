@@ -1244,6 +1244,24 @@ abstract class AppLocalizations {
   /// **'Discard'**
   String get common_btn_discard;
 
+  /// No description provided for @common_ready_to_remove_bg.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to Remove Background'**
+  String get common_ready_to_remove_bg;
+
+  /// No description provided for @common_ai_remove_bg_description.
+  ///
+  /// In en, this message translates to:
+  /// **'AI will automatically detect and remove the background from your photo'**
+  String get common_ai_remove_bg_description;
+
+  /// No description provided for @common_start_remove_bg.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Background'**
+  String get common_start_remove_bg;
+
   /// No description provided for @common_discard_message.
   ///
   /// In en, this message translates to:
@@ -1376,6 +1394,12 @@ abstract class AppLocalizations {
   /// **'Search by username or email'**
   String get common_friends_search_hint;
 
+  /// No description provided for @common_friends_search_username_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by username'**
+  String get common_friends_search_username_hint;
+
   /// No description provided for @common_friends_search_description.
   ///
   /// In en, this message translates to:
@@ -1385,7 +1409,7 @@ abstract class AppLocalizations {
   /// No description provided for @common_friends_search_sub_description.
   ///
   /// In en, this message translates to:
-  /// **'Enter a name or email to search for and connect with friends'**
+  /// **'Enter a name to search for and connect with friends'**
   String get common_friends_search_sub_description;
 
   /// No description provided for @common_friends_search_no_result.

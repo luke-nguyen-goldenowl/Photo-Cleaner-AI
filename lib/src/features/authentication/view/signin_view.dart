@@ -148,6 +148,7 @@ class SigninView extends StatelessWidget {
                 S.of(context).common_dontHaveAccount_title,
                 style: TextStyle(color: Colors.grey[600], fontSize: 16),
               ),
+              const SizedBox(width: 8),
               GestureDetector(
                 onTap: () {
                   AppCoordinator.showSignUpScreen();

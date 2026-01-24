@@ -164,11 +164,17 @@ class FriendListBloc extends Cubit<FriendListState> {
           schema: 'public',
           table: 'friends',
           callback: (payload) {
-            final data = payload.newRecord;
-            if (data['userId'] == _currentUserId ||
-                data['friendId'] == _currentUserId) {
-              loadFriends();
-              loadPendingRequestsCount();
+            final newData = payload.newRecord;
+            final oldData = payload.oldRecord;
+
+            // Check if the change involves the current user
+            final isRelevant = (newData['userId'] == _currentUserId ||
+                newData['friendId'] == _currentUserId ||
+                oldData['userId'] == _currentUserId ||
+                oldData['friendId'] == _currentUserId);
+
+            if (isRelevant) {
+              refresh(); // Use refresh to reset pagination and reload
             }
           },
         )

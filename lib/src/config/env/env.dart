@@ -6,6 +6,10 @@ class ENV {
   /// Sentry DSN for error tracking
   static String get sentryDsn => dotenv.env['SENTRY_DSN'] ?? '';
 
+  /// Supabase
+  static String get supabaseUrl => dotenv.env['SUPABASE_URL'] ?? '';
+  static String get supabaseKey => dotenv.env['SUPABASE_KEY'] ?? '';
+
   /// Base API URL
   static String get baseApiUrl => dotenv.env['BASE_API_URL'] ?? '';
 

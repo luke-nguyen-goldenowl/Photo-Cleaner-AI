@@ -30,7 +30,7 @@ class ProfileEditView extends StatelessWidget {
                       name: state.user!.name ?? '',
                     );
               }
-              AppCoordinator.pop();
+              AppCoordinator.pop(true);
             } else if (state.status == ProfileEditStatus.error) {
               XToast.error(S.of(context).error_somethingWrongTryAgain);
             }

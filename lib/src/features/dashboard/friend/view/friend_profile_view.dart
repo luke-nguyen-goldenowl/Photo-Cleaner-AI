@@ -9,77 +9,95 @@ import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/network/model/user/user.dart';
 import 'package:myapp/src/router/coordinator.dart';
 
-class FriendProfileView extends StatelessWidget {
+class FriendProfileView extends StatefulWidget {
   const FriendProfileView({super.key, required this.userId});
   final String userId;
 
   @override
+  State<FriendProfileView> createState() => _FriendProfileViewState();
+}
+
+class _FriendProfileViewState extends State<FriendProfileView> {
+  bool _hasChanges = false;
+
+  void _onFriendshipChanged() {
+    _hasChanges = true;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final currentUserId = GetIt.I<AccountBloc>().state.user.id;
-    if (userId == currentUserId) {
+    if (widget.userId == currentUserId) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         AppCoordinator.pop();
         AppCoordinator.showProfile();
       });
     }
     return BlocProvider(
-      create: (context) => UserProfileBloc(userId),
-      child: BlocBuilder<UserProfileBloc, UserProfileState>(
-        builder: (context, state) {
-          if (state.isLoading) {
-            return const Scaffold(
-              backgroundColor: Colors.white,
-              body: Center(child: CircularProgressIndicator()),
-            );
-          }
-
-          if (state.status == UserProfileStatus.error) {
-            return _buildErrorState(context);
-          }
-
-          final user = state.user;
-          if (user == null) return const SizedBox.shrink();
-
-          return Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-              backgroundColor: Colors.white,
-              elevation: 0,
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                    color: Colors.black),
-                onPressed: () => AppCoordinator.pop(),
-              ),
-              title: Text(
-                S.of(context).common_tab_profile,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              centerTitle: true,
-            ),
-            body: RefreshIndicator(
-              onRefresh: () => context.read<UserProfileBloc>().refresh(),
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                child: Column(
-                  children: [
-                    _buildProfileHeader(user, state),
-                    const SizedBox(height: 30),
-                    _buildFriendshipButton(context, state),
-                    const SizedBox(height: 30),
-                    _buildStatsRow(state),
-                    const SizedBox(height: 40),
-                  ],
-                ),
-              ),
-            ),
-          );
+      create: (context) => UserProfileBloc(widget.userId),
+      child: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) {
+          if (didPop) return;
+          AppCoordinator.pop(_hasChanges);
         },
+        child: BlocBuilder<UserProfileBloc, UserProfileState>(
+          builder: (context, state) {
+            if (state.isLoading) {
+              return const Scaffold(
+                backgroundColor: Colors.white,
+                body: Center(child: CircularProgressIndicator()),
+              );
+            }
+
+            if (state.status == UserProfileStatus.error) {
+              return _buildErrorState(context);
+            }
+
+            final user = state.user;
+            if (user == null) return const SizedBox.shrink();
+
+            return Scaffold(
+              backgroundColor: Colors.white,
+              appBar: AppBar(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back_ios_new_rounded,
+                      color: Colors.black),
+                  onPressed: () => AppCoordinator.pop(_hasChanges),
+                ),
+                title: Text(
+                  S.of(context).common_tab_profile,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                centerTitle: true,
+              ),
+              body: RefreshIndicator(
+                onRefresh: () => context.read<UserProfileBloc>().refresh(),
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                  child: Column(
+                    children: [
+                      _buildProfileHeader(user, state),
+                      const SizedBox(height: 30),
+                      _buildFriendshipButton(context, state),
+                      const SizedBox(height: 30),
+                      _buildStatsRow(state),
+                      const SizedBox(height: 40),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -168,6 +186,7 @@ class FriendProfileView extends StatelessWidget {
         height: 50,
         child: ElevatedButton(
           onPressed: () {
+            _onFriendshipChanged();
             context.read<UserProfileBloc>().sendFriendRequest();
           },
           style: ElevatedButton.styleFrom(
@@ -202,6 +221,7 @@ class FriendProfileView extends StatelessWidget {
     return PopupMenuButton<String>(
       onSelected: (value) {
         if (value == 'cancel') {
+          _onFriendshipChanged();
           context.read<UserProfileBloc>().removeFriend();
         }
       },
@@ -319,6 +339,7 @@ class FriendProfileView extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               Navigator.pop(dialogContext);
+              _onFriendshipChanged();
               context.read<UserProfileBloc>().removeFriend();
             },
             style: ElevatedButton.styleFrom(
@@ -415,7 +436,7 @@ class FriendProfileView extends StatelessWidget {
         leading: IconButton(
           icon:
               const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black),
-          onPressed: () => AppCoordinator.pop(),
+          onPressed: () => AppCoordinator.pop(_hasChanges),
         ),
       ),
       body: Center(

@@ -1,5 +1,4 @@
 import 'package:bot_toast/bot_toast.dart';
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -42,16 +41,11 @@ class MyApp extends StatelessWidget {
           supportedLocales: S.supportedLocales,
           onGenerateTitle: (context) => S.of(context).common_appTitle,
           debugShowCheckedModeBanner: false,
-          //builder: BotToastInit(),
+          builder: BotToastInit(),
           theme: AppTheme.light(),
           darkTheme: AppTheme.dark(),
           themeMode: state.themeMode,
           routerConfig: GetIt.I<AppRouter>().router,
-          //locale: DevicePreview.locale(context),
-          builder: (context, child) {
-            final deviceBuilt = DevicePreview.appBuilder(context, child);
-            return BotToastInit()(context, deviceBuilt);
-          },
         );
       }),
     );

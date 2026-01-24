@@ -614,6 +614,16 @@ class AppLocalizationsVi extends AppLocalizations {
   String get common_btn_discard => 'Huỷ';
 
   @override
+  String get common_ready_to_remove_bg => 'Sẵn sàng xoá phông';
+
+  @override
+  String get common_ai_remove_bg_description =>
+      'AI sẽ tự động phát hiện và xoá phông nền khỏi ảnh của bạn';
+
+  @override
+  String get common_start_remove_bg => 'Xoá phông';
+
+  @override
   String get common_discard_message =>
       'Bạn có chắc chắn muốn huỷ bỏ không? Hành động này không thể hoàn tác.';
 
@@ -686,11 +696,15 @@ class AppLocalizationsVi extends AppLocalizations {
       'Tìm kiếm theo tên người dùng hoặc email';
 
   @override
+  String get common_friends_search_username_hint =>
+      'Tìm kiếm theo tên người dùng';
+
+  @override
   String get common_friends_search_description => 'Tìm kiếm bạn bè';
 
   @override
   String get common_friends_search_sub_description =>
-      'Nhập tên hoặc email để tìm kiếm và kết nối với bạn bè';
+      'Nhập tên để tìm kiếm và kết nối với bạn bè';
 
   @override
   String get common_friends_search_no_result => 'Không tìm thấy kết quả';

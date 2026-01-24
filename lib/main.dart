@@ -10,6 +10,7 @@ import 'package:myapp/src/locator.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 Future main() async {
+  await dotenv.load(fileName: ".env.production");
   await initializeApp(
     name: "production",
     firebaseOptions: DefaultFirebaseOptions.currentPlatform,

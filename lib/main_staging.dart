@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:device_preview/device_preview.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:myapp/src/services/supabase/init_supabase.dart';
 
 Future main() async {
-  await dotenv.load(fileName: ".env");
+  await dotenv.load(fileName: ".env.staging");
   await initializeApp(
     name: "staging",
     firebaseOptions: DefaultFirebaseOptions.currentPlatform,
@@ -40,12 +39,7 @@ Future main() async {
           FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
           return true;
         };
-        runApp(
-          DevicePreview(
-            enabled: !kReleaseMode,
-            builder: (context) => MyApp(), // Wrap your app
-          ),
-        );
+        runApp(const MyApp());
       }
     },
   );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:myapp/src/config/constants/constants.dart';
 import 'package:myapp/src/dialogs/toast_wrapper.dart';
 import 'package:myapp/src/features/account/logic/account_bloc.dart';
@@ -116,11 +117,16 @@ class ProfileView extends StatelessWidget {
                     ),
                     child: IconButton(
                       icon: const Icon(Icons.edit_outlined, color: Colors.grey),
-                      onPressed: () {
+                      onPressed: () async {
                         final user = context.read<ProfileBloc>().state.user;
                         if (user != null) {
-                          AppCoordinator.goNamed(AppRouteNames.profileEdit.name,
-                              extra: user);
+                          final result = await context.pushNamed<bool>(
+                            AppRouteNames.profileEdit.name,
+                            extra: user,
+                          );
+                          if (result == true && context.mounted) {
+                            context.read<ProfileBloc>().loadUserProfile();
+                          }
                         }
                       },
                     ),

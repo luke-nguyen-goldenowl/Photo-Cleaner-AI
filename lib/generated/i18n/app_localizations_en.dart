@@ -616,6 +616,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get common_btn_discard => 'Discard';
 
   @override
+  String get common_ready_to_remove_bg => 'Ready to Remove Background';
+
+  @override
+  String get common_ai_remove_bg_description =>
+      'AI will automatically detect and remove the background from your photo';
+
+  @override
+  String get common_start_remove_bg => 'Remove Background';
+
+  @override
   String get common_discard_message =>
       'Are you sure you want to discard this changes? This action cannot be undone.';
 
@@ -687,11 +697,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get common_friends_search_hint => 'Search by username or email';
 
   @override
+  String get common_friends_search_username_hint => 'Search by username';
+
+  @override
   String get common_friends_search_description => 'Search for friends';
 
   @override
   String get common_friends_search_sub_description =>
-      'Enter a name or email to search for and connect with friends';
+      'Enter a name to search for and connect with friends';
 
   @override
   String get common_friends_search_no_result => 'No results found';

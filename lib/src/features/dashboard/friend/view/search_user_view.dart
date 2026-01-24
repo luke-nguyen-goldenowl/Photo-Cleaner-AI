@@ -46,7 +46,7 @@ class SearchUserView extends StatelessWidget {
                 builder: (context, state) {
                   return XInput(
                     value: state.searchQuery.value,
-                    hintText: S.of(context).common_friends_search_hint,
+                    hintText: S.of(context).common_friends_search_username_hint,
                     prefixIcon: Icons.search,
                     onChanged: (value) {
                       context.read<SearchUserBloc>().onSearchChanged(value);

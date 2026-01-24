@@ -9,78 +9,96 @@ import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/widgets/state/state_pagination_widget.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-class FriendRequestView extends StatelessWidget {
+class FriendRequestView extends StatefulWidget {
   const FriendRequestView({super.key});
+
+  @override
+  State<FriendRequestView> createState() => _FriendRequestViewState();
+}
+
+class _FriendRequestViewState extends State<FriendRequestView> {
+  bool _hasChanges = false;
+
+  void _onAcceptOrReject() {
+    _hasChanges = true;
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => FriendRequestsBloc(),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text(
-            S.of(context).common_friend_invitation,
-            style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              letterSpacing: -0.5,
-              color: Colors.white,
-            ),
-          ),
-          centerTitle: true,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                color: Colors.white),
-            onPressed: () => AppCoordinator.pop(),
-          ),
-          backgroundColor: const Color(0xFF6C63FF),
-          elevation: 0,
-        ),
-        body: BlocBuilder<FriendRequestsBloc, FriendRequestsState>(
-          buildWhen: (previous, current) {
-            return previous.status != current.status ||
-                previous.requestsPagination != current.requestsPagination ||
-                previous.isLoading != current.isLoading;
-          },
-          builder: (context, state) {
-            if (state.isLoading && state.requestsPagination.page == 0) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
-            if (state.status == FriendRequestsStatus.error) {
-              return _buildErrorState(
-                  S.of(context).error_somethingWrongTryAgain);
-            }
-
-            if (state.requestsPagination.data.isEmpty) {
-              return _buildEmptyState();
-            }
-
-            return RefreshIndicator(
-              onRefresh: () => context.read<FriendRequestsBloc>().refresh(),
-              child: ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: state.requestsPagination.data.length + 1,
-                itemBuilder: (context, index) {
-                  if (index == state.requestsPagination.data.length) {
-                    return Center(
-                      child: XStatePaginationWidget(
-                        page: state.requestsPagination,
-                        loadMore: () => context
-                            .read<FriendRequestsBloc>()
-                            .loadPendingRequests(),
-                        autoLoad: true,
-                      ),
-                    );
-                  }
-
-                  final item = state.requestsPagination.data[index];
-                  return _buildRequestCard(context, item);
-                },
+      child: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) {
+          if (didPop) return;
+          AppCoordinator.pop(_hasChanges);
+        },
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            title: Text(
+              S.of(context).common_friend_invitation,
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                letterSpacing: -0.5,
+                color: Colors.white,
               ),
-            );
-          },
+            ),
+            centerTitle: true,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back_ios_new_rounded,
+                  color: Colors.white),
+              onPressed: () => AppCoordinator.pop(_hasChanges),
+            ),
+            backgroundColor: const Color(0xFF6C63FF),
+            elevation: 0,
+          ),
+          body: BlocBuilder<FriendRequestsBloc, FriendRequestsState>(
+            buildWhen: (previous, current) {
+              return previous.status != current.status ||
+                  previous.requestsPagination != current.requestsPagination ||
+                  previous.isLoading != current.isLoading;
+            },
+            builder: (context, state) {
+              if (state.isLoading && state.requestsPagination.page == 0) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (state.status == FriendRequestsStatus.error) {
+                return _buildErrorState(
+                    S.of(context).error_somethingWrongTryAgain);
+              }
+
+              if (state.requestsPagination.data.isEmpty) {
+                return _buildEmptyState();
+              }
+
+              return RefreshIndicator(
+                onRefresh: () => context.read<FriendRequestsBloc>().refresh(),
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: state.requestsPagination.data.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index == state.requestsPagination.data.length) {
+                      return Center(
+                        child: XStatePaginationWidget(
+                          page: state.requestsPagination,
+                          loadMore: () => context
+                              .read<FriendRequestsBloc>()
+                              .loadPendingRequests(),
+                          autoLoad: true,
+                        ),
+                      );
+                    }
+
+                    final item = state.requestsPagination.data[index];
+                    return _buildRequestCard(context, item);
+                  },
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -205,6 +223,7 @@ class FriendRequestView extends StatelessWidget {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
+                        _onAcceptOrReject();
                         context
                             .read<FriendRequestsBloc>()
                             .acceptRequest(friendship.id);
@@ -283,6 +302,7 @@ class FriendRequestView extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               Navigator.pop(dialogContext);
+              _onAcceptOrReject();
               context.read<FriendRequestsBloc>().rejectRequest(friendshipId);
               XToast.success(S.of(context).common_reject_success);
             },

@@ -33,6 +33,10 @@ class _PhotoViewState extends State<PhotoView> {
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<PhotoViewBloc>().refresh();
+    });
   }
 
   @override

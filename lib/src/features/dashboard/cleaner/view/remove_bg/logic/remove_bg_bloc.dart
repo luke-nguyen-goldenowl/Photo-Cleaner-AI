@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/src/dialogs/alert_wrapper.dart';
@@ -80,36 +81,11 @@ class RemoveBgBloc extends Cubit<RemoveBgState> {
     emit(state.copyWith(selectedPhoto: photo));
   }
 
-  Future<void> processImage() async {
-    final selectedPhoto = state.selectedPhoto;
-
-    if (selectedPhoto == null) {
-      return;
-    }
-
+  Future<void> processImageFromFile(File imageFile) async {
     if (isClosed) return;
     emit(state.copyWith(status: RemoveBgStatus.processing));
 
-    final asset = selectedPhoto.asset;
-    if (asset == null) {
-      emit(state.copyWith(
-        status: RemoveBgStatus.error,
-      ));
-
-      return;
-    }
-
-    final file = await asset.file;
-    if (isClosed) return;
-
-    if (file == null) {
-      emit(state.copyWith(
-        status: RemoveBgStatus.error,
-      ));
-
-      return;
-    }
-    final result = await domain.photo.removeBackground(file);
+    final result = await domain.photo.removeBackground(imageFile);
 
     if (isClosed) return;
     final processedData = result.data;
