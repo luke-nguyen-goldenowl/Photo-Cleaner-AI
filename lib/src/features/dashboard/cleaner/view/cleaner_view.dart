@@ -197,6 +197,9 @@ class CleanerView extends StatelessWidget {
           if (title == S.of(context).common_remove_bg_grid_title) {
             AppCoordinator.showSelectImage();
           }
+          if (title == S.of(context).common_make_video_grid_title) {
+            AppCoordinator.showSelectMultipleImage();
+          }
         },
         borderRadius: BorderRadius.circular(20),
         splashColor: gradient.colors.first.withOpacity(0.1),

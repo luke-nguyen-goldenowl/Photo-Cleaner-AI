@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myapp/src/dialogs/alert_wrapper.dart';
+import 'package:myapp/src/dialogs/widget/alert_dialog.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/logic/remove_bg.state.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/logic/remove_bg_bloc.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
@@ -92,12 +94,8 @@ class ResultView extends StatelessWidget {
             children: [
               Expanded(
                 child: OutlinedButton(
-                  onPressed: state.isSaving
-                      ? null
-                      : () {
-                          AppCoordinator.pop();
-                          AppCoordinator.pop();
-                        },
+                  onPressed:
+                      state.isSaving ? null : () => _showDiscardDialog(context),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
@@ -164,5 +162,25 @@ class ResultView extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void _showDiscardDialog(BuildContext context) {
+    XAlert.show(
+      title: S.of(context).common_discard_video_title,
+      body: S.of(context).common_confirm_discard_video,
+      actions: [
+        XAlertButton(title: S.of(context).common_cancelButton_title),
+        XAlertButton(
+          title: S.of(context).common_agreeButton_title,
+          isDestructiveAction: true,
+          key: 'discard',
+        ),
+      ],
+    ).then((key) {
+      if (key == 'discard') {
+        AppCoordinator.pop();
+        AppCoordinator.pop();
+      }
+    });
   }
 }

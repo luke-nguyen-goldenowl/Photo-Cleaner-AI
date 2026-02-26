@@ -543,4 +543,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get common_image_saved_successfully => 'Image saved successfully';
+
+  @override
+  String get common_select_moments_title => 'Select Moments';
+
+  @override
+  String get common_selected_count_title => 'selected';
+
+  @override
+  String get common_select_audio_title => 'Choose Music';
+
+  @override
+  String get common_browse_from_device_title => 'Browse from device';
+
+  @override
+  String get common_browse_from_device_subTitle =>
+      'Select audio files from your device';
+
+  @override
+  String get common_no_audio_file_selected => 'No audio files selected';
+
+  @override
+  String get common_tap_to_select_audio =>
+      'Tap the button above to browse audio files';
+
+  @override
+  String get common_button_create_video => 'Create Video';
+
+  @override
+  String get common_video_created_successfully =>
+      'Your memory video has been successfully created';
+
+  @override
+  String get common_video_ready_title => 'Video Ready';
+
+  @override
+  String get common_save_video_success => 'Video saved successfully';
+
+  @override
+  String get common_discard_video_title => 'Discard Video?';
+
+  @override
+  String get common_confirm_discard_video =>
+      'Are you sure you want to discard this video? This action cannot be undone.';
 }
