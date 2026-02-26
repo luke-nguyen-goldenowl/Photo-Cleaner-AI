@@ -26,4 +26,5 @@ class AppConstants {
       'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png';
   static const userAgentPackageName = 'com.yourcompany.photo_map_app';
   static const subdomains = ['a', 'b', 'c', 'd'];
+  static const String bucketName = 'secure_photo';
 }

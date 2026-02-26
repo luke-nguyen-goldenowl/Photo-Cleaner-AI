@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:lottie/lottie.dart';
+import 'package:myapp/generated/assets/assets.gen.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 
 class ClockLoadingIndicator extends StatefulWidget {
@@ -54,8 +54,7 @@ Widget _buildLoadingIndicator(BuildContext context, {double? progress}) {
         SizedBox(
           width: 120,
           height: 120,
-          child: Lottie.asset(
-            'assets/lotties/loading-clock.json',
+          child: Assets.lotties.loadingClock.lottie(
             fit: BoxFit.contain,
             repeat: true,
           ),

@@ -5,12 +5,16 @@ class MPhotoItem extends Equatable {
   const MPhotoItem({
     required this.asset,
     this.isFavorite = false,
+    this.storageUrl,
+    this.securePhotoId,
   });
 
   final AssetEntity? asset;
   final bool isFavorite;
+  final String? storageUrl;
+  final String? securePhotoId;
 
-  String get id => asset?.id ?? '';
+  String get id => asset?.id ?? securePhotoId ?? '';
   String get title => asset?.title ?? 'No Title';
   String get filePath => asset?.relativePath ?? 'Unknown';
   DateTime? get createDate => asset?.createDateTime;
@@ -23,10 +27,14 @@ class MPhotoItem extends Equatable {
   MPhotoItem copyWith({
     AssetEntity? asset,
     bool? isFavorite,
+    String? storageUrl,
+    String? securePhotoId,
   }) {
     return MPhotoItem(
       asset: asset ?? this.asset,
       isFavorite: isFavorite ?? this.isFavorite,
+      storageUrl: storageUrl ?? this.storageUrl,
+      securePhotoId: securePhotoId ?? this.securePhotoId,
     );
   }
 

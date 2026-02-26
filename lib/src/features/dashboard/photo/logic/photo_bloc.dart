@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/src/config/constants/constants.dart';
 import 'package:myapp/src/dialogs/alert_wrapper.dart';
+import 'package:myapp/src/dialogs/toast_wrapper.dart';
 import 'package:myapp/src/dialogs/widget/alert_dialog.dart';
 import 'package:myapp/src/features/dashboard/photo/model/photo_item.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
@@ -124,8 +125,45 @@ class PhotoViewBloc extends Cubit<PhotoViewState> {
         ),
         favoritePhotos: updatedFavorites,
       ));
+      XToast.success(S.text.common_delete_success);
       return true;
     }
+    XToast.error(S.text.error_somethingWrongTryAgain);
+    return false;
+  }
+
+  Future<bool> deletePhotoWithoutAlert(String photoId) async {
+    final result = await domain.photo.deletePhoto(photoId);
+    if (isClosed) return result.isSuccess;
+
+    if (result.isSuccess && result.data == true) {
+      final updatedGroups = state.timelinePagination.data
+          .map((group) {
+            final updatedPhotos =
+                group.photos.where((p) => p.id != photoId).toList();
+            return MPhotoTimelineGroup(
+              date: group.date,
+              photos: updatedPhotos.cast<MPhotoItem>(),
+            );
+          })
+          .where((group) => group.photos.isNotEmpty)
+          .toList();
+
+      final updatedFavorites = state.isFavoriteMode
+          ? state.favoritePhotos.where((p) => p.id != photoId).toList()
+          : state.favoritePhotos;
+
+      if (isClosed) return true;
+      emit(state.copyWith(
+        timelinePagination: state.timelinePagination.copyWith(
+          data: updatedGroups,
+        ),
+        favoritePhotos: updatedFavorites,
+      ));
+      XToast.success(S.text.common_add_to_secure_photo_vault);
+      return true;
+    }
+    XToast.error(S.text.error_somethingWrongTryAgain);
     return false;
   }
 
@@ -182,7 +220,12 @@ class PhotoViewBloc extends Cubit<PhotoViewState> {
             .where((photo) => photo.isFavorite)
             .toList();
 
-        emit(state.copyWith(favoritePhotos: updatedFavorites));
+        emit(state.copyWith(
+          favoritePhotos: updatedFavorites,
+          lastToggledFavoritePhotoId: photoId,
+        ));
+      } else {
+        emit(state.copyWith(lastToggledFavoritePhotoId: photoId));
       }
       return true;
     }

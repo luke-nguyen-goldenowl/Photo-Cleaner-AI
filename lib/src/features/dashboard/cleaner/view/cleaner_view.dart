@@ -227,13 +227,13 @@ class CleanerView extends StatelessWidget {
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  width: 52,
-                  height: 52,
+                  width: 44,
+                  height: 44,
                   decoration: BoxDecoration(
                     gradient: gradient,
                     borderRadius: BorderRadius.circular(14),
@@ -248,14 +248,14 @@ class CleanerView extends StatelessWidget {
                   child: Icon(
                     icon,
                     color: Colors.white,
-                    size: 26,
+                    size: 22,
                   ),
                 ),
-                const Spacer(),
+                const SizedBox(height: 12),
                 Text(
                   title,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 15,
                     fontWeight: FontWeight.w700,
                     color: Color(0xFF1A1A1A),
                     height: 1.2,

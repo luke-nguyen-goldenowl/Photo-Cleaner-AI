@@ -28,9 +28,13 @@ enum AppRouteNames {
   resultVideo(path: '/result-video'),
   removeBg(path: '/remove-bg'),
   friend(path: '/friend'),
+  searchUser(path: 'search-user'),
+  friendProfile(path: 'friend-profile'),
+  friendRequests(path: 'friend-requests'),
   places(path: '/places'),
   scanDevice(path: '/scan-device'),
   duplicateImageResults(path: '/duplicate-image-results'),
+  securePhoto(path: '/secure-photo'),
   ;
 
   const AppRouteNames({

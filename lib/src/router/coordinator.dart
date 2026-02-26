@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:myapp/src/features/account/logic/account_bloc.dart';
 import 'package:myapp/src/features/dashboard/photo/model/photo_item.dart';
 import 'package:myapp/src/router/route_name.dart';
 import 'package:myapp/src/router/router.dart';
@@ -128,4 +129,30 @@ class AppCoordinator {
       context.pushNamed<T>(
         AppRouteNames.duplicateImageResults.name,
       );
+
+  static Future<T?> showSearchUserScreen<T extends Object?>() =>
+      context.pushNamed<T>(AppRouteNames.searchUser.name);
+
+  static Future<T?> showFriendRequestsScreen<T extends Object?>() =>
+      context.pushNamed<T>(AppRouteNames.friendRequests.name);
+
+  static Future<T?> showFriendProfileScreen<T extends Object?>({
+    required String userId,
+  }) {
+    final currentUserId = GetIt.I<AccountBloc>().state.user.id;
+
+    if (userId == currentUserId) {
+      AppCoordinator.pop();
+      AppCoordinator.showProfile();
+      return Future.value(null);
+    } else {
+      return context.pushNamed<T>(
+        AppRouteNames.friendProfile.name,
+        extra: {'userId': userId},
+      );
+    }
+  }
+
+  static Future<T?> showSecurePhotoScreen<T extends Object?>() =>
+      context.push<T>(AppRouteNames.securePhoto.name);
 }

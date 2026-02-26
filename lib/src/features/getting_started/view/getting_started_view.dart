@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/generated/assets/assets.gen.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/widgets/button/primary_button.dart';
-import 'package:myapp/widgets/logo/app_logo.dart';
 
 class GettingStartedScreen extends StatelessWidget {
   const GettingStartedScreen({super.key});
@@ -12,78 +12,69 @@ class GettingStartedScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Positioned(
-            top: -100,
-            right: -100,
-            child: Container(
-              width: 300,
-              height: 300,
-              decoration: BoxDecoration(
-                color: const Color(0xFF6C63FF).withOpacity(0.2),
-                shape: BoxShape.circle,
-              ),
+          Positioned.fill(
+            child: Assets.images.bgStarted.image(
+              fit: BoxFit.cover,
             ),
           ),
-          Positioned(
-            top: 500,
-            right: -150,
+          Positioned.fill(
             child: Container(
-              width: 230,
-              height: 230,
               decoration: BoxDecoration(
-                color: const Color(0xFF6C63FF).withOpacity(0.2),
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: -50,
-            left: -50,
-            child: Container(
-              width: 200,
-              height: 200,
-              decoration: BoxDecoration(
-                color: const Color(0xFF4834D4).withOpacity(0.1),
-                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.white.withOpacity(0.1),
+                    Colors.black.withOpacity(0.3),
+                    Colors.black.withOpacity(0.9),
+                  ],
+                  stops: const [0.5, 0.7, 1.0],
+                ),
               ),
             ),
           ),
           SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Spacer(),
-                  const XAppLogo(size: 100),
-                  const SizedBox(height: 30),
-                  Text(
+            child: Column(
+              children: [
+                const Spacer(flex: 14),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  child: Text(
                     S.of(context).common_getStarted_Title,
-                    style: TextStyle(
-                      fontSize: 25,
+                    style: const TextStyle(
+                      fontSize: 30,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: Colors.white,
+                      height: 1.2,
+                      letterSpacing: -0.5,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 12),
-                  Text(
+                ),
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: Text(
                     S.of(context).common_getStarted_subTitle,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.grey[600],
-                      height: 1.5,
+                      color: Colors.white.withOpacity(0.9),
+                      height: 1.6,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
-                  const Spacer(),
-                  XPrimaryButton(
+                ),
+                const Spacer(flex: 1),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: XPrimaryButton(
                     text: S.of(context).common_buttonStarted,
                     onPressed: () => AppCoordinator.showSignInScreen(),
                   ),
-                  const SizedBox(height: 40),
-                ],
-              ),
+                ),
+                const SizedBox(height: 48),
+              ],
             ),
           ),
         ],

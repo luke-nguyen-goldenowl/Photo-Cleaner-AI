@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' as fb;
 import 'package:myapp/src/network/model/user/user.dart';
+import 'package:myapp/src/services/supabase/init_supabase.dart';
 import 'package:myapp/src/services/user_prefs.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SessionManager {
   static Future<MUser?> restoreSession() async {
@@ -35,7 +35,7 @@ class SessionManager {
 
       final email = fbUser.email;
       if (email != null && email.isNotEmpty) {
-        final response = await Supabase.instance.client
+        final response = await supabaseClient
             .from('users')
             .select()
             .eq('email', email)
@@ -65,12 +65,12 @@ class SessionManager {
 
   static Future<MUser?> _restoreSupabaseSession() async {
     try {
-      final supabaseUser = Supabase.instance.client.auth.currentUser;
+      final supabaseUser = supabaseClient.auth.currentUser;
       if (supabaseUser == null) {
         return null;
       }
 
-      final response = await Supabase.instance.client
+      final response = await supabaseClient
           .from('users')
           .select()
           .eq('id', supabaseUser.id)
