@@ -403,14 +403,14 @@ class PhotoRepositoryImpl extends PhotoRepository {
 
       final mediaStore = MediaStore();
       await MediaStore.ensureInitialized();
-      MediaStore.appFolder = 'PixelPerfect';
+      MediaStore.appFolder = 'SnapLife';
 
       if (Platform.isAndroid) {
         final savedInfo = await mediaStore.saveFile(
           tempFilePath: tempFile.path,
           dirType: DirType.download,
           dirName: DirName.download,
-          relativePath: 'Pictures/PixelPerfect',
+          relativePath: 'Pictures/SnapLife',
         );
         await tempFile.delete();
         if (savedInfo != null) {
@@ -421,7 +421,7 @@ class PhotoRepositoryImpl extends PhotoRepository {
       } else {
         final documentsDir = await getApplicationDocumentsDirectory();
         final iosFile =
-            File(path.join(documentsDir.path, 'PhotoCleaner', imageName));
+            File(path.join(documentsDir.path, 'SnapLife', imageName));
 
         if (!await iosFile.parent.exists()) {
           await iosFile.parent.create(recursive: true);

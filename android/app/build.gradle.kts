@@ -52,12 +52,12 @@ android {
         create("production") {
             dimension = "flavor"
             applicationIdSuffix = ""
-            manifestPlaceholders["appName"] = "Pixel Perfect"
+            manifestPlaceholders["appName"] = "SnapLife"
         }
         create("staging") {
             dimension = "flavor"
             applicationIdSuffix = ".stg"
-            manifestPlaceholders["appName"] = "Pixel Perfect [STG]"
+            manifestPlaceholders["appName"] = "SnapLife [STG]"
         }
     }
 

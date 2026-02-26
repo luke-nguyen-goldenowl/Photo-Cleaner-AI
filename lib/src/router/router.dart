@@ -31,6 +31,7 @@ import 'package:myapp/src/features/dashboard/place/view/place_view.dart';
 import 'package:myapp/src/features/dashboard/view/dashboard_view.dart';
 import 'package:myapp/src/features/onboarding/view/on_boarding_view.dart';
 import 'package:myapp/src/features/getting_started/view/getting_started_view.dart';
+import 'package:myapp/src/features/secure_photo/view/secure_photo_view.dart';
 import 'package:myapp/src/features/splash/view/splash_view.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import 'package:myapp/src/router/route_name.dart';
@@ -265,6 +266,12 @@ class AppRouter {
             ],
           ),
         ],
+      ),
+      GoRoute(
+        parentNavigatorKey: AppCoordinator.navigatorKey,
+        path: AppRouteNames.securePhoto.path,
+        name: AppRouteNames.securePhoto.name,
+        builder: (_, __) => const SecurePhotoView(),
       ),
     ],
     errorBuilder: (_, __) => const NotFoundView(),

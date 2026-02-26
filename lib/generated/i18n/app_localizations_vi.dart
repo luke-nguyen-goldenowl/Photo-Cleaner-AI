@@ -9,7 +9,7 @@ class AppLocalizationsVi extends AppLocalizations {
   AppLocalizationsVi([String locale = 'vi']) : super(locale);
 
   @override
-  String get common_appTitle => 'Pixel Perfect';
+  String get common_appTitle => 'SnapLife';
 
   @override
   String common_appVersion(String value) {
@@ -51,7 +51,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get common_buttonContinue => 'Tiếp tục';
 
   @override
-  String get common_getStarted_Title => 'Chào mừng đến với Pixel Perfect';
+  String get common_getStarted_Title => 'Chào mừng đến với SnapLife';
 
   @override
   String get common_getStarted_subTitle =>
@@ -95,7 +95,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get common_signUp_subTitle =>
-      'Tạo tài khoản tham gia cộng đồng Pixel Perfect để tối ưu hóa thư viện ảnh của bạn';
+      'Tạo tài khoản tham gia cộng đồng SnapLife để tối ưu hóa thư viện ảnh của bạn';
 
   @override
   String get common_userName_signUp => 'Tên người dùng';
@@ -295,7 +295,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get common_delete_button_text => 'Xoá';
 
   @override
-  String get common_text_share => 'Chia sẻ ảnh từ Pixel Perfect';
+  String get common_text_share => 'Chia sẻ ảnh từ SnapLife';
 
   @override
   String get common_image_not_found_title => 'Không có ảnh nào';
@@ -760,5 +760,79 @@ class AppLocalizationsVi extends AppLocalizations {
   String get common_this_user => 'người dùng này';
 
   @override
-  String get common_delete_friend => 'Huỷ kết bạn';
+  String get common_secure_storage => 'Kho lưu trữ bảo mật';
+
+  @override
+  String get common_password_incorrect => 'Mật khẩu không đúng';
+
+  @override
+  String get common_secure_photo_vault_title => 'Kho Ảnh Bảo Mật';
+
+  @override
+  String get common_secure_photo_vault_description =>
+      'Đặt mật khẩu để bảo vệ ảnh của bạn';
+
+  @override
+  String get common_secure_photo_vault_authentication_description =>
+      'Xác thực để truy cập vào kho ảnh bảo mật';
+
+  @override
+  String get common_secure_photo_vault_change_password_title => 'Đổi mật khẩu';
+
+  @override
+  String get common_secure_photo_vault_biometric_title =>
+      'Cài đặt sinh trắc học';
+
+  @override
+  String get common_secure_photo_vault_remove_security_title => 'Mở khoá';
+
+  @override
+  String get common_secure_photo_vault_remove_security_success =>
+      'Mở khoá thành công';
+
+  @override
+  String get common_downloaded => 'Tải thành công';
+
+  @override
+  String get common_storage_secure_empty => 'Chưa Có Ảnh Bảo Mật';
+
+  @override
+  String get common_storage_secure_empty_subTitle =>
+      'Ảnh bảo mật của bạn sẽ xuất hiện ở đây';
+
+  @override
+  String get common_not_created_secure_photo_vault =>
+      'Bạn chưa tạo kho ảnh bảo mật';
+
+  @override
+  String get common_change_password_title => 'Đổi mật khẩu';
+
+  @override
+  String get common_change_password_description =>
+      'Nhập mật khẩu cũ và mật khẩu mới để thay đổi';
+
+  @override
+  String get common_old_password => 'Mật khẩu cũ';
+
+  @override
+  String get common_new_password => 'Mật khẩu mới';
+
+  @override
+  String get common_confirm_new_password => 'Xác nhận mật khẩu mới';
+
+  @override
+  String get common_change_password_success => 'Đổi mật khẩu thành công';
+
+  @override
+  String get common_old_password_incorrect => 'Mật khẩu cũ không đúng';
+
+  @override
+  String get common_fingerprint_authentication => 'Xác thực vân tay để mở khoá';
+
+  @override
+  String get common_fingerprint_authentication_error =>
+      'Cần đăng ký vân tay trong thiết bị trước khi sử dụng tính năng này';
+
+  @override
+  String get common_add_to_secure_photo_vault => 'Đã thêm vào kho bảo mật';
 }

@@ -152,4 +152,7 @@ class AppCoordinator {
       );
     }
   }
+
+  static Future<T?> showSecurePhotoScreen<T extends Object?>() =>
+      context.push<T>(AppRouteNames.securePhoto.name);
 }

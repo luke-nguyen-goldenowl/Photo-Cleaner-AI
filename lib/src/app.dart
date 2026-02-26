@@ -10,6 +10,7 @@ import 'package:myapp/src/features/dashboard/cleaner/view/make_video/logic/make_
 import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/logic/remove_bg_bloc.dart';
 import 'package:myapp/src/features/dashboard/photo/logic/photo_bloc.dart';
 import 'package:myapp/src/features/dashboard/place/logic/place_bloc.dart';
+import 'package:myapp/src/features/secure_photo/logic/secure_photo_bloc.dart';
 import 'package:myapp/src/features/settings/logic/setting_bloc.dart';
 import 'package:myapp/src/router/router.dart';
 import 'package:myapp/src/services/network-connection/internet_connection_cubit.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => MakeVideoBloc()),
         BlocProvider(create: (_) => EnhanceImageBloc()),
         BlocProvider(create: (_) => DuplicateImageBloc()),
+        BlocProvider(create: (_) => SecurePhotoBloc()),
       ],
       child: BlocBuilder<SettingBloc, SettingState>(builder: (context, state) {
         return MaterialApp.router(

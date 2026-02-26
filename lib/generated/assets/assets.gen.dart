@@ -18,6 +18,10 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/bg_started.png
+  AssetGenImage get bgStarted =>
+      const AssetGenImage('assets/images/bg_started.png');
+
   /// File path: assets/images/google.png
   AssetGenImage get google => const AssetGenImage('assets/images/google.png');
 
@@ -28,7 +32,7 @@ class $AssetsImagesGen {
   $AssetsImagesLocaleGen get locale => const $AssetsImagesLocaleGen();
 
   /// List of all assets
-  List<AssetGenImage> get values => [google];
+  List<AssetGenImage> get values => [bgStarted, google];
 }
 
 class $AssetsLottiesGen {

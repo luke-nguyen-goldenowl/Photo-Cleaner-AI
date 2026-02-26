@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// No description provided for @common_appTitle.
   ///
   /// In en, this message translates to:
-  /// **'Pixel Perfect'**
+  /// **'SnapLife'**
   String get common_appTitle;
 
   /// Version number of app
@@ -173,7 +173,7 @@ abstract class AppLocalizations {
   /// No description provided for @common_getStarted_Title.
   ///
   /// In en, this message translates to:
-  /// **'Welcome to Pixel Perfect'**
+  /// **'Welcome to SnapLife'**
   String get common_getStarted_Title;
 
   /// No description provided for @common_getStarted_subTitle.
@@ -257,7 +257,7 @@ abstract class AppLocalizations {
   /// No description provided for @common_signUp_subTitle.
   ///
   /// In en, this message translates to:
-  /// **'Create an account to join the Pixel Perfect community to optimize your image library'**
+  /// **'Create an account to join the SnapLife community to optimize your image library'**
   String get common_signUp_subTitle;
 
   /// No description provided for @common_userName_signUp.
@@ -641,7 +641,7 @@ abstract class AppLocalizations {
   /// No description provided for @common_text_share.
   ///
   /// In en, this message translates to:
-  /// **'Share from Pixel Perfect'**
+  /// **'Share from SnapLife'**
   String get common_text_share;
 
   /// No description provided for @common_image_not_found_title.
@@ -1514,11 +1514,143 @@ abstract class AppLocalizations {
   /// **'this user'**
   String get common_this_user;
 
-  /// No description provided for @common_delete_friend.
+  /// No description provided for @common_secure_storage.
   ///
   /// In en, this message translates to:
-  /// **'Unfriend'**
-  String get common_delete_friend;
+  /// **'Secure Storage'**
+  String get common_secure_storage;
+
+  /// No description provided for @common_password_incorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong Password'**
+  String get common_password_incorrect;
+
+  /// No description provided for @common_secure_photo_vault_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure Photo'**
+  String get common_secure_photo_vault_title;
+
+  /// No description provided for @common_secure_photo_vault_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a password to protect your photos'**
+  String get common_secure_photo_vault_description;
+
+  /// No description provided for @common_secure_photo_vault_authentication_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Authenticate to access the secure photo vault'**
+  String get common_secure_photo_vault_authentication_description;
+
+  /// No description provided for @common_secure_photo_vault_change_password_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get common_secure_photo_vault_change_password_title;
+
+  /// No description provided for @common_secure_photo_vault_biometric_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometrics Settings'**
+  String get common_secure_photo_vault_biometric_title;
+
+  /// No description provided for @common_secure_photo_vault_remove_security_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get common_secure_photo_vault_remove_security_title;
+
+  /// No description provided for @common_secure_photo_vault_remove_security_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock successfully'**
+  String get common_secure_photo_vault_remove_security_success;
+
+  /// No description provided for @common_downloaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloaded successfully'**
+  String get common_downloaded;
+
+  /// No description provided for @common_storage_secure_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No Secure Photos'**
+  String get common_storage_secure_empty;
+
+  /// No description provided for @common_storage_secure_empty_subTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your secure photos will appear here'**
+  String get common_storage_secure_empty_subTitle;
+
+  /// No description provided for @common_not_created_secure_photo_vault.
+  ///
+  /// In en, this message translates to:
+  /// **'You have not created a secure photo vault yet.'**
+  String get common_not_created_secure_photo_vault;
+
+  /// No description provided for @common_change_password_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get common_change_password_title;
+
+  /// No description provided for @common_change_password_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your old password and new password to change'**
+  String get common_change_password_description;
+
+  /// No description provided for @common_old_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Old Password'**
+  String get common_old_password;
+
+  /// No description provided for @common_new_password.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get common_new_password;
+
+  /// No description provided for @common_confirm_new_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm New Password'**
+  String get common_confirm_new_password;
+
+  /// No description provided for @common_change_password_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Password changed successfully'**
+  String get common_change_password_success;
+
+  /// No description provided for @common_old_password_incorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Old password is incorrect'**
+  String get common_old_password_incorrect;
+
+  /// No description provided for @common_fingerprint_authentication.
+  ///
+  /// In en, this message translates to:
+  /// **'Fingerprint authentication to unlock'**
+  String get common_fingerprint_authentication;
+
+  /// No description provided for @common_fingerprint_authentication_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Please register fingerprint in device before using this feature'**
+  String get common_fingerprint_authentication_error;
+
+  /// No description provided for @common_add_to_secure_photo_vault.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to security vault'**
+  String get common_add_to_secure_photo_vault;
 }
 
 class _AppLocalizationsDelegate
