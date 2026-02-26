@@ -44,6 +44,9 @@ abstract class PhotoRepository {
   /// Remove background from photo
   Future<MResult<Uint8List>> removeBackground(File imageFile);
 
+  /// Enhance/upscale image
+  Future<MResult<Uint8List>> enhanceImage(File imageFile);
+
   /// Save photo to local storage
   Future<MResult<String>> saveImageToDevice(
       Uint8List imageData, String fileName);

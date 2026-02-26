@@ -13,6 +13,12 @@ class ENV {
   static String get rapidApiKey => dotenv.env['RAPID_API_KEY'] ?? '';
   static String get rapidApiHost => dotenv.env['RAPID_API_HOST'] ?? '';
 
+// Api for enhance image
+  static String get rapidApiUrlEnhanceImage =>
+      dotenv.env['RAPID_API_URL_ENHANCE_IMAGE'] ?? '';
+  static String get rapidApiHostEnhanceImage =>
+      dotenv.env['RAPID_API_HOST_ENHANCE_IMAGE'] ?? '';
+
   /// Check if Sentry is configured
   static bool get isSentryEnabled => sentryDsn.isNotEmpty;
 }

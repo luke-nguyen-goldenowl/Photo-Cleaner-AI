@@ -107,7 +107,7 @@ class ResultView extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    S.of(context).common_cancelButton_title,
+                    S.of(context).common_btn_discard,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -166,8 +166,8 @@ class ResultView extends StatelessWidget {
 
   void _showDiscardDialog(BuildContext context) {
     XAlert.show(
-      title: S.of(context).common_discard_video_title,
-      body: S.of(context).common_confirm_discard_video,
+      title: S.of(context).common_btn_discard,
+      body: S.of(context).common_discard_message,
       actions: [
         XAlertButton(title: S.of(context).common_cancelButton_title),
         XAlertButton(

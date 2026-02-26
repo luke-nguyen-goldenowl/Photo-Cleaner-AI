@@ -13,6 +13,29 @@ class XPlaceMarker extends StatelessWidget {
     required this.isSelected,
     required this.onTap,
   });
+  Widget _buildThumbnail(MImageLocation location) {
+    final file = File(location.thumbnailPath);
+    return Image.file(
+      file,
+      fit: BoxFit.cover,
+      cacheWidth: 64,
+      cacheHeight: 64,
+      errorBuilder: (context, error, stackTrace) {
+        return _buildPlaceholder();
+      },
+    );
+  }
+
+  Widget _buildPlaceholder() {
+    return Container(
+      color: Colors.grey[300],
+      child: const Icon(
+        Icons.photo_library,
+        color: Colors.grey,
+        size: 32,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,19 +67,7 @@ class XPlaceMarker extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(5),
-              child: Image.file(
-                File(location.imagePath),
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    color: Colors.grey[300],
-                    child: const Icon(
-                      Icons.image_not_supported,
-                      color: Colors.grey,
-                    ),
-                  );
-                },
-              ),
+              child: _buildThumbnail(location),
             ),
           ),
           if (isGroup)

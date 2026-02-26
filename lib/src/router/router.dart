@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +10,8 @@ import 'package:myapp/src/features/authentication/view/forgot_view.dart';
 import 'package:myapp/src/features/authentication/view/signin_view.dart';
 import 'package:myapp/src/features/authentication/view/signup_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/cleaner_view.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/enhance_image/view/pick_image_view.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/enhance_image/view/result_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/make_video/view/result_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/make_video/view/select_audio_view.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/make_video/view/select_mutilple_image_view.dart';
@@ -154,6 +158,35 @@ class AppRouter {
                     return const NotFoundView();
                   }
                   return ResultVideoView(videoPath: videoPath);
+                },
+              ),
+              GoRoute(
+                parentNavigatorKey: AppCoordinator.navigatorKey,
+                path: AppRouteNames.pickImageEnhance.subPath,
+                name: AppRouteNames.pickImageEnhance.name,
+                builder: (context, state) {
+                  final initialImage = state.extra as File?;
+                  return PickImageView(initialImage: initialImage);
+                },
+              ),
+              GoRoute(
+                parentNavigatorKey: AppCoordinator.navigatorKey,
+                path: AppRouteNames.resultEnhanceImage.subPath,
+                name: AppRouteNames.resultEnhanceImage.name,
+                builder: (context, state) {
+                  final extra = state.extra as Map<String, dynamic>?;
+                  if (extra == null) {
+                    return const NotFoundView();
+                  }
+                  final originalImage = extra['original'] as Uint8List?;
+                  final enhancedImage = extra['enhanced'] as Uint8List?;
+                  if (originalImage == null || enhancedImage == null) {
+                    return const NotFoundView();
+                  }
+                  return EnhanceResultView(
+                    originalImage: originalImage,
+                    enhancedImage: enhancedImage,
+                  );
                 },
               ),
             ],

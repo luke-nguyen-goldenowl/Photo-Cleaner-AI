@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:media_store_plus/media_store_plus.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/enhance_image/service/enhance_image_service.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/service/remove_bg_service.dart';
 import 'package:myapp/src/features/dashboard/photo/model/photo_item.dart';
 import 'package:myapp/src/features/dashboard/place/model/image_location.dart';
@@ -20,6 +21,7 @@ import 'package:exif/exif.dart';
 
 class PhotoRepositoryImpl extends PhotoRepository {
   final RemoveBgService _removeBgService = RemoveBgService();
+  final EnhanceImageService _enhanceImageService = EnhanceImageService();
   String? get _userId => UserPrefs.I.getUser()?.id;
 
   @override
@@ -344,11 +346,13 @@ class PhotoRepositoryImpl extends PhotoRepository {
           MResult.exception(e);
         }
       }
-
+      final thumbnailPath = await PlaceHelpers.createThumbnail(file.path);
+      final thumbPath = thumbnailPath ?? '';
       return MResult.success(MImageLocation(
         latitude: latitude,
         longitude: longitude,
         imagePath: file.path,
+        thumbnailPath: thumbPath,
         imageId: photo.asset!.id,
         dateTime: dateTime,
       ));
@@ -425,6 +429,22 @@ class PhotoRepositoryImpl extends PhotoRepository {
 
         return MResult.success(iosFile.path);
       }
+    } catch (e) {
+      return MResult.exception(e);
+    }
+  }
+
+  @override
+  Future<MResult<Uint8List>> enhanceImage(File imageFile) async {
+    try {
+      final result = await _enhanceImageService.upscaleImage(imageFile.path);
+      if (result != null) {
+        return MResult.success(result);
+      } else {
+        return MResult.error(S.text.error_somethingWrongTryAgain);
+      }
+    } on SocketException {
+      return MResult.error(S.text.error_noInternetConnection);
     } catch (e) {
       return MResult.exception(e);
     }

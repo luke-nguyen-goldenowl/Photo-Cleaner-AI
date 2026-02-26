@@ -11,6 +11,7 @@ class _keys {
   static const String columnLatitude = 'latitude';
   static const String columnLongitude = 'longitude';
   static const String columnImagePath = 'imagePath';
+  static const String columnThumbnailPath = 'thumbnailPath';
   static const String columnDateTime = 'dateTime';
 }
 
@@ -39,6 +40,7 @@ class GpsCacheDb {
         ${_keys.columnLatitude} REAL,
         ${_keys.columnLongitude} REAL,
         ${_keys.columnImagePath} TEXT,
+        ${_keys.columnThumbnailPath} TEXT,
         ${_keys.columnDateTime} TEXT
       )
     ''');
@@ -58,6 +60,7 @@ class GpsCacheDb {
       latitude: map[_keys.columnLatitude] as double,
       longitude: map[_keys.columnLongitude] as double,
       imagePath: map[_keys.columnImagePath] as String,
+      thumbnailPath: map[_keys.columnThumbnailPath] as String,
       imageId: map[_keys.columnImageId] as String,
       dateTime: map[_keys.columnDateTime] != null
           ? DateTime.tryParse(map[_keys.columnDateTime] as String)
@@ -73,6 +76,7 @@ class GpsCacheDb {
         _keys.columnLatitude: location.latitude,
         _keys.columnLongitude: location.longitude,
         _keys.columnImagePath: location.imagePath,
+        _keys.columnThumbnailPath: location.thumbnailPath,
         _keys.columnDateTime: location.dateTime?.toIso8601String(),
       },
       conflictAlgorithm: ConflictAlgorithm.replace,

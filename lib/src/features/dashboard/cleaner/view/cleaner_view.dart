@@ -117,7 +117,7 @@ class CleanerView extends StatelessWidget {
                   crossAxisCount: 2,
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 18,
-                  childAspectRatio: 0.85,
+                  childAspectRatio: 0.9,
                 ),
                 delegate: SliverChildListDelegate([
                   _buildModernFeatureCard(
@@ -200,6 +200,9 @@ class CleanerView extends StatelessWidget {
           if (title == S.of(context).common_make_video_grid_title) {
             AppCoordinator.showSelectMultipleImage();
           }
+          if (title == S.of(context).common_enhance_image_grid_title) {
+            AppCoordinator.showPickImageEnhance();
+          }
         },
         borderRadius: BorderRadius.circular(20),
         splashColor: gradient.colors.first.withOpacity(0.1),
@@ -221,16 +224,16 @@ class CleanerView extends StatelessWidget {
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  width: 56,
-                  height: 56,
+                  width: 52,
+                  height: 52,
                   decoration: BoxDecoration(
                     gradient: gradient,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(14),
                     boxShadow: [
                       BoxShadow(
                         color: gradient.colors.first.withOpacity(0.35),
@@ -242,30 +245,30 @@ class CleanerView extends StatelessWidget {
                   child: Icon(
                     icon,
                     color: Colors.white,
-                    size: 28,
+                    size: 26,
                   ),
                 ),
                 const Spacer(),
                 Text(
                   title,
                   style: const TextStyle(
-                    fontSize: 17,
+                    fontSize: 16,
                     fontWeight: FontWeight.w700,
                     color: Color(0xFF1A1A1A),
-                    height: 1.3,
+                    height: 1.2,
                     letterSpacing: -0.3,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 6),
                 Text(
                   description,
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: 12,
                     fontWeight: FontWeight.w500,
                     color: Colors.grey[700],
-                    height: 1.4,
+                    height: 1.3,
                     letterSpacing: -0.1,
                   ),
                   maxLines: 2,

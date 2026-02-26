@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:myapp/src/config/constants/constants.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
@@ -60,6 +61,14 @@ class MapViewState extends State<MapView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => _fitLargeBounds());
+  }
+
+  @override
+  void dispose() {
+    _mapController.dispose();
+    imageCache.clear();
+    imageCache.clearLiveImages();
+    super.dispose();
   }
 
   @override
@@ -256,24 +265,26 @@ class MapViewState extends State<MapView> {
     );
   }
 
-  Widget _buildMarkerLayer(
-    PlaceState state,
-  ) {
-    return MarkerLayer(
-      markers: state.groupedLocations.entries.map((entry) {
-        final locations = entry.value;
-        final avgLat =
-            locations.map((l) => l.latitude).reduce((a, b) => a + b) /
-                locations.length;
-        final avgLon =
-            locations.map((l) => l.longitude).reduce((a, b) => a + b) /
-                locations.length;
+  Widget _buildMarkerLayer(PlaceState state) {
+    final sortedGroups = state.groupedLocations.entries.toList()
+      ..sort((a, b) => b.value.length.compareTo(a.value.length));
 
-        final isSelected = locations.any(
-          (loc) => state.selectedImage?.imageId == loc.imageId,
-        );
+    final markers = <Marker>[];
 
-        return Marker(
+    for (final entry in sortedGroups) {
+      final locations = entry.value;
+
+      final avgLat = locations.map((l) => l.latitude).reduce((a, b) => a + b) /
+          locations.length;
+      final avgLon = locations.map((l) => l.longitude).reduce((a, b) => a + b) /
+          locations.length;
+
+      final isSelected = locations.any(
+        (loc) => state.selectedImage?.imageId == loc.imageId,
+      );
+
+      markers.add(
+        Marker(
           point: LatLng(avgLat, avgLon),
           width: isSelected ? 90 : 75,
           height: isSelected ? 90 : 75,
@@ -288,8 +299,43 @@ class MapViewState extends State<MapView> {
               }
             },
           ),
-        );
-      }).toList(),
+        ),
+      );
+    }
+
+    return MarkerClusterLayerWidget(
+      options: MarkerClusterLayerOptions(
+        maxClusterRadius: 120,
+        size: const Size(50, 50),
+        markers: markers,
+        builder: (context, markers) {
+          return Container(
+            decoration: BoxDecoration(
+              color: Colors.blue.withOpacity(0.8),
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.white, width: 3),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Center(
+              child: Text(
+                markers.length.toString(),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          );
+        },
+        disableClusteringAtZoom: 16,
+      ),
     );
   }
 

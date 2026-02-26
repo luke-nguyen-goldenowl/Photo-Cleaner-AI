@@ -1073,7 +1073,7 @@ abstract class AppLocalizations {
   /// No description provided for @common_make_video_grid_title.
   ///
   /// In en, this message translates to:
-  /// **'Create Moment Video'**
+  /// **'Moment Video'**
   String get common_make_video_grid_title;
 
   /// No description provided for @common_make_video_grid_subTitle.
@@ -1189,6 +1189,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to discard this video? This action cannot be undone.'**
   String get common_confirm_discard_video;
+
+  /// No description provided for @common_enhance_image_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Enhance Photo'**
+  String get common_enhance_image_title;
+
+  /// No description provided for @common_tap_to_upload_photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to Upload Photo'**
+  String get common_tap_to_upload_photo;
+
+  /// No description provided for @common_supported_image_formats.
+  ///
+  /// In en, this message translates to:
+  /// **'JPG, PNG supported'**
+  String get common_supported_image_formats;
+
+  /// No description provided for @common_ready_to_enhance.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to Enhance'**
+  String get common_ready_to_enhance;
+
+  /// No description provided for @common_ai_enhance_description.
+  ///
+  /// In en, this message translates to:
+  /// **'AI will improve sharpness, lighting, and remove noise'**
+  String get common_ai_enhance_description;
+
+  /// No description provided for @common_start_enhancing.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Enhancing'**
+  String get common_start_enhancing;
+
+  /// No description provided for @common_before.
+  ///
+  /// In en, this message translates to:
+  /// **'BEFORE'**
+  String get common_before;
+
+  /// No description provided for @common_after.
+  ///
+  /// In en, this message translates to:
+  /// **'AFTER'**
+  String get common_after;
+
+  /// No description provided for @common_btn_discard.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get common_btn_discard;
+
+  /// No description provided for @common_discard_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to discard this changes? This action cannot be undone.'**
+  String get common_discard_message;
 }
 
 class _AppLocalizationsDelegate
