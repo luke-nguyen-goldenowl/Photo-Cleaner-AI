@@ -224,6 +224,8 @@ class MakeVideoBloc extends Cubit<MakeVideoState> {
         status: MakeVideoStatus.created,
         videoPath: videoOutput,
         progress: 1.0,
+        selectedPhotos: [],
+        clearSelectedAudio: true,
       ));
       AppCoordinator.showResultVideo(videoPath: videoOutput, bloc: this);
     } else {
@@ -282,6 +284,18 @@ class MakeVideoBloc extends Cubit<MakeVideoState> {
       videoPlayerController: null,
       status: MakeVideoStatus.initial,
     ));
+  }
+
+  Future<void> refresh() async {
+    emit(state.copyWith(
+      photoPagination: MPagination<MPhotoItem>(pageLimit: 50),
+      selectedPhotos: [],
+      clearSelectedAudio: true,
+      status: MakeVideoStatus.initial,
+      videoPath: null,
+      progress: 0.0,
+    ));
+    await loadPhotos();
   }
 
   @override

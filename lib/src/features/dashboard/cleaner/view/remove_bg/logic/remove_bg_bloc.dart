@@ -116,9 +116,9 @@ class RemoveBgBloc extends Cubit<RemoveBgState> {
 
     if (result.isSuccess && processedData != null) {
       emit(state.copyWith(
-        status: RemoveBgStatus.processed,
-        processedImage: processedData,
-      ));
+          status: RemoveBgStatus.processed,
+          processedImage: processedData,
+          clearSelectedPhoto: true));
       AppCoordinator.showResultRemoveBg(imageData: processedData);
     } else {
       emit(state.copyWith(

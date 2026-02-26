@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:lottie/lottie.dart';
+import 'package:myapp/generated/assets/assets.gen.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 
 class ImageScanLoadingIndicator extends StatefulWidget {
@@ -49,8 +49,7 @@ Widget _buildLoadingIndicator(BuildContext context, {double? progress}) {
         SizedBox(
           width: 300,
           height: 300,
-          child: Lottie.asset(
-            'assets/lotties/image_scan.json',
+          child: Assets.lotties.imageScan.lottie(
             fit: BoxFit.contain,
             repeat: true,
           ),

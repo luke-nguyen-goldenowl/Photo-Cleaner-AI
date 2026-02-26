@@ -5,6 +5,8 @@ import 'package:myapp/src/network/data/user/user_reference.dart';
 import 'package:myapp/src/network/data/user/user_repository.dart';
 import 'package:myapp/src/network/model/common/result.dart';
 import 'package:myapp/src/network/model/user/user.dart';
+import 'package:myapp/src/services/supabase/init_supabase.dart';
+import 'package:myapp/src/services/user_prefs.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserRepositoryImpl extends UserRepository {
@@ -37,8 +39,7 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<MResult<MUser>> getUserFromSupabase(String email) async {
     try {
-      final supabase = Supabase.instance.client;
-      final response = await supabase
+      final response = await supabaseClient
           .from('users')
           .select()
           .eq('email', email)
@@ -66,13 +67,12 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<MResult<MUser>> updateUser(MUser user) async {
     try {
-      final supabase = Supabase.instance.client;
       final updateData = {
         'name': user.name,
         'bio': user.bio,
         'avatarUrl': user.avatarUrl,
       };
-      await supabase.from('users').update(updateData).eq('id', user.id);
+      await supabaseClient.from('users').update(updateData).eq('id', user.id);
 
       return MResult.success(user);
     } catch (e) {
@@ -83,13 +83,12 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<MResult<String>> uploadAvatar(File imageFile, String userId) async {
     try {
-      final supabase = Supabase.instance.client;
       final fileExtension = imageFile.path.split('.').last;
       final fileName =
           '${userId}_${DateTime.now().millisecondsSinceEpoch}.$fileExtension';
       final filePath = '$userId/$fileName';
 
-      await supabase.storage.from('avatar').upload(
+      await supabaseClient.storage.from('avatar').upload(
             filePath,
             imageFile,
             fileOptions: const FileOptions(
@@ -98,8 +97,43 @@ class UserRepositoryImpl extends UserRepository {
               contentType: 'image/jpeg',
             ),
           );
-      final publicUrl = supabase.storage.from('avatar').getPublicUrl(filePath);
+      final publicUrl =
+          supabaseClient.storage.from('avatar').getPublicUrl(filePath);
       return MResult.success(publicUrl);
+    } catch (e) {
+      return MResult.exception(e);
+    }
+  }
+
+  @override
+  Future<MResult<MUser>> syncCurrentUser() async {
+    try {
+      final cachedUser = UserPrefs.I.getUser();
+      if (cachedUser == null || cachedUser.email == null) {
+        return MResult.error('No cached user or email');
+      }
+
+      final response = await supabaseClient
+          .from('users')
+          .select()
+          .eq('email', cachedUser.email!)
+          .maybeSingle();
+
+      if (response != null) {
+        final supabaseUser = MUser(
+          id: response['id'] as String,
+          name: response['name'] as String?,
+          email: response['email'] as String?,
+          bio: response['bio'] as String?,
+          avatarUrl: response['avatarUrl'] as String?,
+          createdAt: response['createdAt'] != null
+              ? DateTime.parse(response['createdAt'] as String)
+              : null,
+        );
+        UserPrefs.I.setUser(supabaseUser);
+        return MResult.success(supabaseUser);
+      }
+      return MResult.error('User not found in Supabase');
     } catch (e) {
       return MResult.exception(e);
     }

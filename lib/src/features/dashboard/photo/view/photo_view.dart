@@ -2,6 +2,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:myapp/src/dialogs/toast_wrapper.dart';
+import 'package:myapp/src/features/secure_photo/logic/secure_photo_bloc.dart';
+import 'package:myapp/src/features/secure_photo/widgets/secure_photo_password_dialog.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/services/network-connection/internet_connection_cubit.dart';
 import 'package:myapp/widgets/state/state_pagination_widget.dart';
@@ -21,15 +24,26 @@ class PhotoView extends StatefulWidget {
 
 class _PhotoViewState extends State<PhotoView> {
   late final ScrollController _scrollController;
+  bool _showScrollToTop = false;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (_scrollController.offset > 300 && !_showScrollToTop) {
+      setState(() => _showScrollToTop = true);
+    } else if (_scrollController.offset <= 300 && _showScrollToTop) {
+      setState(() => _showScrollToTop = false);
+    }
   }
 
   @override
   void dispose() {
+    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
   }
@@ -59,7 +73,9 @@ class _PhotoViewState extends State<PhotoView> {
                   const Spacer(),
                   IconButton(
                     icon: const Icon(Icons.lock_outline),
-                    onPressed: () {},
+                    onPressed: () {
+                      _showDialogVault();
+                    },
                   ),
                 ],
               ),
@@ -161,6 +177,31 @@ class _PhotoViewState extends State<PhotoView> {
           ),
         ),
       ),
+      floatingActionButton: _showScrollToTop
+          ? Container(
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(0xFF6159E5),
+                    Color(0xFF6C63FF),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: FloatingActionButton(
+                onPressed: () {
+                  _scrollController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeOut,
+                  );
+                },
+                backgroundColor: Colors.transparent,
+                child: const Icon(Icons.arrow_upward_rounded,
+                    size: 25, color: Colors.white),
+              ),
+            )
+          : null,
     );
   }
 
@@ -211,10 +252,12 @@ class _PhotoViewState extends State<PhotoView> {
 
             return Column(
               children: [
-                XStatePaginationWidget(
-                  page: state.timelinePagination,
-                  loadMore: () => context.read<PhotoViewBloc>().loadPhotos(),
-                  autoLoad: true,
+                Center(
+                  child: XStatePaginationWidget(
+                    page: state.timelinePagination,
+                    loadMore: () => context.read<PhotoViewBloc>().loadPhotos(),
+                    autoLoad: true,
+                  ),
                 ),
               ],
             );
@@ -225,6 +268,27 @@ class _PhotoViewState extends State<PhotoView> {
         },
       ),
     );
+  }
+
+  void _showDialogVault() async {
+    await context.read<SecurePhotoBloc>().syncCurrentUser();
+    await context.read<SecurePhotoBloc>().checkVaultStatus();
+    final hasVault = context.read<SecurePhotoBloc>().state.hasVault;
+    if (!hasVault) {
+      XToast.show(S.text.common_not_created_secure_photo_vault);
+      return;
+    }
+    final password = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => BlocProvider<SecurePhotoBloc>(
+        create: (_) => SecurePhotoBloc()..setCreateMode(false),
+        child: const SecurePhotoPasswordDialog(),
+      ),
+    );
+    if (password == null) {
+      return;
+    }
+    await context.read<SecurePhotoBloc>().verifyPassword(password);
   }
 }
 

@@ -33,13 +33,12 @@ class ProfileBloc extends Cubit<ProfileState> {
     if (result.isSuccess && result.data != null) {
       final user = result.data!;
 
-      final photoCount = 0;
-      final friendCount = 0;
+      final friendsRes = await domain.friend.getFriendCount(user.id);
+      final friendCount = friendsRes.data ?? 0;
 
       emit(state.copyWith(
         status: ProfileStatus.loaded,
         user: user,
-        photoCount: photoCount,
         friendCount: friendCount,
       ));
     } else {

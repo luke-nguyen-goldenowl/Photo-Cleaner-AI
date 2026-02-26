@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:myapp/src/features/account/logic/account_bloc.dart';
+import 'package:myapp/src/features/dashboard/cleaner/view/duplicate_image/logic/duplicate_image_bloc.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/enhance_image/logic/enhance_image_bloc.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/make_video/logic/make_video_bloc.dart';
 import 'package:myapp/src/features/dashboard/cleaner/view/remove_bg/logic/remove_bg_bloc.dart';
 import 'package:myapp/src/features/dashboard/photo/logic/photo_bloc.dart';
 import 'package:myapp/src/features/dashboard/place/logic/place_bloc.dart';
+import 'package:myapp/src/features/secure_photo/logic/secure_photo_bloc.dart';
 import 'package:myapp/src/features/settings/logic/setting_bloc.dart';
 import 'package:myapp/src/router/router.dart';
 import 'package:myapp/src/services/network-connection/internet_connection_cubit.dart';
@@ -31,6 +33,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => RemoveBgBloc()),
         BlocProvider(create: (_) => MakeVideoBloc()),
         BlocProvider(create: (_) => EnhanceImageBloc()),
+        BlocProvider(create: (_) => DuplicateImageBloc()),
+        BlocProvider(create: (_) => SecurePhotoBloc()),
       ],
       child: BlocBuilder<SettingBloc, SettingState>(builder: (context, state) {
         return MaterialApp.router(

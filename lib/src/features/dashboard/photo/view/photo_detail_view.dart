@@ -1,9 +1,13 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myapp/src/features/secure_photo/logic/secure_photo_bloc.dart';
+import 'package:myapp/src/features/secure_photo/logic/secure_photo_state.dart';
+import 'package:myapp/src/features/secure_photo/widgets/secure_photo_password_dialog.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
 import 'package:myapp/src/router/coordinator.dart';
 import '../logic/photo_bloc.dart';
+import '../logic/photo_state.dart';
 import '../model/photo_item.dart';
 import 'package:myapp/src/dialogs/toast_wrapper.dart';
 import 'package:photo_view/photo_view.dart';
@@ -153,37 +157,63 @@ class _PhotoDetailViewState extends State<PhotoDetailView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _buildActionButton(
-            icon: _currentPhoto.isFavorite
-                ? Icons.favorite
-                : Icons.favorite_border,
-            label: S.of(context).common_like_button_text,
-            color: _currentPhoto.isFavorite ? Colors.red : Colors.white,
-            onTap: () async {
-              final newFavoriteStatus = !_currentPhoto.isFavorite;
-              final success =
-                  await context.read<PhotoViewBloc>().toggleFavorite(
-                        _currentPhoto.id,
-                        newFavoriteStatus,
-                      );
-              if (success) {
-                setState(() {
+        // Like
+        BlocBuilder<PhotoViewBloc, PhotoViewState>(
+          buildWhen: (previous, current) {
+            return current.lastToggledFavoritePhotoId == _currentPhoto.id;
+          },
+          builder: (context, state) {
+            return _buildActionButton(
+              icon: _currentPhoto.isFavorite
+                  ? Icons.favorite
+                  : Icons.favorite_border,
+              label: S.of(context).common_like_button_text,
+              color: _currentPhoto.isFavorite ? Colors.red : Colors.white,
+              onTap: () async {
+                final newFavoriteStatus = !_currentPhoto.isFavorite;
+                final success =
+                    await context.read<PhotoViewBloc>().toggleFavorite(
+                          _currentPhoto.id,
+                          newFavoriteStatus,
+                        );
+                if (success) {
                   _photos[_currentIndex] = _currentPhoto.copyWith(
                     isFavorite: newFavoriteStatus,
                   );
-                });
-                XToast.success(newFavoriteStatus
-                    ? S.of(context).common_add_to_favorite
-                    : S.of(context).common_remove_favorite);
-              }
-            }),
+                }
+              },
+            );
+          },
+        ),
 
         // Secure
-        _buildActionButton(
-          icon: Icons.lock,
-          label: S.of(context).common_secure_button_text,
-          color: Colors.white,
-          onTap: () async {},
+        BlocBuilder<SecurePhotoBloc, SecurePhotoState>(
+          buildWhen: (previous, current) {
+            return previous.isLoading != current.isLoading;
+          },
+          builder: (context, state) {
+            if (state.isLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return _buildActionButton(
+              icon: Icons.lock,
+              label: S.of(context).common_secure_button_text,
+              color: Colors.white,
+              onTap: () async {
+                await context.read<SecurePhotoBloc>().addSecurePhoto(
+                      _currentPhoto,
+                      onNeedPassword: () => _showPasswordDialog(context),
+                      onSuccess: () async {
+                        await context
+                            .read<PhotoViewBloc>()
+                            .deletePhotoWithoutAlert(_currentPhoto.id);
+                      },
+                    );
+              },
+            );
+          },
         ),
 
         // Enhance
@@ -225,7 +255,6 @@ class _PhotoDetailViewState extends State<PhotoDetailView> {
                 .deletePhoto(_currentPhoto.id);
             if (success && mounted) {
               Navigator.pop(context);
-              XToast.success(S.of(context).common_delete_success);
             }
           },
         ),
@@ -367,6 +396,16 @@ class _PhotoDetailViewState extends State<PhotoDetailView> {
             child: Text(value),
           ),
         ],
+      ),
+    );
+  }
+
+  Future<String?> _showPasswordDialog(BuildContext context) {
+    return showDialog<String>(
+      context: context,
+      builder: (dialogContext) => BlocProvider<SecurePhotoBloc>(
+        create: (_) => SecurePhotoBloc()..setCreateMode(true),
+        child: const SecurePhotoPasswordDialog(),
       ),
     );
   }

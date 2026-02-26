@@ -9,4 +9,5 @@ abstract class UserRepository {
   Future<MResult<MUser>> getUserFromSupabase(String email);
   Future<MResult<String>> uploadAvatar(File imageFile, String userId);
   Future<MResult<MUser>> updateUser(MUser user);
+  Future<MResult<MUser>> syncCurrentUser();
 }

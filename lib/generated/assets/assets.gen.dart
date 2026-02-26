@@ -18,6 +18,10 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/bg_started.png
+  AssetGenImage get bgStarted =>
+      const AssetGenImage('assets/images/bg_started.png');
+
   /// File path: assets/images/google.png
   AssetGenImage get google => const AssetGenImage('assets/images/google.png');
 
@@ -28,22 +32,60 @@ class $AssetsImagesGen {
   $AssetsImagesLocaleGen get locale => const $AssetsImagesLocaleGen();
 
   /// List of all assets
-  List<AssetGenImage> get values => [google];
+  List<AssetGenImage> get values => [bgStarted, google];
 }
 
 class $AssetsLottiesGen {
   const $AssetsLottiesGen();
 
+  /// File path: assets/lotties/eraser.json
+  LottieGenImage get eraser =>
+      const LottieGenImage('assets/lotties/eraser.json');
+
+  /// File path: assets/lotties/image_scan.json
+  LottieGenImage get imageScan =>
+      const LottieGenImage('assets/lotties/image_scan.json');
+
+  /// File path: assets/lotties/loading-clock.json
+  LottieGenImage get loadingClock =>
+      const LottieGenImage('assets/lotties/loading-clock.json');
+
   /// File path: assets/lotties/location-animation.json
   LottieGenImage get locationAnimation =>
       const LottieGenImage('assets/lotties/location-animation.json');
+
+  /// File path: assets/lotties/paperplane.json
+  LottieGenImage get paperplane =>
+      const LottieGenImage('assets/lotties/paperplane.json');
 
   /// File path: assets/lotties/rocket.json
   LottieGenImage get rocket =>
       const LottieGenImage('assets/lotties/rocket.json');
 
+  /// File path: assets/lotties/scan.json
+  LottieGenImage get scan => const LottieGenImage('assets/lotties/scan.json');
+
   /// List of all assets
-  List<LottieGenImage> get values => [locationAnimation, rocket];
+  List<LottieGenImage> get values => [
+        eraser,
+        imageScan,
+        loadingClock,
+        locationAnimation,
+        paperplane,
+        rocket,
+        scan
+      ];
+}
+
+class $AssetsModelsGen {
+  const $AssetsModelsGen();
+
+  /// File path: assets/models/small-100-224-feature-vector-metadata.tflite
+  String get small100224FeatureVectorMetadata =>
+      'assets/models/small-100-224-feature-vector-metadata.tflite';
+
+  /// List of all assets
+  List<String> get values => [small100224FeatureVectorMetadata];
 }
 
 class $AssetsSvgsGen {
@@ -122,6 +164,7 @@ class Assets {
   static const String aEnv = '.env';
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsLottiesGen lotties = $AssetsLottiesGen();
+  static const $AssetsModelsGen models = $AssetsModelsGen();
   static const $AssetsSvgsGen svgs = $AssetsSvgsGen();
 
   /// List of all assets

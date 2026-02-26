@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// No description provided for @common_appTitle.
   ///
   /// In en, this message translates to:
-  /// **'Pixel Perfect'**
+  /// **'SnapLife'**
   String get common_appTitle;
 
   /// Version number of app
@@ -173,7 +173,7 @@ abstract class AppLocalizations {
   /// No description provided for @common_getStarted_Title.
   ///
   /// In en, this message translates to:
-  /// **'Welcome to Pixel Perfect'**
+  /// **'Welcome to SnapLife'**
   String get common_getStarted_Title;
 
   /// No description provided for @common_getStarted_subTitle.
@@ -257,7 +257,7 @@ abstract class AppLocalizations {
   /// No description provided for @common_signUp_subTitle.
   ///
   /// In en, this message translates to:
-  /// **'Create an account to join the Pixel Perfect community to optimize your image library'**
+  /// **'Create an account to join the SnapLife community to optimize your image library'**
   String get common_signUp_subTitle;
 
   /// No description provided for @common_userName_signUp.
@@ -641,7 +641,7 @@ abstract class AppLocalizations {
   /// No description provided for @common_text_share.
   ///
   /// In en, this message translates to:
-  /// **'Share from Pixel Perfect'**
+  /// **'Share from SnapLife'**
   String get common_text_share;
 
   /// No description provided for @common_image_not_found_title.
@@ -1249,6 +1249,408 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to discard this changes? This action cannot be undone.'**
   String get common_discard_message;
+
+  /// No description provided for @common_duplicate_image_main_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean Up Duplicates'**
+  String get common_duplicate_image_main_description;
+
+  /// No description provided for @common_duplicate_image_sub_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically find duplicate photos and bursts'**
+  String get common_duplicate_image_sub_description;
+
+  /// No description provided for @common_btn_action_duplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Device'**
+  String get common_btn_action_duplicate;
+
+  /// No description provided for @common_scanning_device.
+  ///
+  /// In en, this message translates to:
+  /// **'Scanning device...'**
+  String get common_scanning_device;
+
+  /// No description provided for @common_title_result_scan.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Results'**
+  String get common_title_result_scan;
+
+  /// No description provided for @common_group_found_text.
+  ///
+  /// In en, this message translates to:
+  /// **'group found'**
+  String get common_group_found_text;
+
+  /// No description provided for @common_group_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Group'**
+  String get common_group_title;
+
+  /// No description provided for @common_you_can_free_up.
+  ///
+  /// In en, this message translates to:
+  /// **'You can free up'**
+  String get common_you_can_free_up;
+
+  /// No description provided for @common_delete_selected_image_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete the selected images?'**
+  String get common_delete_selected_image_message;
+
+  /// No description provided for @common_no_duplicate_found.
+  ///
+  /// In en, this message translates to:
+  /// **'No duplicate images found'**
+  String get common_no_duplicate_found;
+
+  /// No description provided for @common_best_image_tag.
+  ///
+  /// In en, this message translates to:
+  /// **'Best'**
+  String get common_best_image_tag;
+
+  /// No description provided for @common_storage_tag.
+  ///
+  /// In en, this message translates to:
+  /// **'Storage'**
+  String get common_storage_tag;
+
+  /// No description provided for @common_storage_almost_full.
+  ///
+  /// In en, this message translates to:
+  /// **'Storage is almost full! Free up space to continue.'**
+  String get common_storage_almost_full;
+
+  /// No description provided for @common_storage_free.
+  ///
+  /// In en, this message translates to:
+  /// **'free'**
+  String get common_storage_free;
+
+  /// No description provided for @common_similarity.
+  ///
+  /// In en, this message translates to:
+  /// **'Similarity'**
+  String get common_similarity;
+
+  /// No description provided for @common_friends_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Friends'**
+  String get common_friends_title;
+
+  /// No description provided for @common_friend_count.
+  ///
+  /// In en, this message translates to:
+  /// **'friend(s)'**
+  String get common_friend_count;
+
+  /// No description provided for @common_friends_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No friends found'**
+  String get common_friends_empty;
+
+  /// No description provided for @common_friends_connect.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect with friends to share photos together'**
+  String get common_friends_connect;
+
+  /// No description provided for @common_search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get common_search;
+
+  /// No description provided for @common_friends_search_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by username or email'**
+  String get common_friends_search_hint;
+
+  /// No description provided for @common_friends_search_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for friends'**
+  String get common_friends_search_description;
+
+  /// No description provided for @common_friends_search_sub_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name or email to search for and connect with friends'**
+  String get common_friends_search_sub_description;
+
+  /// No description provided for @common_friends_search_no_result.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get common_friends_search_no_result;
+
+  /// No description provided for @common_friends_try_search_again.
+  ///
+  /// In en, this message translates to:
+  /// **'Try searching with a different keyword'**
+  String get common_friends_try_search_again;
+
+  /// No description provided for @common_friends_connected.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected'**
+  String get common_friends_connected;
+
+  /// No description provided for @common_friends_unfriend.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfriend'**
+  String get common_friends_unfriend;
+
+  /// No description provided for @common_unfriend_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to unfriend? You\'ll need to send an invitation again if you want to connect.'**
+  String get common_unfriend_message;
+
+  /// No description provided for @common_unfriend_success.
+  ///
+  /// In en, this message translates to:
+  /// **'You have unfriended this user.'**
+  String get common_unfriend_success;
+
+  /// No description provided for @common_add_friend.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Friend'**
+  String get common_add_friend;
+
+  /// No description provided for @common_cancel_friend_request.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Request'**
+  String get common_cancel_friend_request;
+
+  /// No description provided for @common_pending_friend_request.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Request'**
+  String get common_pending_friend_request;
+
+  /// No description provided for @common_cancel_friend_request_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel successfully'**
+  String get common_cancel_friend_request_success;
+
+  /// No description provided for @common_share_folder.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Folder'**
+  String get common_share_folder;
+
+  /// No description provided for @common_friend_invitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Friend Invitation'**
+  String get common_friend_invitation;
+
+  /// No description provided for @common_no_friend_invitation.
+  ///
+  /// In en, this message translates to:
+  /// **'No friend invitations'**
+  String get common_no_friend_invitation;
+
+  /// No description provided for @common_friend_invitation_message.
+  ///
+  /// In en, this message translates to:
+  /// **'You will be notified when someone sends you a friend request'**
+  String get common_friend_invitation_message;
+
+  /// No description provided for @common_btn_accept.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get common_btn_accept;
+
+  /// No description provided for @common_btn_reject.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get common_btn_reject;
+
+  /// No description provided for @common_accept_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Friend request accepted'**
+  String get common_accept_success;
+
+  /// No description provided for @common_reject_invitation_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject Invitation'**
+  String get common_reject_invitation_title;
+
+  /// No description provided for @common_reject_invitation_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to reject the friend invitation from '**
+  String get common_reject_invitation_message;
+
+  /// No description provided for @common_reject_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Friend invitation rejected'**
+  String get common_reject_success;
+
+  /// No description provided for @common_this_user.
+  ///
+  /// In en, this message translates to:
+  /// **'this user'**
+  String get common_this_user;
+
+  /// No description provided for @common_secure_storage.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure Storage'**
+  String get common_secure_storage;
+
+  /// No description provided for @common_password_incorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong Password'**
+  String get common_password_incorrect;
+
+  /// No description provided for @common_secure_photo_vault_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure Photo'**
+  String get common_secure_photo_vault_title;
+
+  /// No description provided for @common_secure_photo_vault_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a password to protect your photos'**
+  String get common_secure_photo_vault_description;
+
+  /// No description provided for @common_secure_photo_vault_authentication_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Authenticate to access the secure photo vault'**
+  String get common_secure_photo_vault_authentication_description;
+
+  /// No description provided for @common_secure_photo_vault_change_password_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get common_secure_photo_vault_change_password_title;
+
+  /// No description provided for @common_secure_photo_vault_biometric_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometrics Settings'**
+  String get common_secure_photo_vault_biometric_title;
+
+  /// No description provided for @common_secure_photo_vault_remove_security_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get common_secure_photo_vault_remove_security_title;
+
+  /// No description provided for @common_secure_photo_vault_remove_security_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock successfully'**
+  String get common_secure_photo_vault_remove_security_success;
+
+  /// No description provided for @common_downloaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloaded successfully'**
+  String get common_downloaded;
+
+  /// No description provided for @common_storage_secure_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No Secure Photos'**
+  String get common_storage_secure_empty;
+
+  /// No description provided for @common_storage_secure_empty_subTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your secure photos will appear here'**
+  String get common_storage_secure_empty_subTitle;
+
+  /// No description provided for @common_not_created_secure_photo_vault.
+  ///
+  /// In en, this message translates to:
+  /// **'You have not created a secure photo vault yet.'**
+  String get common_not_created_secure_photo_vault;
+
+  /// No description provided for @common_change_password_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get common_change_password_title;
+
+  /// No description provided for @common_change_password_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your old password and new password to change'**
+  String get common_change_password_description;
+
+  /// No description provided for @common_old_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Old Password'**
+  String get common_old_password;
+
+  /// No description provided for @common_new_password.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get common_new_password;
+
+  /// No description provided for @common_confirm_new_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm New Password'**
+  String get common_confirm_new_password;
+
+  /// No description provided for @common_change_password_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Password changed successfully'**
+  String get common_change_password_success;
+
+  /// No description provided for @common_old_password_incorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Old password is incorrect'**
+  String get common_old_password_incorrect;
+
+  /// No description provided for @common_fingerprint_authentication.
+  ///
+  /// In en, this message translates to:
+  /// **'Fingerprint authentication to unlock'**
+  String get common_fingerprint_authentication;
+
+  /// No description provided for @common_fingerprint_authentication_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Please register fingerprint in device before using this feature'**
+  String get common_fingerprint_authentication_error;
+
+  /// No description provided for @common_add_to_secure_photo_vault.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to security vault'**
+  String get common_add_to_secure_photo_vault;
 }
 
 class _AppLocalizationsDelegate

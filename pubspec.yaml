@@ -94,7 +94,13 @@ dependencies:
   chewie: ^1.13.0
   flutter_map_marker_cluster: ^8.2.2
   device_preview: ^1.3.1
-
+  tflite_flutter: ^0.12.1
+  image: ^4.7.2
+  timeago: ^3.7.1
+  diacritic: ^0.1.6
+  flutter_file_downloader: ^2.1.1
+  local_auth: ^3.0.0
+  app_settings: ^7.0.0
   # GOOGLE SIGN IN
   
 
@@ -141,3 +147,4 @@ flutter:
     - assets/lotties/
     - assets/svgs/
     - .env
+    - assets/models/
