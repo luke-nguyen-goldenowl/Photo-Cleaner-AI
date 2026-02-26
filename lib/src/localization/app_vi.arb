@@ -161,6 +161,7 @@
   "error_OTP_invalid":"Mã OTP không hợp lệ",
   "error_resetPass":"Đổi mật khẩu thất bại",
   "error_permission":"Không có quyền truy cập thư viện ảnh. Vui lòng cấp quyền trong cài đặt",
+  "error_noInternetConnection":"Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối internet",
 
   "common_tab_place_title":"Địa điểm",
   "common_touch_for_detail":"Chạm vào ảnh để xem chi tiết",
@@ -179,6 +180,29 @@
   "common_not_found_gps_image":"Không tìm thấy ảnh có GPS",
   "common_please_take_gps_image":"Vui lòng chụp ảnh với GPS được bật",
   "common_view_mode_maker":"Điểm",
-  "common_view_mode_route":"Lộ trình"
+  "common_view_mode_route":"Lộ trình",
+
+
+   "common_cleaner_tab_title":"Công cụ",
+   "common_result_view_title":"Kết quả",
+  "common_cleaner_tab_subTitle":"Khám phá các công cụ hỗ trợ chỉnh sửa ảnh",
+
+  "common_duplicate_image_grid_title":"Nhóm ảnh trùng lặp",
+  "common_duplicate_image_grid_subTitle":"Tự động phát hiện và nhóm các ảnh giống nhau",
+
+   "common_remove_bg_grid_title":"Xóa phông nền",
+   "common_remove_bg_grid_subTitle":"Loại bỏ phông nền trong bức ảnh của bạn",
+
+   "common_enhance_image_grid_title":"Làm nét ảnh",
+   "common_enhance_image_grid_subTitle":"Tăng độ sắc nét và cải thiện chi tiết ảnh",
+
+   "common_make_video_grid_title":"Tạo video khoảnh khắc",
+   "common_make_video_grid_subTitle":"Lưu lại những khoảnh khắc đẹp của bạn bằng video",
+   "common_remove_bg_title":"Xoá phông nền",
+   "common_select_image_title":"Chọn một ảnh từ thiết bị của bạn",
+   "common_button_handle_remove_bg":"Tiến hành",
+   "common_button_save":"Tải xuống",
+   "common_image_saved_successfully":"Ảnh đã được lưu vào thư viện"
+
 
 }

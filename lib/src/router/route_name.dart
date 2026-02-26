@@ -19,6 +19,9 @@ enum AppRouteNames {
   photo(path: '/photo'),
   photoDetail(path: '/photo-detail'),
   cleaner(path: '/cleaner'),
+  selectImage(path: '/select-image'),
+  resultRemoveBg(path: '/result-remove-bg'),
+  removeBg(path: '/remove-bg'),
   friend(path: '/friend'),
   places(path: '/places'),
   ;

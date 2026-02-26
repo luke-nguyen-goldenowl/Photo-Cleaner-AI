@@ -4,7 +4,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:myapp/src/config/constants/constants.dart';
 import 'package:myapp/src/localization/localization_utils.dart';
-import 'package:myapp/widgets/loading/progress_loading.dart';
+import 'package:myapp/widgets/loading/location_loading.dart';
 import '../logic/place_bloc.dart';
 import '../model/image_location.dart';
 import '../helper/place_helpers.dart';
@@ -27,7 +27,7 @@ class PlacesView extends StatelessWidget {
         },
         builder: (context, state) {
           if (state.isLoading) {
-            return const AutoProgressLoadingIndicator();
+            return const LocationLoadingIndicator();
           }
           if (state.hasError) {
             return _buildErrorState(

@@ -434,6 +434,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'No photo gallery access. Please grant permissions in settings';
 
   @override
+  String get error_noInternetConnection =>
+      'Unable to connect to the server. Please check your internet connection';
+
+  @override
   String get common_tab_place_title => 'Check In';
 
   @override
@@ -487,4 +491,56 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get common_view_mode_route => 'Route';
+
+  @override
+  String get common_cleaner_tab_title => 'Tools';
+
+  @override
+  String get common_result_view_title => 'Result';
+
+  @override
+  String get common_cleaner_tab_subTitle => 'Explore photo editing tools';
+
+  @override
+  String get common_duplicate_image_grid_title => 'Duplicate Photos';
+
+  @override
+  String get common_duplicate_image_grid_subTitle =>
+      'Automatically detect and group similar photos';
+
+  @override
+  String get common_remove_bg_grid_title => 'Remove Background';
+
+  @override
+  String get common_remove_bg_grid_subTitle =>
+      'Remove the background from your photos';
+
+  @override
+  String get common_enhance_image_grid_title => 'Enhance Photo';
+
+  @override
+  String get common_enhance_image_grid_subTitle =>
+      'Sharpen images and enhance photo details';
+
+  @override
+  String get common_make_video_grid_title => 'Create Moment Video';
+
+  @override
+  String get common_make_video_grid_subTitle =>
+      'Turn your favorite moments into a video';
+
+  @override
+  String get common_remove_bg_title => 'Remove Background';
+
+  @override
+  String get common_select_image_title => 'Select an image from your device';
+
+  @override
+  String get common_button_handle_remove_bg => 'Continue';
+
+  @override
+  String get common_button_save => 'Save';
+
+  @override
+  String get common_image_saved_successfully => 'Image saved successfully';
 }

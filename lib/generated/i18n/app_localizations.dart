@@ -902,6 +902,12 @@ abstract class AppLocalizations {
   /// **'No photo gallery access. Please grant permissions in settings'**
   String get error_permission;
 
+  /// No description provided for @error_noInternetConnection.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to connect to the server. Please check your internet connection'**
+  String get error_noInternetConnection;
+
   /// No description provided for @common_tab_place_title.
   ///
   /// In en, this message translates to:
@@ -1009,6 +1015,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Route'**
   String get common_view_mode_route;
+
+  /// No description provided for @common_cleaner_tab_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Tools'**
+  String get common_cleaner_tab_title;
+
+  /// No description provided for @common_result_view_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Result'**
+  String get common_result_view_title;
+
+  /// No description provided for @common_cleaner_tab_subTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore photo editing tools'**
+  String get common_cleaner_tab_subTitle;
+
+  /// No description provided for @common_duplicate_image_grid_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate Photos'**
+  String get common_duplicate_image_grid_title;
+
+  /// No description provided for @common_duplicate_image_grid_subTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically detect and group similar photos'**
+  String get common_duplicate_image_grid_subTitle;
+
+  /// No description provided for @common_remove_bg_grid_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Background'**
+  String get common_remove_bg_grid_title;
+
+  /// No description provided for @common_remove_bg_grid_subTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove the background from your photos'**
+  String get common_remove_bg_grid_subTitle;
+
+  /// No description provided for @common_enhance_image_grid_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Enhance Photo'**
+  String get common_enhance_image_grid_title;
+
+  /// No description provided for @common_enhance_image_grid_subTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sharpen images and enhance photo details'**
+  String get common_enhance_image_grid_subTitle;
+
+  /// No description provided for @common_make_video_grid_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Moment Video'**
+  String get common_make_video_grid_title;
+
+  /// No description provided for @common_make_video_grid_subTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn your favorite moments into a video'**
+  String get common_make_video_grid_subTitle;
+
+  /// No description provided for @common_remove_bg_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Background'**
+  String get common_remove_bg_title;
+
+  /// No description provided for @common_select_image_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Select an image from your device'**
+  String get common_select_image_title;
+
+  /// No description provided for @common_button_handle_remove_bg.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get common_button_handle_remove_bg;
+
+  /// No description provided for @common_button_save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get common_button_save;
+
+  /// No description provided for @common_image_saved_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Image saved successfully'**
+  String get common_image_saved_successfully;
 }
 
 class _AppLocalizationsDelegate
